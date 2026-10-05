@@ -161,18 +161,35 @@
     var m = ('0' + (d.getMonth() + 1)).slice(-2), day = ('0' + d.getDate()).slice(-2);
     dateInput.min = d.getFullYear() + '-' + m + '-' + day;
   })();
+  var TOURS = {
+    '101': 'Package 101: Overnight Camping Above the Clouds 360° Viewpoint (USD 30)',
+    '102': 'Package 102: 2 Days 1 Night Overnight Camping & Full Day Adventure (USD 60)',
+    '103': 'Package 103: 3D2N Camping Above the Clouds, Homestay & Full-Day Adventure (USD 90)',
+    '001': 'Tour 001: 1-day boat trip to Muang Ngoi (USD 30)'
+  };
+  $$('[data-tour]').forEach(function (a) {
+    a.addEventListener('click', function () {
+      var sel = $('#fTour');
+      if (sel) sel.value = a.getAttribute('data-tour');
+      setTimeout(function () { var n = $('#fName'); if (n) n.focus({ preventScroll: true }); }, 700);
+    });
+  });
   $('#bookForm').addEventListener('submit', function (e) {
     e.preventDefault();
     var name = $('#fName').value.trim();
     var date = dateInput.value;
     var guests = $('#fGuests').value || '1';
     var note = $('#fNote').value.trim();
+    var tour = $('#fTour').value;
+    var food = $('#fFood').value;
+    var transfer = $('#fTransfer').value;
     var hint = $('#formHint');
     if (!name || !date) { hint.textContent = t('hint'); (name ? dateInput : $('#fName')).focus(); return; }
     hint.textContent = '';
     var langName = (LANGS.filter(function (l) { return l.code === current; })[0] || {}).hint || current;
-    var msg = 'Hello! I would like to book the 1-day boat trip to Muang Ngoi (code 001).\n' +
-      'Name: ' + name + '\nDate: ' + date + '\nGuests: ' + guests +
+    var msg = 'Hello! I would like to book:\n' + (TOURS[tour] || tour) + '\n' +
+      'Name: ' + name + '\nDate: ' + date + '\nPeople: ' + guests +
+      '\nFood: ' + food + '\nTransfer from Luang Prabang: ' + transfer +
       (note ? '\nNote: ' + note : '') + '\nMy language: ' + langName;
     window.open('https://wa.me/' + WA + '?text=' + encodeURIComponent(msg), '_blank', 'noopener');
   });
