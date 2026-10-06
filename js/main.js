@@ -215,6 +215,29 @@
     var ok = m && /^https?:\/\/(maps\.app\.goo\.gl|goo\.gl\/maps|(www\.)?google\.[a-z.]+\/maps|maps\.google\.[a-z.]+)/i.test(m[0]);
     return ok ? m[0] : '';
   }
+  /* pickup map: search Google Maps for the typed name, paste the shared link, preview the pin */
+  var mapInput = $('#fMap'), mapOk = $('#mapOk'), pasteBtn = $('#pasteMap');
+  function syncFindMap() {
+    var q = ($('#fHotel').value.trim() + ' Luang Prabang').trim();
+    $('#findMap').href = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(q);
+  }
+  function syncMapOk() {
+    var link = mapsLink(mapInput.value);
+    mapOk.hidden = !link;
+    if (link) mapOk.href = link;
+  }
+  $('#fHotel').addEventListener('input', syncFindMap);
+  mapInput.addEventListener('input', syncMapOk);
+  if (navigator.clipboard && navigator.clipboard.readText) {
+    pasteBtn.hidden = false;
+    pasteBtn.addEventListener('click', function () {
+      navigator.clipboard.readText().then(function (txt) {
+        mapInput.value = mapsLink(txt) || txt.trim();
+        syncMapOk();
+        if (!mapsLink(txt)) $('#formHint').textContent = t('hint_map');
+      }, function () { mapInput.focus(); $('#formHint').textContent = t('paste_fail'); });
+    });
+  }
   var transferSel = $('#fTransfer');
   transferSel.addEventListener('change', function () { $('#hotelRow').hidden = transferSel.value === 'No'; });
 

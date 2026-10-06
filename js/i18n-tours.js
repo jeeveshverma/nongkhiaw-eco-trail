@@ -58,7 +58,8 @@ en: {
   lbl_fullname: 'Full name (as in passport)', lbl_gender: 'Gender', g_sel: 'Choose…', g_f: 'Female', g_m: 'Male', g_x: 'X / other',
   lbl_nat: 'Nationality', ph_nat: 'e.g. German', lbl_pass: 'Passport number', lbl_issue: 'Issued on', lbl_expiry: 'Expires on',
   lbl_hotel: 'Accommodation in Luang Prabang', ph_hotel: 'Name of your hotel or hostel',
-  lbl_map: 'Google Maps link of your accommodation', map_help: 'In Google Maps, open your hotel, tap Share and copy the link.', tr_one: 'One way to Nong Khiaw (200,000 kip)',
+  lbl_map: 'Google Maps link of your accommodation', map_help: 'Open Google Maps, find your accommodation, tap Share › Copy link, then paste it here.',
+  btn_findmap: 'Find on Google Maps', btn_paste: 'Paste link', map_ok: '✓ Check the pin on Google Maps', paste_fail: 'Could not read the clipboard. Please long-press the box and paste.', tr_one: 'One way to Nong Khiaw (200,000 kip)',
   ph_note: 'Allergies, kids coming, questions…',
   hint: 'Please fill in the date and every traveller’s details.', hint_hotel: 'Please tell us your accommodation in Luang Prabang for the pickup.', hint_map: 'Please paste the Google Maps link of your accommodation.'
 },
@@ -118,7 +119,8 @@ lo: {
   lbl_fullname: 'ຊື່ ແລະ ນາມສະກຸນ (ຕາມໜັງສືຜ່ານແດນ)', lbl_gender: 'ເພດ', g_sel: 'ເລືອກ…', g_f: 'ຍິງ', g_m: 'ຊາຍ', g_x: 'X / ອື່ນໆ',
   lbl_nat: 'ສັນຊາດ', ph_nat: 'ເຊັ່ນ: ເຢຍລະມັນ', lbl_pass: 'ເລກໜັງສືຜ່ານແດນ', lbl_issue: 'ວັນທີອອກ', lbl_expiry: 'ວັນໝົດອາຍຸ',
   lbl_hotel: 'ທີ່ພັກໃນຫຼວງພະບາງ', ph_hotel: 'ຊື່ໂຮງແຮມ ຫຼື ໂຮສເທວ',
-  lbl_map: 'ລິ້ງ Google Maps ຂອງທີ່ພັກ', map_help: 'ໃນ Google Maps ເປີດທີ່ພັກຂອງທ່ານ, ກົດແບ່ງປັນ ແລ້ວສຳເນົາລິ້ງ.', tr_one: 'ໄປໜອງຂຽວທາງດຽວ (200,000 ກີບ)',
+  lbl_map: 'ລິ້ງ Google Maps ຂອງທີ່ພັກ', map_help: 'ເປີດ Google Maps, ຊອກທີ່ພັກຂອງທ່ານ, ກົດແບ່ງປັນ › ສຳເນົາລິ້ງ, ແລ້ວວາງໃສ່ບ່ອນນີ້.',
+  btn_findmap: 'ຊອກໃນ Google Maps', btn_paste: 'ວາງລິ້ງ', map_ok: '✓ ກວດເບິ່ງໝຸດໃນ Google Maps', paste_fail: 'ອ່ານຄລິບບອດບໍ່ໄດ້. ກະລຸນາກົດຄ້າງໃນຊ່ອງ ແລ້ວວາງ.', tr_one: 'ໄປໜອງຂຽວທາງດຽວ (200,000 ກີບ)',
   ph_note: 'ແພ້ອາຫານ, ມີເດັກນ້ອຍ, ຄຳຖາມ…',
   hint: 'ກະລຸນາໃສ່ວັນທີ ແລະ ຂໍ້ມູນຂອງນັກທ່ອງທ່ຽວທຸກຄົນ.', hint_hotel: 'ກະລຸນາບອກທີ່ພັກຂອງທ່ານໃນຫຼວງພະບາງ ເພື່ອໄປຮັບ.', hint_map: 'ກະລຸນາວາງລິ້ງ Google Maps ຂອງທີ່ພັກ.'
 },
@@ -178,7 +180,8 @@ th: {
   lbl_fullname: 'ชื่อ-นามสกุล (ตามหนังสือเดินทาง)', lbl_gender: 'เพศ', g_sel: 'เลือก…', g_f: 'หญิง', g_m: 'ชาย', g_x: 'X / อื่น ๆ',
   lbl_nat: 'สัญชาติ', ph_nat: 'เช่น เยอรมัน', lbl_pass: 'เลขที่หนังสือเดินทาง', lbl_issue: 'วันที่ออก', lbl_expiry: 'วันหมดอายุ',
   lbl_hotel: 'ที่พักในหลวงพระบาง', ph_hotel: 'ชื่อโรงแรมหรือโฮสเทล',
-  lbl_map: 'ลิงก์ Google Maps ของที่พัก', map_help: 'ใน Google Maps เปิดที่พักของคุณ แตะแชร์ แล้วคัดลอกลิงก์', tr_one: 'ไปน้ำเกี๋ยวเที่ยวเดียว (200,000 กีบ)',
+  lbl_map: 'ลิงก์ Google Maps ของที่พัก', map_help: 'เปิด Google Maps ค้นหาที่พักของคุณ แตะแชร์ › คัดลอกลิงก์ แล้ววางที่นี่',
+  btn_findmap: 'ค้นหาใน Google Maps', btn_paste: 'วางลิงก์', map_ok: '✓ ตรวจหมุดใน Google Maps', paste_fail: 'อ่านคลิปบอร์ดไม่ได้ กรุณากดค้างในช่องแล้ววาง', tr_one: 'ไปน้ำเกี๋ยวเที่ยวเดียว (200,000 กีบ)',
   ph_note: 'แพ้อาหาร มีเด็กมาด้วย คำถาม…',
   hint: 'กรุณากรอกวันที่และข้อมูลของผู้เดินทางทุกคน', hint_hotel: 'กรุณาแจ้งที่พักของคุณในหลวงพระบางสำหรับการรับ', hint_map: 'กรุณาวางลิงก์ Google Maps ของที่พัก'
 },
@@ -238,7 +241,8 @@ zh: {
   lbl_fullname: '姓名（与护照一致）', lbl_gender: '性别', g_sel: '请选择…', g_f: '女', g_m: '男', g_x: 'X / 其他',
   lbl_nat: '国籍', ph_nat: '例如：德国', lbl_pass: '护照号码', lbl_issue: '签发日期', lbl_expiry: '有效期至',
   lbl_hotel: '琅勃拉邦住宿', ph_hotel: '酒店或青旅名称',
-  lbl_map: '住宿的 Google 地图链接', map_help: '在 Google 地图中打开您的住宿，点击“分享”并复制链接。', tr_one: '单程至南凯（200,000基普）',
+  lbl_map: '住宿的 Google 地图链接', map_help: '打开 Google 地图，找到您的住宿，点击“分享” › “复制链接”，然后粘贴到这里。',
+  btn_findmap: '在 Google 地图中查找', btn_paste: '粘贴链接', map_ok: '✓ 在 Google 地图上查看位置', paste_fail: '无法读取剪贴板。请长按输入框并粘贴。', tr_one: '单程至南凯（200,000基普）',
   ph_note: '过敏、带小孩、其他问题……',
   hint: '请填写日期以及每位旅客的信息。', hint_hotel: '请告诉我们您在琅勃拉邦的住宿，方便接送。', hint_map: '请粘贴住宿的 Google 地图链接。'
 },
@@ -298,7 +302,8 @@ ko: {
   lbl_fullname: '이름 (여권과 동일하게)', lbl_gender: '성별', g_sel: '선택…', g_f: '여성', g_m: '남성', g_x: 'X / 기타',
   lbl_nat: '국적', ph_nat: '예: 독일', lbl_pass: '여권 번호', lbl_issue: '발급일', lbl_expiry: '만료일',
   lbl_hotel: '루앙프라방 숙소', ph_hotel: '호텔 또는 호스텔 이름',
-  lbl_map: '숙소의 Google 지도 링크', map_help: 'Google 지도에서 숙소를 열고 공유를 눌러 링크를 복사하세요.', tr_one: '농키아우행 편도 (200,000킵)',
+  lbl_map: '숙소의 Google 지도 링크', map_help: 'Google 지도를 열어 숙소를 찾고 공유 › 링크 복사를 누른 뒤 여기에 붙여 넣으세요.',
+  btn_findmap: 'Google 지도에서 찾기', btn_paste: '링크 붙여넣기', map_ok: '✓ Google 지도에서 위치 확인', paste_fail: '클립보드를 읽을 수 없습니다. 입력란을 길게 눌러 붙여 넣으세요.', tr_one: '농키아우행 편도 (200,000킵)',
   ph_note: '알레르기, 아이 동반, 질문…',
   hint: '날짜와 모든 여행자의 정보를 입력해 주세요.', hint_hotel: '픽업할 루앙프라방 숙소를 알려 주세요.', hint_map: '숙소의 Google 지도 링크를 붙여 넣어 주세요.'
 },
@@ -358,7 +363,8 @@ ja: {
   lbl_fullname: '氏名（パスポートの記載どおり）', lbl_gender: '性別', g_sel: '選択…', g_f: '女性', g_m: '男性', g_x: 'X / その他',
   lbl_nat: '国籍', ph_nat: '例：ドイツ', lbl_pass: 'パスポート番号', lbl_issue: '発行日', lbl_expiry: '有効期限',
   lbl_hotel: 'ルアンパバーンの宿泊先', ph_hotel: 'ホテルまたはホステル名',
-  lbl_map: '宿泊先の Google マップのリンク', map_help: 'Google マップで宿泊先を開き、「共有」をタップしてリンクをコピーしてください。', tr_one: 'ノンキャウへの片道（200,000キープ）',
+  lbl_map: '宿泊先の Google マップのリンク', map_help: 'Google マップで宿泊先を探し、「共有」›「リンクをコピー」をタップして、ここに貼り付けてください。',
+  btn_findmap: 'Google マップで探す', btn_paste: 'リンクを貼り付け', map_ok: '✓ Google マップで場所を確認', paste_fail: 'クリップボードを読み取れませんでした。入力欄を長押しして貼り付けてください。', tr_one: 'ノンキャウへの片道（200,000キープ）',
   ph_note: 'アレルギー、子ども連れ、ご質問…',
   hint: '日付と、旅行者全員の情報を入力してください。', hint_hotel: 'お迎えのため、ルアンパバーンの宿泊先を教えてください。', hint_map: '宿泊先の Google マップのリンクを貼り付けてください。'
 },
@@ -418,7 +424,8 @@ fr: {
   lbl_fullname: 'Nom complet (comme sur le passeport)', lbl_gender: 'Sexe', g_sel: 'Choisir…', g_f: 'Femme', g_m: 'Homme', g_x: 'X / autre',
   lbl_nat: 'Nationalité', ph_nat: 'ex. allemande', lbl_pass: 'Numéro de passeport', lbl_issue: 'Délivré le', lbl_expiry: 'Expire le',
   lbl_hotel: 'Hébergement à Luang Prabang', ph_hotel: 'Nom de votre hôtel ou auberge',
-  lbl_map: 'Lien Google Maps de votre hébergement', map_help: 'Dans Google Maps, ouvrez votre hôtel, touchez Partager et copiez le lien.', tr_one: 'Aller simple vers Nong Khiaw (200 000 kips)',
+  lbl_map: 'Lien Google Maps de votre hébergement', map_help: 'Ouvrez Google Maps, trouvez votre hébergement, touchez Partager › Copier le lien, puis collez-le ici.',
+  btn_findmap: 'Trouver sur Google Maps', btn_paste: 'Coller le lien', map_ok: '✓ Vérifier le repère sur Google Maps', paste_fail: 'Impossible de lire le presse-papiers. Appuyez longuement dans le champ pour coller.', tr_one: 'Aller simple vers Nong Khiaw (200 000 kips)',
   ph_note: 'Allergies, enfants, questions…',
   hint: 'Merci d’indiquer la date et les informations de chaque voyageur.', hint_hotel: 'Merci d’indiquer votre hébergement à Luang Prabang pour la prise en charge.', hint_map: 'Merci de coller le lien Google Maps de votre hébergement.'
 },
@@ -478,7 +485,8 @@ de: {
   lbl_fullname: 'Vollständiger Name (wie im Pass)', lbl_gender: 'Geschlecht', g_sel: 'Bitte wählen…', g_f: 'Weiblich', g_m: 'Männlich', g_x: 'X / divers',
   lbl_nat: 'Staatsangehörigkeit', ph_nat: 'z. B. deutsch', lbl_pass: 'Reisepassnummer', lbl_issue: 'Ausgestellt am', lbl_expiry: 'Gültig bis',
   lbl_hotel: 'Unterkunft in Luang Prabang', ph_hotel: 'Name Ihres Hotels oder Hostels',
-  lbl_map: 'Google-Maps-Link Ihrer Unterkunft', map_help: 'Öffnen Sie Ihre Unterkunft in Google Maps, tippen Sie auf Teilen und kopieren Sie den Link.', tr_one: 'Nur Hinfahrt nach Nong Khiaw (200.000 Kip)',
+  lbl_map: 'Google-Maps-Link Ihrer Unterkunft', map_help: 'Öffnen Sie Google Maps, suchen Sie Ihre Unterkunft, tippen Sie auf Teilen › Link kopieren und fügen Sie ihn hier ein.',
+  btn_findmap: 'Auf Google Maps suchen', btn_paste: 'Link einfügen', map_ok: '✓ Ort auf Google Maps prüfen', paste_fail: 'Die Zwischenablage konnte nicht gelesen werden. Bitte lange in das Feld drücken und einfügen.', tr_one: 'Nur Hinfahrt nach Nong Khiaw (200.000 Kip)',
   ph_note: 'Allergien, Kinder, Fragen…',
   hint: 'Bitte Datum und die Angaben aller Reisenden ausfüllen.', hint_hotel: 'Bitte nennen Sie Ihre Unterkunft in Luang Prabang für die Abholung.', hint_map: 'Bitte fügen Sie den Google-Maps-Link Ihrer Unterkunft ein.'
 }

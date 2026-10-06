@@ -316,10 +316,16 @@
         <label><span data-i18n="lbl_hotel">Accommodation in Luang Prabang</span>
           <input type="text" id="fHotel" name="hotel" data-i18n-ph="ph_hotel" placeholder="Name of your hotel or hostel">
         </label>
-        <label><span data-i18n="lbl_map">Google Maps link of your accommodation</span>
+        <div class="map-field">
+          <label for="fMap"><span data-i18n="lbl_map">Google Maps link of your accommodation</span></label>
+          <div class="map-actions">
+            <a class="btn btn-line btn-sm" id="findMap" href="https://www.google.com/maps/search/?api=1&amp;query=Luang+Prabang" target="_blank" rel="noopener" data-i18n="btn_findmap">Find on Google Maps</a>
+            <button type="button" class="btn btn-line btn-sm" id="pasteMap" hidden data-i18n="btn_paste">Paste link</button>
+          </div>
           <input type="url" id="fMap" name="map" inputmode="url" placeholder="https://maps.app.goo.gl/…">
-          <small data-i18n="map_help">In Google Maps, open your hotel, tap Share and copy the link.</small>
-        </label>
+          <small data-i18n="map_help">Open Google Maps, find your accommodation, tap Share › Copy link, then paste it here.</small>
+          <a class="map-ok" id="mapOk" href="#" target="_blank" rel="noopener" hidden data-i18n="map_ok">✓ Check the pin on Google Maps</a>
+        </div>
       </div>
       <label><span><span data-i18n="lbl_note">Anything we should know?</span> <small data-i18n="opt">(optional)</small></span>
         <textarea id="fNote" name="note" rows="3" data-i18n-ph="ph_note" placeholder="Allergies, kids coming, questions&hellip;"></textarea>
