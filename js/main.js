@@ -231,12 +231,11 @@
         '\n- Passport: ' + v('pass').toUpperCase() + ' (issued ' + v('issued') + ', expires ' + v('expires') + ')' +
         '\n- Food: ' + v('food');
     });
-    var langName = (LANGS.filter(function (l) { return l.code === current; })[0] || {}).hint || current;
     var msg = 'Hello! I would like to book:\n' + (TOURS[tour] || tour) + '\n' +
       'Date: ' + date + '\nPeople: ' + people.length +
       '\nTransfer from Luang Prabang: ' + transfer + (transfer !== 'No' ? '\nPickup hotel: ' + hotel : '') + '\n' +
-      people.join('\n') + '\n' +
-      (note ? '\nNote: ' + note : '') + '\nMy language: ' + langName;
+      people.join('\n') +
+      (note ? '\n\nNote: ' + note : '');
     window.open('https://wa.me/' + WA + '?text=' + encodeURIComponent(msg), '_blank', 'noopener');
   });
 
