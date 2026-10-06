@@ -43,7 +43,7 @@ en: {
   review_link: 'Read our Google reviews',
   lbl_tour: 'Tour', tour_101: '101 · Overnight camping (USD 30)', tour_102: '102 · 2 days 1 night (USD 60)', tour_103: '103 · 3 days 2 nights (USD 90)', tour_001: '001 · 1-day boat trip (USD 30)',
   lbl_food: 'Food', food_reg: 'Regular', food_veg: 'Vegetarian',
-  lbl_transfer: 'Transfer from Luang Prabang', tr_none: 'No, thanks', tr_one: 'One way (200,000 kip)', tr_round: 'Round trip (400,000 kip)',
+  lbl_transfer: 'Transfer from Luang Prabang', tr_none: 'No, thanks', tr_round: 'Round trip (400,000 kip)',
   book_tag: 'Book your tour', book_p: 'Fill in the short form and it opens WhatsApp with your message ready to send. Nothing is sent until you press send there. You pay in person when you arrive.',
   q1: 'How much do the tours cost?', a1: 'Per person: overnight camping (101) USD 30, 2 days 1 night (102) USD 60, 3 days 2 nights (103) USD 90, 1-day boat trip (001) USD 30.',
   q2: 'What time do the tours start?', a2: 'The camping tours start around 2:00 to 2:30 pm at our office inside The Trio Bar & Cafe. The 1-day boat trip starts at 8:30 am.',
@@ -54,7 +54,12 @@ en: {
   q7: 'Is transport from Luang Prabang included?', a7: 'No, but we can arrange it. It costs 200,000 kip per person each way. Pickup is 7:30 to 8:00 am from your hotel and the minivan back leaves Nong Khiaw at 10:30 am.',
   q8: 'Do I need to bring a tent?', a8: 'No. We provide the tent, sleeping mat and blankets. There is a basic local-style toilet at the campsite, with no shower.',
   q9: 'Where can I leave my luggage?', a9: 'At our office inside The Trio Bar & Cafe, free during the tour.',
-  hint: 'Please add your name and date first.'
+  trav: 'Traveller', trav_p: 'Please fill this in for everyone in your group, exactly as written in the passport.',
+  lbl_fullname: 'Full name (as in passport)', lbl_gender: 'Gender', g_sel: 'Choose…', g_f: 'Female', g_m: 'Male', g_x: 'X / other',
+  lbl_nat: 'Nationality', ph_nat: 'e.g. German', lbl_pass: 'Passport number', lbl_issue: 'Issued on', lbl_expiry: 'Expires on',
+  lbl_hotel: 'Pickup hotel in Luang Prabang', ph_hotel: 'Hotel name or Google Maps link', tr_one: 'One way to Nong Khiaw (200,000 kip)',
+  ph_note: 'Allergies, kids coming, questions…',
+  hint: 'Please fill in the date and every traveller’s details.', hint_hotel: 'Please tell us your hotel in Luang Prabang for the pickup.'
 },
 
 lo: {
@@ -97,7 +102,7 @@ lo: {
   review_link: 'ອ່ານຣີວິວ Google ຂອງພວກເຮົາ',
   lbl_tour: 'ທົວ', tour_101: '101 · ກາງເຕັນຄ້າງຄືນ (30 USD)', tour_102: '102 · 2 ມື້ 1 ຄືນ (60 USD)', tour_103: '103 · 3 ມື້ 2 ຄືນ (90 USD)', tour_001: '001 · ທົວເຮືອ 1 ມື້ (30 USD)',
   lbl_food: 'ອາຫານ', food_reg: 'ທົ່ວໄປ', food_veg: 'ເຈ',
-  lbl_transfer: 'ລົດຮັບສົ່ງຈາກຫຼວງພະບາງ', tr_none: 'ບໍ່ຕ້ອງການ', tr_one: 'ທາງດຽວ (200,000 ກີບ)', tr_round: 'ໄປ-ກັບ (400,000 ກີບ)',
+  lbl_transfer: 'ລົດຮັບສົ່ງຈາກຫຼວງພະບາງ', tr_none: 'ບໍ່ຕ້ອງການ', tr_round: 'ໄປ-ກັບ (400,000 ກີບ)',
   book_tag: 'ຈອງທົວຂອງທ່ານ', book_p: 'ກອກແບບຟອມສັ້ນໆ ແລ້ວ WhatsApp ຈະເປີດພ້ອມຂໍ້ຄວາມ. ບໍ່ມີຫຍັງຖືກສົ່ງຈົນກວ່າທ່ານກົດສົ່ງໃນ WhatsApp. ຈ່າຍດ້ວຍຕົວເອງເມື່ອມາຮອດ.',
   q1: 'ທົວລາຄາເທົ່າໃດ?', a1: 'ຕໍ່ຄົນ: ກາງເຕັນຄ້າງຄືນ (101) 30 USD, 2 ມື້ 1 ຄືນ (102) 60 USD, 3 ມື້ 2 ຄືນ (103) 90 USD, ທົວເຮືອ 1 ມື້ (001) 30 USD.',
   q2: 'ທົວເລີ່ມຈັກໂມງ?', a2: 'ທົວກາງເຕັນເລີ່ມປະມານ 14:00 ຫາ 14:30 ທີ່ຫ້ອງການໃນ The Trio Bar & Cafe. ທົວເຮືອ 1 ມື້ເລີ່ມ 8:30.',
@@ -108,7 +113,12 @@ lo: {
   q7: 'ລວມລົດຈາກຫຼວງພະບາງບໍ?', a7: 'ບໍ່ລວມ ແຕ່ຈັດໃຫ້ໄດ້ 200,000 ກີບຕໍ່ຄົນຕໍ່ທາງ. ຮັບທີ່ໂຮງແຮມ 7:30 ຫາ 8:00 ແລະ ລົດຕູ້ກັບອອກຈາກໜອງຂຽວ 10:30.',
   q8: 'ຕ້ອງເອົາເຕັນມາບໍ?', a8: 'ບໍ່ຕ້ອງ. ພວກເຮົາມີເຕັນ, ເສື່ອນອນ ແລະ ຜ້າຫົ່ມ. ທີ່ຈຸດກາງເຕັນມີຫ້ອງນ້ຳແບບທ້ອງຖິ່ນ ແຕ່ບໍ່ມີຫ້ອງອາບນ້ຳ.',
   q9: 'ຝາກກະເປົາໄດ້ຢູ່ໃສ?', a9: 'ທີ່ຫ້ອງການຂອງພວກເຮົາໃນ The Trio Bar & Cafe ຟຣີຕະຫຼອດທົວ.',
-  hint: 'ກະລຸນາໃສ່ຊື່ ແລະ ວັນທີກ່ອນ.'
+  trav: 'ນັກທ່ອງທ່ຽວ', trav_p: 'ກະລຸນາກອກໃຫ້ທຸກຄົນໃນກຸ່ມ ຕາມທີ່ຂຽນໃນໜັງສືຜ່ານແດນ.',
+  lbl_fullname: 'ຊື່ ແລະ ນາມສະກຸນ (ຕາມໜັງສືຜ່ານແດນ)', lbl_gender: 'ເພດ', g_sel: 'ເລືອກ…', g_f: 'ຍິງ', g_m: 'ຊາຍ', g_x: 'X / ອື່ນໆ',
+  lbl_nat: 'ສັນຊາດ', ph_nat: 'ເຊັ່ນ: ເຢຍລະມັນ', lbl_pass: 'ເລກໜັງສືຜ່ານແດນ', lbl_issue: 'ວັນທີອອກ', lbl_expiry: 'ວັນໝົດອາຍຸ',
+  lbl_hotel: 'ໂຮງແຮມທີ່ໃຫ້ໄປຮັບໃນຫຼວງພະບາງ', ph_hotel: 'ຊື່ໂຮງແຮມ ຫຼື ລິ້ງ Google Maps', tr_one: 'ໄປໜອງຂຽວທາງດຽວ (200,000 ກີບ)',
+  ph_note: 'ແພ້ອາຫານ, ມີເດັກນ້ອຍ, ຄຳຖາມ…',
+  hint: 'ກະລຸນາໃສ່ວັນທີ ແລະ ຂໍ້ມູນຂອງນັກທ່ອງທ່ຽວທຸກຄົນ.', hint_hotel: 'ກະລຸນາບອກໂຮງແຮມຂອງທ່ານໃນຫຼວງພະບາງ ເພື່ອໄປຮັບ.'
 },
 
 th: {
@@ -151,7 +161,7 @@ th: {
   review_link: 'อ่านรีวิว Google ของเรา',
   lbl_tour: 'ทัวร์', tour_101: '101 · ค้างแคมป์ (30 USD)', tour_102: '102 · 2 วัน 1 คืน (60 USD)', tour_103: '103 · 3 วัน 2 คืน (90 USD)', tour_001: '001 · ทริปเรือ 1 วัน (30 USD)',
   lbl_food: 'อาหาร', food_reg: 'ทั่วไป', food_veg: 'มังสวิรัติ',
-  lbl_transfer: 'รถรับส่งจากหลวงพระบาง', tr_none: 'ไม่ต้องการ', tr_one: 'เที่ยวเดียว (200,000 กีบ)', tr_round: 'ไปกลับ (400,000 กีบ)',
+  lbl_transfer: 'รถรับส่งจากหลวงพระบาง', tr_none: 'ไม่ต้องการ', tr_round: 'ไปกลับ (400,000 กีบ)',
   book_tag: 'จองทัวร์ของคุณ', book_p: 'กรอกแบบฟอร์มสั้น ๆ แล้ว WhatsApp จะเปิดพร้อมข้อความ ไม่มีอะไรถูกส่งจนกว่าคุณจะกดส่งใน WhatsApp จ่ายด้วยตัวเองเมื่อมาถึง',
   q1: 'ทัวร์ราคาเท่าไร?', a1: 'ต่อคน: ค้างแคมป์ (101) 30 USD, 2 วัน 1 คืน (102) 60 USD, 3 วัน 2 คืน (103) 90 USD, ทริปเรือ 1 วัน (001) 30 USD',
   q2: 'ทัวร์เริ่มกี่โมง?', a2: 'ทัวร์แคมป์เริ่มประมาณ 14:00 ถึง 14:30 น. ที่ออฟฟิศใน The Trio Bar & Cafe ทริปเรือ 1 วันเริ่ม 8:30 น.',
@@ -162,7 +172,12 @@ th: {
   q7: 'รวมรถจากหลวงพระบางไหม?', a7: 'ไม่รวม แต่จัดให้ได้ 200,000 กีบต่อคนต่อเที่ยว รับที่โรงแรม 7:30 ถึง 8:00 น. และรถตู้กลับออกจากน้ำเกี๋ยว 10:30 น.',
   q8: 'ต้องเอาเต็นท์มาเองไหม?', a8: 'ไม่ต้อง เรามีเต็นท์ แผ่นรองนอน และผ้าห่มให้ ที่แคมป์มีห้องน้ำแบบท้องถิ่นพื้นฐาน ไม่มีห้องอาบน้ำ',
   q9: 'ฝากสัมภาระได้ที่ไหน?', a9: 'ที่ออฟฟิศของเราใน The Trio Bar & Cafe ฟรีระหว่างทัวร์',
-  hint: 'กรุณากรอกชื่อและวันที่ก่อน'
+  trav: 'ผู้เดินทาง', trav_p: 'กรุณากรอกให้ทุกคนในกลุ่ม ตามที่เขียนในหนังสือเดินทาง',
+  lbl_fullname: 'ชื่อ-นามสกุล (ตามหนังสือเดินทาง)', lbl_gender: 'เพศ', g_sel: 'เลือก…', g_f: 'หญิง', g_m: 'ชาย', g_x: 'X / อื่น ๆ',
+  lbl_nat: 'สัญชาติ', ph_nat: 'เช่น เยอรมัน', lbl_pass: 'เลขที่หนังสือเดินทาง', lbl_issue: 'วันที่ออก', lbl_expiry: 'วันหมดอายุ',
+  lbl_hotel: 'โรงแรมที่ให้ไปรับในหลวงพระบาง', ph_hotel: 'ชื่อโรงแรมหรือลิงก์ Google Maps', tr_one: 'ไปน้ำเกี๋ยวเที่ยวเดียว (200,000 กีบ)',
+  ph_note: 'แพ้อาหาร มีเด็กมาด้วย คำถาม…',
+  hint: 'กรุณากรอกวันที่และข้อมูลของผู้เดินทางทุกคน', hint_hotel: 'กรุณาแจ้งโรงแรมของคุณในหลวงพระบางสำหรับการรับ'
 },
 
 zh: {
@@ -205,7 +220,7 @@ zh: {
   review_link: '查看我们的谷歌评价',
   lbl_tour: '行程', tour_101: '101 · 过夜露营（30美元）', tour_102: '102 · 2天1晚（60美元）', tour_103: '103 · 3天2晚（90美元）', tour_001: '001 · 一日船游（30美元）',
   lbl_food: '餐食', food_reg: '普通', food_veg: '素食',
-  lbl_transfer: '琅勃拉邦接送', tr_none: '不需要', tr_one: '单程（200,000基普）', tr_round: '往返（400,000基普）',
+  lbl_transfer: '琅勃拉邦接送', tr_none: '不需要', tr_round: '往返（400,000基普）',
   book_tag: '预订您的行程', book_p: '填写简短表单，WhatsApp 会带着您的消息打开。在 WhatsApp 中点击发送之前不会发出任何内容。到店当面付款。',
   q1: '行程多少钱？', a1: '每人：过夜露营（101）30美元，2天1晚（102）60美元，3天2晚（103）90美元，一日船游（001）30美元。',
   q2: '行程几点开始？', a2: '露营行程约下午2:00至2:30在 The Trio Bar & Cafe 内的办公室开始。一日船游上午8:30开始。',
@@ -216,7 +231,12 @@ zh: {
   q7: '包含琅勃拉邦的交通吗？', a7: '不含，但可代为安排，每人单程200,000基普。上午7:30至8:00酒店接，返程小巴10:30从南凯出发。',
   q8: '需要自带帐篷吗？', a8: '不需要。我们提供帐篷、睡垫和毯子。营地有简易当地式厕所，没有淋浴。',
   q9: '行李可以寄存在哪里？', a9: '放在我们位于 The Trio Bar & Cafe 的办公室，行程期间免费。',
-  hint: '请先填写姓名和日期。'
+  trav: '旅客', trav_p: '请为团里每一位填写，与护照上一致。',
+  lbl_fullname: '姓名（与护照一致）', lbl_gender: '性别', g_sel: '请选择…', g_f: '女', g_m: '男', g_x: 'X / 其他',
+  lbl_nat: '国籍', ph_nat: '例如：德国', lbl_pass: '护照号码', lbl_issue: '签发日期', lbl_expiry: '有效期至',
+  lbl_hotel: '琅勃拉邦接送酒店', ph_hotel: '酒店名称或 Google 地图链接', tr_one: '单程至南凯（200,000基普）',
+  ph_note: '过敏、带小孩、其他问题……',
+  hint: '请填写日期以及每位旅客的信息。', hint_hotel: '请告诉我们您在琅勃拉邦的酒店，方便接送。'
 },
 
 ko: {
@@ -259,7 +279,7 @@ ko: {
   review_link: 'Google 리뷰 보기',
   lbl_tour: '투어', tour_101: '101 · 1박 캠핑 (30달러)', tour_102: '102 · 2일 1박 (60달러)', tour_103: '103 · 3일 2박 (90달러)', tour_001: '001 · 1일 보트 투어 (30달러)',
   lbl_food: '식사', food_reg: '일반식', food_veg: '채식',
-  lbl_transfer: '루앙프라방 픽업', tr_none: '필요 없음', tr_one: '편도 (200,000킵)', tr_round: '왕복 (400,000킵)',
+  lbl_transfer: '루앙프라방 픽업', tr_none: '필요 없음', tr_round: '왕복 (400,000킵)',
   book_tag: '투어 예약', book_p: '짧은 양식을 작성하면 메시지가 준비된 WhatsApp이 열립니다. WhatsApp에서 보내기를 누르기 전에는 아무것도 전송되지 않습니다. 결제는 도착 후 현장에서.',
   q1: '투어 요금은 얼마인가요?', a1: '1인 기준: 1박 캠핑(101) 30달러, 2일 1박(102) 60달러, 3일 2박(103) 90달러, 1일 보트 투어(001) 30달러.',
   q2: '투어는 몇 시에 시작하나요?', a2: '캠핑 투어는 오후 2:00~2:30경 The Trio Bar & Cafe 안 사무실에서 시작합니다. 1일 보트 투어는 오전 8:30에 시작합니다.',
@@ -270,7 +290,12 @@ ko: {
   q7: '루앙프라방 교통이 포함되나요?', a7: '아니요, 하지만 준비해 드립니다. 편도 1인 200,000킵. 호텔 픽업은 오전 7:30~8:00, 돌아가는 미니밴은 농키아우에서 10:30 출발합니다.',
   q8: '텐트를 가져가야 하나요?', a8: '아니요. 텐트, 매트, 담요를 제공합니다. 캠프에는 기본적인 현지식 화장실이 있으며 샤워 시설은 없습니다.',
   q9: '짐은 어디에 맡기나요?', a9: 'The Trio Bar & Cafe 안 사무실에 투어 동안 무료로 맡길 수 있습니다.',
-  hint: '먼저 이름과 날짜를 입력해 주세요.'
+  trav: '여행자', trav_p: '일행 모두의 정보를 여권에 적힌 그대로 입력해 주세요.',
+  lbl_fullname: '이름 (여권과 동일하게)', lbl_gender: '성별', g_sel: '선택…', g_f: '여성', g_m: '남성', g_x: 'X / 기타',
+  lbl_nat: '국적', ph_nat: '예: 독일', lbl_pass: '여권 번호', lbl_issue: '발급일', lbl_expiry: '만료일',
+  lbl_hotel: '루앙프라방 픽업 숙소', ph_hotel: '숙소 이름 또는 Google 지도 링크', tr_one: '농키아우행 편도 (200,000킵)',
+  ph_note: '알레르기, 아이 동반, 질문…',
+  hint: '날짜와 모든 여행자의 정보를 입력해 주세요.', hint_hotel: '픽업할 루앙프라방 숙소를 알려 주세요.'
 },
 
 ja: {
@@ -313,7 +338,7 @@ ja: {
   review_link: 'Googleの口コミを見る',
   lbl_tour: 'ツアー', tour_101: '101 · 1泊キャンプ（30USD）', tour_102: '102 · 2日1泊（60USD）', tour_103: '103 · 3日2泊（90USD）', tour_001: '001 · 日帰りボートツアー（30USD）',
   lbl_food: '食事', food_reg: '通常', food_veg: 'ベジタリアン',
-  lbl_transfer: 'ルアンパバーンからの送迎', tr_none: '不要', tr_one: '片道（200,000キープ）', tr_round: '往復（400,000キープ）',
+  lbl_transfer: 'ルアンパバーンからの送迎', tr_none: '不要', tr_round: '往復（400,000キープ）',
   book_tag: 'ツアーを予約', book_p: '短いフォームに入力すると、メッセージが入力済みのWhatsAppが開きます。WhatsAppで送信を押すまで何も送られません。お支払いは到着後に現地で。',
   q1: 'ツアーの料金は？', a1: '1人あたり：1泊キャンプ(101) 30USD、2日1泊(102) 60USD、3日2泊(103) 90USD、日帰りボートツアー(001) 30USD。',
   q2: '何時に始まりますか？', a2: 'キャンプツアーは14:00〜14:30頃、The Trio Bar & Cafe 内の事務所から出発します。日帰りボートツアーは8:30開始です。',
@@ -324,7 +349,12 @@ ja: {
   q7: 'ルアンパバーンからの交通は含まれますか？', a7: '含まれませんが手配できます。片道1人200,000キープ。ホテル迎えは7:30〜8:00、帰りのミニバンはノンキャウ10:30発です。',
   q8: 'テントは持参が必要ですか？', a8: '不要です。テント、マット、毛布をご用意します。キャンプ地には簡易的な現地式トイレがあり、シャワーはありません。',
   q9: '荷物はどこに預けられますか？', a9: 'The Trio Bar & Cafe 内の事務所で、ツアー中は無料でお預かりします。',
-  hint: '先にお名前と日付を入力してください。'
+  trav: '旅行者', trav_p: 'グループ全員分を、パスポートの記載どおりに入力してください。',
+  lbl_fullname: '氏名（パスポートの記載どおり）', lbl_gender: '性別', g_sel: '選択…', g_f: '女性', g_m: '男性', g_x: 'X / その他',
+  lbl_nat: '国籍', ph_nat: '例：ドイツ', lbl_pass: 'パスポート番号', lbl_issue: '発行日', lbl_expiry: '有効期限',
+  lbl_hotel: 'ルアンパバーンのお迎えホテル', ph_hotel: 'ホテル名または Google マップのリンク', tr_one: 'ノンキャウへの片道（200,000キープ）',
+  ph_note: 'アレルギー、子ども連れ、ご質問…',
+  hint: '日付と、旅行者全員の情報を入力してください。', hint_hotel: 'お迎えのため、ルアンパバーンのホテルを教えてください。'
 },
 
 fr: {
@@ -367,7 +397,7 @@ fr: {
   review_link: 'Lire nos avis Google',
   lbl_tour: 'Excursion', tour_101: '101 · Nuit de camping (30 USD)', tour_102: '102 · 2 jours 1 nuit (60 USD)', tour_103: '103 · 3 jours 2 nuits (90 USD)', tour_001: '001 · Excursion en bateau d’1 jour (30 USD)',
   lbl_food: 'Repas', food_reg: 'Normal', food_veg: 'Végétarien',
-  lbl_transfer: 'Transfert depuis Luang Prabang', tr_none: 'Non merci', tr_one: 'Aller simple (200 000 kips)', tr_round: 'Aller-retour (400 000 kips)',
+  lbl_transfer: 'Transfert depuis Luang Prabang', tr_none: 'Non merci', tr_round: 'Aller-retour (400 000 kips)',
   book_tag: 'Réservez votre excursion', book_p: 'Remplissez le court formulaire : WhatsApp s’ouvre avec votre message prêt à envoyer. Rien n’est envoyé tant que vous n’appuyez pas sur envoyer dans WhatsApp. Vous payez sur place à votre arrivée.',
   q1: 'Combien coûtent les excursions ?', a1: 'Par personne : nuit de camping (101) 30 USD, 2 jours 1 nuit (102) 60 USD, 3 jours 2 nuits (103) 90 USD, excursion en bateau d’1 jour (001) 30 USD.',
   q2: 'À quelle heure commencent-elles ?', a2: 'Les excursions avec camping commencent vers 14h00-14h30 à notre bureau dans The Trio Bar & Cafe. L’excursion en bateau d’1 jour commence à 8h30.',
@@ -378,7 +408,12 @@ fr: {
   q7: 'Le transport depuis Luang Prabang est-il inclus ?', a7: 'Non, mais nous pouvons l’organiser : 200 000 kips par personne et par trajet. Prise en charge de 7h30 à 8h00 à votre hôtel, et le minibus retour part de Nong Khiaw à 10h30.',
   q8: 'Dois-je apporter une tente ?', a8: 'Non. Nous fournissons la tente, le matelas et les couvertures. Il y a des toilettes locales simples au camp, sans douche.',
   q9: 'Où laisser mes bagages ?', a9: 'À notre bureau dans The Trio Bar & Cafe, gratuitement pendant l’excursion.',
-  hint: 'Merci d’indiquer d’abord votre nom et la date.'
+  trav: 'Voyageur', trav_p: 'À remplir pour chaque personne du groupe, comme sur le passeport.',
+  lbl_fullname: 'Nom complet (comme sur le passeport)', lbl_gender: 'Sexe', g_sel: 'Choisir…', g_f: 'Femme', g_m: 'Homme', g_x: 'X / autre',
+  lbl_nat: 'Nationalité', ph_nat: 'ex. allemande', lbl_pass: 'Numéro de passeport', lbl_issue: 'Délivré le', lbl_expiry: 'Expire le',
+  lbl_hotel: 'Hôtel de prise en charge à Luang Prabang', ph_hotel: 'Nom de l’hôtel ou lien Google Maps', tr_one: 'Aller simple vers Nong Khiaw (200 000 kips)',
+  ph_note: 'Allergies, enfants, questions…',
+  hint: 'Merci d’indiquer la date et les informations de chaque voyageur.', hint_hotel: 'Merci d’indiquer votre hôtel à Luang Prabang pour la prise en charge.'
 },
 
 de: {
@@ -421,7 +456,7 @@ de: {
   review_link: 'Unsere Google-Bewertungen lesen',
   lbl_tour: 'Tour', tour_101: '101 · Übernachtung im Zelt (30 USD)', tour_102: '102 · 2 Tage 1 Nacht (60 USD)', tour_103: '103 · 3 Tage 2 Nächte (90 USD)', tour_001: '001 · Tagesbootstour (30 USD)',
   lbl_food: 'Essen', food_reg: 'Normal', food_veg: 'Vegetarisch',
-  lbl_transfer: 'Transfer ab Luang Prabang', tr_none: 'Nein, danke', tr_one: 'Einfach (200.000 Kip)', tr_round: 'Hin und zurück (400.000 Kip)',
+  lbl_transfer: 'Transfer ab Luang Prabang', tr_none: 'Nein, danke', tr_round: 'Hin und zurück (400.000 Kip)',
   book_tag: 'Buchen Sie Ihre Tour', book_p: 'Füllen Sie das kurze Formular aus, dann öffnet sich WhatsApp mit Ihrer fertigen Nachricht. Es wird nichts gesendet, bis Sie in WhatsApp auf Senden drücken. Sie zahlen persönlich bei Ankunft.',
   q1: 'Was kosten die Touren?', a1: 'Pro Person: Übernachtung im Zelt (101) 30 USD, 2 Tage 1 Nacht (102) 60 USD, 3 Tage 2 Nächte (103) 90 USD, Tagesbootstour (001) 30 USD.',
   q2: 'Wann beginnen die Touren?', a2: 'Die Camping-Touren beginnen gegen 14:00 bis 14:30 Uhr in unserem Büro im The Trio Bar & Cafe. Die Tagesbootstour beginnt um 8:30 Uhr.',
@@ -432,7 +467,12 @@ de: {
   q7: 'Ist der Transport ab Luang Prabang inklusive?', a7: 'Nein, aber wir können ihn organisieren: 200.000 Kip pro Person und Strecke. Abholung 7:30 bis 8:00 Uhr am Hotel, der Minibus zurück fährt um 10:30 Uhr in Nong Khiaw ab.',
   q8: 'Muss ich ein Zelt mitbringen?', a8: 'Nein. Zelt, Isomatte und Decken stellen wir. Am Camp gibt es eine einfache Toilette im lokalen Stil, aber keine Dusche.',
   q9: 'Wo kann ich mein Gepäck lassen?', a9: 'In unserem Büro im The Trio Bar & Cafe, während der Tour kostenlos.',
-  hint: 'Bitte zuerst Name und Datum eingeben.'
+  trav: 'Reisende/r', trav_p: 'Bitte für jede Person der Gruppe ausfüllen, genau wie im Reisepass.',
+  lbl_fullname: 'Vollständiger Name (wie im Pass)', lbl_gender: 'Geschlecht', g_sel: 'Bitte wählen…', g_f: 'Weiblich', g_m: 'Männlich', g_x: 'X / divers',
+  lbl_nat: 'Staatsangehörigkeit', ph_nat: 'z. B. deutsch', lbl_pass: 'Reisepassnummer', lbl_issue: 'Ausgestellt am', lbl_expiry: 'Gültig bis',
+  lbl_hotel: 'Abholung in Luang Prabang (Unterkunft)', ph_hotel: 'Name der Unterkunft oder Google-Maps-Link', tr_one: 'Nur Hinfahrt nach Nong Khiaw (200.000 Kip)',
+  ph_note: 'Allergien, Kinder, Fragen…',
+  hint: 'Bitte Datum und die Angaben aller Reisenden ausfüllen.', hint_hotel: 'Bitte nennen Sie Ihre Unterkunft in Luang Prabang für die Abholung.'
 }
 
   };

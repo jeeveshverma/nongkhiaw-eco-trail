@@ -171,25 +171,71 @@
     a.addEventListener('click', function () {
       var sel = $('#fTour');
       if (sel) sel.value = a.getAttribute('data-tour');
-      setTimeout(function () { var n = $('#fName'); if (n) n.focus({ preventScroll: true }); }, 700);
+      setTimeout(function () { dateInput.focus({ preventScroll: true }); }, 700);
     });
   });
+  /* one block of passport fields per guest; typed values survive count changes */
+  var travBox = $('#travellers');
+  function field(key, html) {
+    return '<label><span data-i18n="' + key + '">' + t(key) + '</span>' + html + '</label>';
+  }
+  function travBlock(n) {
+    var f = document.createElement('fieldset');
+    f.className = 'trav';
+    f.innerHTML =
+      '<legend><span data-i18n="trav">' + t('trav') + '</span> ' + n + '</legend>' +
+      field('lbl_fullname', '<input type="text" data-k="name" autocomplete="off" required>') +
+      '<div class="row2">' +
+        field('lbl_gender', '<select data-k="gender" required><option value="" data-i18n="g_sel">' + t('g_sel') + '</option>' +
+          '<option value="Female" data-i18n="g_f">' + t('g_f') + '</option><option value="Male" data-i18n="g_m">' + t('g_m') + '</option>' +
+          '<option value="X" data-i18n="g_x">' + t('g_x') + '</option></select>') +
+        field('lbl_nat', '<input type="text" data-k="nat" data-i18n-ph="ph_nat" placeholder="' + t('ph_nat') + '" required>') +
+      '</div>' +
+      field('lbl_pass', '<input type="text" data-k="pass" autocomplete="off" autocapitalize="characters" spellcheck="false" required>') +
+      '<div class="row2">' +
+        field('lbl_issue', '<input type="date" data-k="issued" required>') +
+        field('lbl_expiry', '<input type="date" data-k="expires" required>') +
+      '</div>' +
+      field('lbl_food', '<select data-k="food"><option value="Regular" data-i18n="food_reg">' + t('food_reg') +
+        '</option><option value="Vegetarian" data-i18n="food_veg">' + t('food_veg') + '</option></select>');
+    return f;
+  }
+  function syncTravellers() {
+    var want = Math.min(Math.max(parseInt($('#fGuests').value, 10) || 1, 1), 30);
+    var have = $$('.trav', travBox);
+    for (var i = have.length; i < want; i++) travBox.appendChild(travBlock(i + 1));
+    for (var j = have.length - 1; j >= want; j--) travBox.removeChild(have[j]);
+  }
+  $('#fGuests').addEventListener('input', syncTravellers);
+  syncTravellers();
+
+  var transferSel = $('#fTransfer');
+  transferSel.addEventListener('change', function () { $('#hotelRow').hidden = transferSel.value === 'No'; });
+
   $('#bookForm').addEventListener('submit', function (e) {
     e.preventDefault();
-    var name = $('#fName').value.trim();
     var date = dateInput.value;
-    var guests = $('#fGuests').value || '1';
     var note = $('#fNote').value.trim();
     var tour = $('#fTour').value;
-    var food = $('#fFood').value;
-    var transfer = $('#fTransfer').value;
+    var transfer = transferSel.value;
+    var hotel = $('#fHotel').value.trim();
     var hint = $('#formHint');
-    if (!name || !date) { hint.textContent = t('hint'); (name ? dateInput : $('#fName')).focus(); return; }
+    var missing = (date ? [] : [dateInput]).concat($$('.trav [required]', travBox).filter(function (el) { return !el.value.trim(); }));
+    if (missing.length) { hint.textContent = t('hint'); missing[0].focus(); return; }
+    if (transfer !== 'No' && !hotel) { hint.textContent = t('hint_hotel'); $('#fHotel').focus(); return; }
     hint.textContent = '';
+    var people = $$('.trav', travBox).map(function (f, i) {
+      var v = function (k) { return $('[data-k="' + k + '"]', f).value.trim(); };
+      return '\nTraveller ' + (i + 1) + ': ' + v('name') +
+        '\n- Gender: ' + v('gender') + '\n- Nationality: ' + v('nat') +
+        '\n- Passport: ' + v('pass').toUpperCase() + ' (issued ' + v('issued') + ', expires ' + v('expires') + ')' +
+        '\n- Food: ' + v('food');
+    });
     var langName = (LANGS.filter(function (l) { return l.code === current; })[0] || {}).hint || current;
     var msg = 'Hello! I would like to book:\n' + (TOURS[tour] || tour) + '\n' +
-      'Name: ' + name + '\nDate: ' + date + '\nPeople: ' + guests +
-      '\nFood: ' + food + '\nTransfer from Luang Prabang: ' + transfer +
+      'Date: ' + date + '\nPeople: ' + people.length +
+      '\nTransfer from Luang Prabang: ' + transfer + (transfer !== 'No' ? '\nPickup hotel: ' + hotel : '') + '\n' +
+      people.join('\n') + '\n' +
       (note ? '\nNote: ' + note : '') + '\nMy language: ' + langName;
     window.open('https://wa.me/' + WA + '?text=' + encodeURIComponent(msg), '_blank', 'noopener');
   });

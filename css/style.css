@@ -334,6 +334,12 @@ em{font-style:italic}
 .form select{font:500 1rem var(--sans);padding:.8em .95em;border-radius:12px;border:1.5px solid rgba(11,61,46,.25);background:#fff;color:var(--ink);width:100%}
 .form select:focus{outline:none;border-color:var(--moss);box-shadow:0 0 0 4px rgba(47,107,79,.18)}
 .row2 label{min-width:0}
+.travellers{display:grid;gap:14px}
+.trav-p{margin:0;font-size:.88rem;color:var(--muted)}
+.trav{border:1.5px solid rgba(11,61,46,.18);border-radius:16px;padding:12px 16px 16px;margin:0;display:grid;gap:12px;min-width:0}
+.trav legend{font-weight:800;padding:0 6px}
+.trav .row2{grid-template-columns:1fr 1fr}
+@media (max-width:560px){.trav .row2{grid-template-columns:1fr}}
 @media (max-width:960px){.info-list{grid-template-columns:1fr 1fr}}
 @media (max-width:820px){.tgrid{grid-template-columns:1fr}}
 @media (max-width:560px){.info-list{grid-template-columns:1fr}.office{padding:18px}}
