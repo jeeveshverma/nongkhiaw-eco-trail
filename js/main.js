@@ -209,6 +209,12 @@
   $('#fGuests').addEventListener('input', syncTravellers);
   syncTravellers();
 
+  /* first Google Maps URL in the pasted text (Share often adds the place name), or '' */
+  function mapsLink(text) {
+    var m = text.match(/https?:\/\/\S+/);
+    var ok = m && /^https?:\/\/(maps\.app\.goo\.gl|goo\.gl\/maps|(www\.)?google\.[a-z.]+\/maps|maps\.google\.[a-z.]+)/i.test(m[0]);
+    return ok ? m[0] : '';
+  }
   var transferSel = $('#fTransfer');
   transferSel.addEventListener('change', function () { $('#hotelRow').hidden = transferSel.value === 'No'; });
 
@@ -219,10 +225,12 @@
     var tour = $('#fTour').value;
     var transfer = transferSel.value;
     var hotel = $('#fHotel').value.trim();
+    var mapLink = mapsLink($('#fMap').value);
     var hint = $('#formHint');
     var missing = (date ? [] : [dateInput]).concat($$('.trav [required]', travBox).filter(function (el) { return !el.value.trim(); }));
     if (missing.length) { hint.textContent = t('hint'); missing[0].focus(); return; }
     if (transfer !== 'No' && !hotel) { hint.textContent = t('hint_hotel'); $('#fHotel').focus(); return; }
+    if (transfer !== 'No' && !mapLink) { hint.textContent = t('hint_map'); $('#fMap').focus(); return; }
     hint.textContent = '';
     var people = $$('.trav', travBox).map(function (f, i) {
       var v = function (k) { return $('[data-k="' + k + '"]', f).value.trim(); };
@@ -233,7 +241,7 @@
     });
     var msg = 'Hello! I would like to book:\n' + (TOURS[tour] || tour) + '\n' +
       'Date: ' + date + '\nPeople: ' + people.length +
-      '\nTransfer from Luang Prabang: ' + transfer + (transfer !== 'No' ? '\nPickup hotel: ' + hotel : '') + '\n' +
+      '\nTransfer from Luang Prabang: ' + transfer + (transfer !== 'No' ? '\nAccommodation: ' + hotel + '\nGoogle Maps: ' + mapLink : '') + '\n' +
       people.join('\n') +
       (note ? '\n\nNote: ' + note : '');
     window.open('https://wa.me/' + WA + '?text=' + encodeURIComponent(msg), '_blank', 'noopener');

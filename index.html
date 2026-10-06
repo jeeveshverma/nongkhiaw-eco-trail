@@ -312,9 +312,15 @@
       <label><span data-i18n="lbl_transfer">Transfer from Luang Prabang</span>
         <select id="fTransfer" name="transfer"><option value="No" data-i18n="tr_none">No, thanks</option><option value="One way to Nong Khiaw" data-i18n="tr_one">One way to Nong Khiaw (200,000 kip)</option><option value="Round trip" data-i18n="tr_round">Round trip (400,000 kip)</option></select>
       </label>
-      <label id="hotelRow" hidden><span data-i18n="lbl_hotel">Pickup hotel in Luang Prabang</span>
-        <input type="text" id="fHotel" name="hotel" data-i18n-ph="ph_hotel" placeholder="Hotel name or Google Maps link">
-      </label>
+      <div class="pickup" id="hotelRow" hidden>
+        <label><span data-i18n="lbl_hotel">Accommodation in Luang Prabang</span>
+          <input type="text" id="fHotel" name="hotel" data-i18n-ph="ph_hotel" placeholder="Name of your hotel or hostel">
+        </label>
+        <label><span data-i18n="lbl_map">Google Maps link of your accommodation</span>
+          <input type="url" id="fMap" name="map" inputmode="url" placeholder="https://maps.app.goo.gl/…">
+          <small data-i18n="map_help">In Google Maps, open your hotel, tap Share and copy the link.</small>
+        </label>
+      </div>
       <label><span><span data-i18n="lbl_note">Anything we should know?</span> <small data-i18n="opt">(optional)</small></span>
         <textarea id="fNote" name="note" rows="3" data-i18n-ph="ph_note" placeholder="Allergies, kids coming, questions&hellip;"></textarea>
       </label>
