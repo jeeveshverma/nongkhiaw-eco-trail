@@ -5,7 +5,7 @@ Static site (HTML, CSS, JS). No build step.
 ## Put it on GitHub Pages
 1. Create a repo, upload everything in this folder to the repo root (index.html must be at the root).
 2. Settings > Pages > Deploy from a branch > main / (root).
-3. Later, for nongkhiawlaos.com: add a file named `CNAME` containing `nongkhiawlaos.com`, and point the DNS records (Hostinger) to GitHub Pages.
+3. Live at https://nongkhiawlaos.com since 2026-10-07: `CNAME` file + Pages custom domain, HTTPS enforced. DNS at Hostinger: four A records for `@` (185.199.108-111.153) and CNAME `www` → jeeveshverma.github.io.
 
 ## Edit content
 - Text and all translations: `js/i18n.js` (English, Lao, Thai, Chinese, Korean, Japanese, French, German).
