@@ -19,8 +19,16 @@ Passport numbers are never sent; they stay in the WhatsApp message.
 - **Settings**: tour prices and the transfer price. New bookings use them.
 - **Dashboard**: updates by itself.
 
-## Changing Code.gs later
-Paste the new version, Save, then **Deploy > Manage deployments > Edit > Version: New version > Deploy**.
-The URL stays the same. Run `setup` again only if the tabs or dashboard changed; it never deletes data rows.
+## Changing Code.gs later (clasp, signed in as the sheet owner)
+Script ID `1upOpEpN2-5CgcaIbcE7RPDpj_J96eq51JTkbO_dn9nY4lgh9GFKux0LZ`, deployment
+`AKfycbxq9ET0sZ-Vbdy5VMLahGd_qS71e-mVIeDFgBc-wJCVUYRUNQDGth4ddnQ6j24rYpPf` (the URL in js/main.js).
+```
+npx @google/clasp clone <script id>            # once, in an empty folder
+cp apps-script/Code.gs apps-script/appsscript.json <that folder>
+npx @google/clasp push --force
+npx @google/clasp update-deployment <deployment id>   # same URL, new version
+```
+Then POST `{"type":"rebuild"}` to the URL if the tabs or dashboard changed (never touches data rows), and
+POST `{"type":"selftest"}` to write, read back and delete a sample booking and inquiry.
 
 Failed saves show under **Apps Script > Executions**. The customer's WhatsApp message is sent either way.

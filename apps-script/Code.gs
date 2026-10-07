@@ -17,24 +17,30 @@ var TRAVELLER_COLS = ['Booking ID', 'Tour date', 'Tour', 'Traveller #', 'Country
 var INQUIRY_COLS = ['Submitted at', 'Month', 'Name', 'Contact', 'Tour', 'Question', 'Source', 'Referrer', 'Site language',
   'Status', 'Staff notes'];
 
+var FORMATS = {
+  Bookings: { 'Submitted at': 'yyyy-mm-dd hh:mm', 'Tour date': 'yyyy-mm-dd', 'Tour month': '@', 'Tour': '@',
+    'Est. tour USD': '#,##0', 'Est. transfer kip': '#,##0', 'Amount paid USD': '#,##0.00' },
+  Travellers: { 'Tour date': 'yyyy-mm-dd', 'Tour': '@' },
+  Inquiries: { 'Submitted at': 'yyyy-mm-dd hh:mm', 'Month': '@', 'Tour': '@' }
+};
+
 var STATUSES = ['Requested', 'Confirmed', 'Paid', 'Cancelled', 'No-show'];
 var INQUIRY_STATUSES = ['New', 'Replied', 'Booked', 'Closed'];
 var SOURCES = ['Google', 'Google Maps', 'Facebook', 'Instagram', 'TripAdvisor', 'Hostel / hotel', 'Friend', 'Walk-in', 'Other'];
 var TOURS = [['101', 'Overnight camping above the clouds', 30], ['102', '2 days 1 night', 60],
   ['103', '3 days 2 nights', 90], ['001', '1-day boat trip', 30]];
 var TRANSFER_KIP = 200000;
+var TIME_ZONE = 'Asia/Vientiane';
 
 /* ---------- setup: safe to run again; it never deletes data rows ---------- */
 
 function setup() {
   var ss = SpreadsheetApp.getActive();
+  ss.setSpreadsheetTimeZone(TIME_ZONE);
   setupSettings_(ss);
-  setupTable_(ss, TABS.bookings, BOOKING_COLS, { 'Status': STATUSES, 'Source': SOURCES },
-    { 'Submitted at': 'yyyy-mm-dd hh:mm', 'Tour date': 'yyyy-mm-dd', 'Tour month': '@', 'Tour': '@',
-      'Est. tour USD': '#,##0', 'Est. transfer kip': '#,##0', 'Amount paid USD': '#,##0.00' });
-  setupTable_(ss, TABS.travellers, TRAVELLER_COLS, {}, { 'Tour date': 'yyyy-mm-dd', 'Tour': '@' });
-  setupTable_(ss, TABS.inquiries, INQUIRY_COLS, { 'Status': INQUIRY_STATUSES, 'Source': SOURCES },
-    { 'Submitted at': 'yyyy-mm-dd hh:mm', 'Month': '@', 'Tour': '@' });
+  setupTable_(ss, TABS.bookings, BOOKING_COLS, { 'Status': STATUSES, 'Source': SOURCES }, FORMATS.Bookings);
+  setupTable_(ss, TABS.travellers, TRAVELLER_COLS, {}, FORMATS.Travellers);
+  setupTable_(ss, TABS.inquiries, INQUIRY_COLS, { 'Status': INQUIRY_STATUSES, 'Source': SOURCES }, FORMATS.Inquiries);
 
   // Travellers.Status follows the booking's status, so cancelled trips drop out of the reports.
   var trav = ss.getSheetByName(TABS.travellers);
@@ -111,14 +117,14 @@ function setupDashboard_(ss) {
   var tables = [
     { col: 'A', head: ['Month (tour date)', 'Bookings', 'Travellers', 'Est. tour USD', 'Paid USD'],
       q: '=IFERROR(QUERY(' + bRange + ',"select ' + B('Tour month') + ', count(A), sum(' + B('People') + '), sum(' +
-        B('Est. tour USD') + '), sum(' + B('Amount paid USD') + ') where A is not null and ' + notCancelled + ' group by ' +
-        B('Tour month') + ' order by ' + B('Tour month') + ' label count(A) \'\', sum(' + B('People') + ') \'\', sum(' +
-        B('Est. tour USD') + ') \'\', sum(' + B('Amount paid USD') + ') \'\'",0),"")' },
+        B('Est. tour USD') + ') where A is not null and ' + notCancelled + ' group by ' + B('Tour month') + ' order by ' +
+        B('Tour month') + ' label count(A) \'\', sum(' + B('People') + ') \'\', sum(' + B('Est. tour USD') + ') \'\'",0),"")',
+      paid: { col: 'E', key: 'Tour month', from: 'A' } },
     { col: 'G', head: ['Tour', 'Bookings', 'Travellers', 'Paid USD'],
-      q: '=IFERROR(QUERY(' + bRange + ',"select ' + B('Tour name') + ', count(A), sum(' + B('People') + '), sum(' +
-        B('Amount paid USD') + ') where A is not null and ' + notCancelled + ' group by ' + B('Tour name') +
-        ' order by sum(' + B('People') + ') desc label count(A) \'\', sum(' + B('People') + ') \'\', sum(' +
-        B('Amount paid USD') + ') \'\'",0),"")' },
+      q: '=IFERROR(QUERY(' + bRange + ',"select ' + B('Tour name') + ', count(A), sum(' + B('People') + ') where A is not null and ' +
+        notCancelled + ' group by ' + B('Tour name') + ' order by sum(' + B('People') + ') desc label count(A) \'\', sum(' +
+        B('People') + ') \'\'",0),"")',
+      paid: { col: 'J', key: 'Tour name', from: 'G' } },
     { col: 'L', head: ['Country', 'Travellers'],
       q: '=IFERROR(QUERY(Travellers!A2:H,"select ' + T('Country') + ', count(A) where A is not null and ' + T('Status') +
         " <> 'Cancelled' group by " + T('Country') + ' order by count(A) desc label count(A) \'\'",0),"")' },
@@ -138,6 +144,13 @@ function setupDashboard_(ss) {
     var c = sh.getRange(t.col + '9').getColumn();
     sh.getRange(9, c, 1, t.head.length).setValues([t.head]).setFontWeight('bold').setBackground('#e8f0ea');
     sh.getRange(10, c).setFormula(t.q);
+    // QUERY cannot sum a column that is still empty, so "Paid USD" is a SUMIFS beside the grouped rows
+    if (t.paid) {
+      var k = B(t.paid.key), paid = B('Amount paid USD'), st = B('Status');
+      sh.getRange(t.paid.col + '10').setFormula('=ARRAYFORMULA(IF(' + t.paid.from + '10:' + t.paid.from + '="",,SUMIFS(Bookings!' +
+        paid + '2:' + paid + ',Bookings!' + k + '2:' + k + ',' + t.paid.from + '10:' + t.paid.from + ',Bookings!' + st + '2:' + st +
+        ',"<>Cancelled")))');
+    }
   });
   sh.getRange('W10').setFormula('=ARRAYFORMULA(IF(U10:U="",,COUNTIFS(Inquiries!' + I('Month') + '2:' + I('Month') +
     ',U10:U,Inquiries!' + I('Status') + '2:' + I('Status') + ',"Booked")))');
@@ -168,8 +181,11 @@ function doPost(e) {
     var d = JSON.parse(e.postData.contents);
     if (d.website) return reply_('ok');  // honeypot field: only bots fill it
     var ss = SpreadsheetApp.getActive();
+    if (ss.getSpreadsheetTimeZone() !== TIME_ZONE) ss.setSpreadsheetTimeZone(TIME_ZONE);
     if (d.type === 'booking') saveBooking_(ss, d);
     else if (d.type === 'inquiry') saveInquiry_(ss, d);
+    else if (d.type === 'selftest') return reply_(selfTest_(ss));
+    else if (d.type === 'rebuild') { setup(); return reply_('rebuilt'); }  // idempotent; never touches data rows
     else return reply_('unknown type');
     return reply_('ok');
   } catch (err) {
@@ -180,7 +196,13 @@ function doPost(e) {
   }
 }
 
-function doGet() {
+// The owner opening <web app URL>?setup=1 grants access once and builds the tabs; anyone else just sees a status line.
+function doGet(e) {
+  var owner = Session.getEffectiveUser().getEmail();
+  if (e && e.parameter.setup === '1' && owner && Session.getActiveUser().getEmail() === owner) {
+    setup();
+    return reply_('Setup done. Open the sheet to see the Dashboard.');
+  }
   return reply_('Nong Khiaw Eco-Trail booking endpoint is running.');
 }
 
@@ -194,31 +216,59 @@ function saveBooking_(ss, d) {
   var legs = /round/i.test(transfer) ? 2 : (/one way/i.test(transfer) ? 1 : 0);
   var countries = people.map(function (p) { return country_(p.nat); });
   var veg = people.filter(function (p) { return /veg/i.test(p.food || ''); }).length;
-  var id = clean_(d.id, 20) || ('NK' + Utilities.formatDate(new Date(), 'Asia/Vientiane', 'yyMMddHHmmss'));
+  var id = clean_(d.id, 20) || ('NK' + Utilities.formatDate(new Date(), TIME_ZONE, 'yyMMddHHmmss'));
 
-  ss.getSheetByName(TABS.bookings).appendRow([
-    id, new Date(), date, date ? text_(Utilities.formatDate(date, 'Asia/Vientiane', 'yyyy-MM')) : '', text_(tour), info.name,
+  addRow_(ss, TABS.bookings, BOOKING_COLS, [
+    id, new Date(), date, date ? text_(Utilities.formatDate(date, TIME_ZONE, 'yyyy-MM')) : '', text_(tour), info.name,
     people.length, clean_(people[0].name, 80), unique_(countries).join(', '), veg, transfer,
     legs ? clean_(d.hotel, 120) : '', legs ? clean_(d.map, 300) : '', clean_(d.source, 40) || 'Not given',
     clean_(d.referrer, 120), clean_(d.lang, 5), clean_(d.note, 1000), info.price * people.length,
     legs * kipPerWay_(ss) * people.length, 'Requested', '', ''
   ]);
-  var trav = ss.getSheetByName(TABS.travellers);
   people.forEach(function (p, i) {
-    trav.appendRow([id, date, text_(tour), i + 1, countries[i], clean_(p.gender, 10), clean_(p.food, 20)]);
+    addRow_(ss, TABS.travellers, TRAVELLER_COLS, [id, date, text_(tour), i + 1, countries[i], clean_(p.gender, 10), clean_(p.food, 20)]);
   });
+}
+
+// Writes one sample booking and inquiry, reads them back, then deletes them. Returns what was written.
+function selfTest_(ss) {
+  var id = 'SELFTEST-' + new Date().getTime().toString(36);  // must fit the 20-char ID limit
+  saveBooking_(ss, { id: id, tour: '101', date: '2030-01-15', transfer: 'One way to Nong Khiaw', hotel: 'Test hostel',
+    map: 'https://maps.app.goo.gl/test', source: 'Other', travellers: [{ name: 'Test', gender: 'X', nat: 'deutsch', food: 'Vegetarian' }] });
+  saveInquiry_(ss, { name: id, contact: 'test', question: 'test' });
+  SpreadsheetApp.flush();
+  var dash = ss.getSheetByName(TABS.dashboard);
+  var out = { kpis: dash.getRange('A5:F5').getDisplayValues()[0], firstTableRow: dash.getRange('A10:W10').getDisplayValues()[0] };
+  [TABS.bookings, TABS.travellers, TABS.inquiries].forEach(function (name) {
+    var sh = ss.getSheetByName(name), values = sh.getDataRange().getDisplayValues();
+    for (var r = values.length - 1; r >= 1; r--) {
+      var row = values[r].join('|');
+      if (row.indexOf(id) !== -1) out[name] = values[r];
+      if (row.indexOf('SELFTEST-') !== -1) sh.deleteRow(r + 1);  // also clears leftovers of earlier runs
+    }
+  });
+  out.dashboardTabs = ss.getSheets().map(function (sh) { return sh.getName(); });
+  return JSON.stringify(out);
 }
 
 function saveInquiry_(ss, d) {
   var now = new Date();
-  ss.getSheetByName(TABS.inquiries).appendRow([
-    now, text_(Utilities.formatDate(now, 'Asia/Vientiane', 'yyyy-MM')), clean_(d.name, 80), clean_(d.contact, 120),
+  addRow_(ss, TABS.inquiries, INQUIRY_COLS, [
+    now, text_(Utilities.formatDate(now, TIME_ZONE, 'yyyy-MM')), clean_(d.name, 80), clean_(d.contact, 120),
     text_(clean_(d.tour, 20)), clean_(d.question, 2000), clean_(d.source, 40) || 'Not given', clean_(d.referrer, 120),
     clean_(d.lang, 5), 'New', ''
   ]);
 }
 
 /* ---------- helpers ---------- */
+
+// Appends a row and sets its number formats (column formats from setup do not always carry to new rows).
+function addRow_(ss, name, cols, values) {
+  var sh = ss.getSheetByName(name), r = sh.getLastRow() + 1;
+  sh.getRange(r, 1, 1, values.length).setValues([values]);
+  var f = FORMATS[name] || {};
+  Object.keys(f).forEach(function (c) { sh.getRange(r, cols.indexOf(c) + 1).setNumberFormat(f[c]); });
+}
 
 function sheet_(ss, name) { return ss.getSheetByName(name) || ss.insertSheet(name); }
 
