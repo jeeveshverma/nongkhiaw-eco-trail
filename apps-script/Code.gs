@@ -242,19 +242,22 @@ function selfTest_(ss) {
   saveInquiry_(ss, { name: id, contact: 'test', question: 'test' });
   SpreadsheetApp.flush();
   var dash = ss.getSheetByName(TABS.dashboard);
-  var out = { kpis: dash.getRange('A5:F5').getDisplayValues()[0], firstTableRow: dash.getRange('A10:W10').getDisplayValues()[0] };
+  // Public endpoint: report only pass/fail, never the business's figures.
+  var kpis = dash.getRange('A5:F5').getDisplayValues()[0], tables = dash.getRange('A10:W10').getDisplayValues()[0];
+  var out = { dashboardOk: Number(kpis[0]) >= 1 && Number(kpis[5]) >= 1 && ['A', 'G', 'L', 'O', 'R', 'U'].every(function (c) {
+    return tables[dash.getRange(c + '1').getColumn() - 1] !== ''; }) };
   var testIds = {};  // booking IDs of test bookings (a site test has an NK... ID and SELFTEST- as lead name)
   [TABS.bookings, TABS.travellers, TABS.inquiries].forEach(function (name) {
     var sh = ss.getSheetByName(name), values = sh.getDataRange().getDisplayValues();
     for (var r = values.length - 1; r >= 1; r--) {
       var row = values[r].join('|');
-      if (row.indexOf(id) !== -1) out[name] = values[r];
+      if (row.indexOf(id) !== -1) out[name] = true;
       var isTest = row.indexOf('SELFTEST-') !== -1 || (name === TABS.travellers && testIds[values[r][0]]);
       if (name === TABS.bookings && isTest) testIds[values[r][0]] = true;
       if (isTest) sh.deleteRow(r + 1);  // also clears leftovers of earlier runs
     }
   });
-  out.dashboardTabs = ss.getSheets().map(function (sh) { return sh.getName(); });
+  out.tabsOk = ss.getSheets().length >= 5;
   return JSON.stringify(out);
 }
 

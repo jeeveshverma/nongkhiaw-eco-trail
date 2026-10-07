@@ -64,7 +64,8 @@ en: {
   hint: 'Please fill in the date and every traveller’s details.', hint_hotel: 'Please tell us your accommodation in Luang Prabang for the pickup.', hint_map: 'Please paste the Google Maps link of your accommodation.',
   tab_book: 'Book a tour', tab_ask: 'Ask a question', lbl_source: 'How did you hear about us?', src_choose: 'Choose…', src_google: 'Google search', src_maps: 'Google Maps', src_hostel: 'My hostel or hotel', src_friend: 'A friend', src_walk: 'Walked past your office', src_other: 'Other', ask_p: 'Ask us anything. Your question opens in WhatsApp, and we usually reply the same day.', lbl_contact: 'WhatsApp number or email', ph_contact: '+49 … or you@email.com', tour_any: 'Not sure yet', lbl_question: 'Your question', ph_question: 'Is it cold at night? Can we join on Friday?', ask_submit: 'Send on WhatsApp', ask_hint: 'Please add your name, contact and question.',
   nav_reviews: 'Reviews', rev_tag: 'Reviews', rev_h: 'What travellers say', rev_sub: 'Real reviews from our guests on Google.', rev_more: 'Read all our Google reviews', rev_src: 'Google review',
-  food_vegan: 'Vegan', food_gf: 'Gluten-free'
+  food_vegan: 'Vegan', food_gf: 'Gluten-free',
+  hint_past: 'Please choose a tour date from today onwards.', hint_pass_dates: 'Traveller {n}: please check the passport dates (issued before today, expiry after the issue date).', hint_pass_exp: 'Traveller {n}: this passport expires before the tour date. Please check it.'
 },
 
 lo: {
@@ -128,7 +129,8 @@ lo: {
   hint: 'ກະລຸນາໃສ່ວັນທີ ແລະ ຂໍ້ມູນຂອງນັກທ່ອງທ່ຽວທຸກຄົນ.', hint_hotel: 'ກະລຸນາບອກທີ່ພັກຂອງທ່ານໃນຫຼວງພະບາງ ເພື່ອໄປຮັບ.', hint_map: 'ກະລຸນາວາງລິ້ງ Google Maps ຂອງທີ່ພັກ.',
   tab_book: 'ຈອງທົວ', tab_ask: 'ຖາມຄຳຖາມ', lbl_source: 'ທ່ານຮູ້ຈັກພວກເຮົາຈາກໃສ?', src_choose: 'ເລືອກ…', src_google: 'ຄົ້ນຫາ Google', src_maps: 'Google Maps', src_hostel: 'ໂຮສເທວ ຫຼື ໂຮງແຮມຂອງຂ້ອຍ', src_friend: 'ໝູ່ເພື່ອນ', src_walk: 'ຍ່າງຜ່ານຫ້ອງການ', src_other: 'ອື່ນໆ', ask_p: 'ຖາມຫຍັງກໍໄດ້. ຄຳຖາມຈະເປີດໃນ WhatsApp ແລະ ພວກເຮົາມັກຕອບພາຍໃນມື້ດຽວ.', lbl_contact: 'ເບີ WhatsApp ຫຼື ອີເມວ', ph_contact: '+856 … ຫຼື you@email.com', tour_any: 'ຍັງບໍ່ແນ່ໃຈ', lbl_question: 'ຄຳຖາມຂອງທ່ານ', ph_question: 'ກາງຄືນໜາວບໍ? ໄປວັນສຸກໄດ້ບໍ?', ask_submit: 'ສົ່ງທາງ WhatsApp', ask_hint: 'ກະລຸນາໃສ່ຊື່, ຊ່ອງທາງຕິດຕໍ່ ແລະ ຄຳຖາມ.',
   nav_reviews: 'ຣີວິວ', rev_tag: 'ຣີວິວ', rev_h: 'ນັກທ່ອງທ່ຽວເວົ້າແນວໃດ', rev_sub: 'ຣີວິວແທ້ຈາກແຂກຂອງພວກເຮົາໃນ Google.', rev_more: 'ອ່ານຣີວິວ Google ທັງໝົດ', rev_src: 'ຣີວິວ Google',
-  food_vegan: 'ວີແກນ', food_gf: 'ບໍ່ມີກລູເຕັນ'
+  food_vegan: 'ວີແກນ', food_gf: 'ບໍ່ມີກລູເຕັນ',
+  hint_past: 'ກະລຸນາເລືອກວັນທົວຕັ້ງແຕ່ມື້ນີ້ເປັນຕົ້ນໄປ.', hint_pass_dates: 'ນັກທ່ອງທ່ຽວ {n}: ກະລຸນາກວດວັນທີໜັງສືຜ່ານແດນ (ວັນອອກກ່ອນມື້ນີ້, ວັນໝົດອາຍຸຫຼັງວັນອອກ).', hint_pass_exp: 'ນັກທ່ອງທ່ຽວ {n}: ໜັງສືຜ່ານແດນນີ້ໝົດອາຍຸກ່ອນວັນທົວ. ກະລຸນາກວດເບິ່ງ.'
 },
 
 th: {
@@ -192,7 +194,8 @@ th: {
   hint: 'กรุณากรอกวันที่และข้อมูลของผู้เดินทางทุกคน', hint_hotel: 'กรุณาแจ้งที่พักของคุณในหลวงพระบางสำหรับการรับ', hint_map: 'กรุณาวางลิงก์ Google Maps ของที่พัก',
   tab_book: 'จองทัวร์', tab_ask: 'ถามคำถาม', lbl_source: 'คุณรู้จักเราจากที่ไหน?', src_choose: 'เลือก…', src_google: 'ค้นหาใน Google', src_maps: 'Google Maps', src_hostel: 'โฮสเทลหรือโรงแรมของฉัน', src_friend: 'เพื่อน', src_walk: 'เดินผ่านออฟฟิศ', src_other: 'อื่น ๆ', ask_p: 'ถามได้ทุกเรื่อง คำถามจะเปิดใน WhatsApp และเรามักตอบภายในวันเดียวกัน', lbl_contact: 'เบอร์ WhatsApp หรืออีเมล', ph_contact: '+66 … หรือ you@email.com', tour_any: 'ยังไม่แน่ใจ', lbl_question: 'คำถามของคุณ', ph_question: 'กลางคืนหนาวไหม? ไปวันศุกร์ได้ไหม?', ask_submit: 'ส่งทาง WhatsApp', ask_hint: 'กรุณากรอกชื่อ ช่องทางติดต่อ และคำถาม',
   nav_reviews: 'รีวิว', rev_tag: 'รีวิว', rev_h: 'นักท่องเที่ยวพูดถึงเรา', rev_sub: 'รีวิวจริงจากแขกของเราบน Google', rev_more: 'อ่านรีวิว Google ทั้งหมด', rev_src: 'รีวิว Google',
-  food_vegan: 'วีแกน', food_gf: 'ปลอดกลูเตน'
+  food_vegan: 'วีแกน', food_gf: 'ปลอดกลูเตน',
+  hint_past: 'กรุณาเลือกวันทัวร์ตั้งแต่วันนี้เป็นต้นไป', hint_pass_dates: 'ผู้เดินทาง {n}: กรุณาตรวจวันที่ในหนังสือเดินทาง (ออกก่อนวันนี้ วันหมดอายุหลังวันออก)', hint_pass_exp: 'ผู้เดินทาง {n}: หนังสือเดินทางนี้หมดอายุก่อนวันทัวร์ กรุณาตรวจสอบ'
 },
 
 zh: {
@@ -256,7 +259,8 @@ zh: {
   hint: '请填写日期以及每位旅客的信息。', hint_hotel: '请告诉我们您在琅勃拉邦的住宿，方便接送。', hint_map: '请粘贴住宿的 Google 地图链接。',
   tab_book: '预订行程', tab_ask: '咨询问题', lbl_source: '您是从哪里知道我们的？', src_choose: '请选择…', src_google: 'Google 搜索', src_maps: 'Google 地图', src_hostel: '我的青旅或酒店', src_friend: '朋友介绍', src_walk: '路过你们的办公室', src_other: '其他', ask_p: '有任何问题都可以问。问题会在 WhatsApp 中打开，我们通常当天回复。', lbl_contact: 'WhatsApp 号码或邮箱', ph_contact: '+86 … 或 you@email.com', tour_any: '还没确定', lbl_question: '您的问题', ph_question: '晚上冷吗？周五可以参加吗？', ask_submit: '通过 WhatsApp 发送', ask_hint: '请填写姓名、联系方式和问题。',
   nav_reviews: '评价', rev_tag: '评价', rev_h: '旅客怎么说', rev_sub: '来自 Google 的真实客人评价。', rev_more: '查看全部 Google 评价', rev_src: 'Google 评价',
-  food_vegan: '纯素', food_gf: '无麸质'
+  food_vegan: '纯素', food_gf: '无麸质',
+  hint_past: '请选择今天或之后的出行日期。', hint_pass_dates: '旅客 {n}：请检查护照日期（签发日期早于今天，有效期晚于签发日期）。', hint_pass_exp: '旅客 {n}：护照在出行日期前到期，请检查。'
 },
 
 ko: {
@@ -320,7 +324,8 @@ ko: {
   hint: '날짜와 모든 여행자의 정보를 입력해 주세요.', hint_hotel: '픽업할 루앙프라방 숙소를 알려 주세요.', hint_map: '숙소의 Google 지도 링크를 붙여 넣어 주세요.',
   tab_book: '투어 예약', tab_ask: '문의하기', lbl_source: '저희를 어떻게 알게 되셨나요?', src_choose: '선택…', src_google: 'Google 검색', src_maps: 'Google 지도', src_hostel: '묵고 있는 호스텔/호텔', src_friend: '친구', src_walk: '사무실 앞을 지나가다가', src_other: '기타', ask_p: '무엇이든 물어보세요. 질문은 WhatsApp으로 열리며 보통 당일에 답변드립니다.', lbl_contact: 'WhatsApp 번호 또는 이메일', ph_contact: '+82 … 또는 you@email.com', tour_any: '아직 모르겠어요', lbl_question: '질문 내용', ph_question: '밤에 추운가요? 금요일에 참여할 수 있나요?', ask_submit: 'WhatsApp으로 보내기', ask_hint: '이름, 연락처, 질문을 입력해 주세요.',
   nav_reviews: '리뷰', rev_tag: '리뷰', rev_h: '여행자 후기', rev_sub: 'Google에 남겨진 실제 손님 후기입니다.', rev_more: 'Google 리뷰 모두 보기', rev_src: 'Google 리뷰',
-  food_vegan: '비건', food_gf: '글루텐 프리'
+  food_vegan: '비건', food_gf: '글루텐 프리',
+  hint_past: '오늘 이후의 투어 날짜를 선택해 주세요.', hint_pass_dates: '여행자 {n}: 여권 날짜를 확인해 주세요 (발급일은 오늘 이전, 만료일은 발급일 이후).', hint_pass_exp: '여행자 {n}: 여권이 투어 날짜 전에 만료됩니다. 확인해 주세요.'
 },
 
 ja: {
@@ -384,7 +389,8 @@ ja: {
   hint: '日付と、旅行者全員の情報を入力してください。', hint_hotel: 'お迎えのため、ルアンパバーンの宿泊先を教えてください。', hint_map: '宿泊先の Google マップのリンクを貼り付けてください。',
   tab_book: 'ツアーを予約', tab_ask: '質問する', lbl_source: 'どこで私たちを知りましたか？', src_choose: '選択…', src_google: 'Google 検索', src_maps: 'Google マップ', src_hostel: '宿泊先のホステル・ホテル', src_friend: '友人', src_walk: '事務所の前を通って', src_other: 'その他', ask_p: '何でも聞いてください。質問は WhatsApp で開き、通常その日のうちに返信します。', lbl_contact: 'WhatsApp の番号またはメール', ph_contact: '+81 … または you@email.com', tour_any: 'まだ決めていない', lbl_question: 'ご質問', ph_question: '夜は寒いですか？金曜日に参加できますか？', ask_submit: 'WhatsApp で送る', ask_hint: 'お名前、連絡先、ご質問を入力してください。',
   nav_reviews: 'レビュー', rev_tag: 'レビュー', rev_h: '旅行者の声', rev_sub: 'Google に寄せられたお客様の実際のレビューです。', rev_more: 'Google のレビューをすべて見る', rev_src: 'Google のレビュー',
-  food_vegan: 'ヴィーガン', food_gf: 'グルテンフリー'
+  food_vegan: 'ヴィーガン', food_gf: 'グルテンフリー',
+  hint_past: '本日以降のツアー日を選んでください。', hint_pass_dates: '旅行者 {n}：パスポートの日付をご確認ください（発行日は今日以前、有効期限は発行日より後）。', hint_pass_exp: '旅行者 {n}：パスポートの有効期限がツアー日より前です。ご確認ください。'
 },
 
 fr: {
@@ -448,7 +454,8 @@ fr: {
   hint: 'Merci d’indiquer la date et les informations de chaque voyageur.', hint_hotel: 'Merci d’indiquer votre hébergement à Luang Prabang pour la prise en charge.', hint_map: 'Merci de coller le lien Google Maps de votre hébergement.',
   tab_book: 'Réserver', tab_ask: 'Poser une question', lbl_source: 'Comment nous avez-vous connus ?', src_choose: 'Choisir…', src_google: 'Recherche Google', src_maps: 'Google Maps', src_hostel: 'Mon auberge ou hôtel', src_friend: 'Un ami', src_walk: 'En passant devant le bureau', src_other: 'Autre', ask_p: 'Posez-nous vos questions. Elles s’ouvrent dans WhatsApp et nous répondons en général le jour même.', lbl_contact: 'Numéro WhatsApp ou e-mail', ph_contact: '+33 … ou vous@email.com', tour_any: 'Pas encore décidé', lbl_question: 'Votre question', ph_question: 'Fait-il froid la nuit ? Peut-on venir vendredi ?', ask_submit: 'Envoyer sur WhatsApp', ask_hint: 'Merci d’indiquer votre nom, votre contact et votre question.',
   nav_reviews: 'Avis', rev_tag: 'Avis', rev_h: 'Ce qu’en disent les voyageurs', rev_sub: 'De vrais avis de nos clients sur Google.', rev_more: 'Lire tous nos avis Google', rev_src: 'Avis Google',
-  food_vegan: 'Végan', food_gf: 'Sans gluten'
+  food_vegan: 'Végan', food_gf: 'Sans gluten',
+  hint_past: 'Merci de choisir une date à partir d’aujourd’hui.', hint_pass_dates: 'Voyageur {n} : vérifiez les dates du passeport (délivré avant aujourd’hui, expiration après la délivrance).', hint_pass_exp: 'Voyageur {n} : ce passeport expire avant la date de l’excursion. Merci de vérifier.'
 },
 
 de: {
@@ -512,7 +519,8 @@ de: {
   hint: 'Bitte Datum und die Angaben aller Reisenden ausfüllen.', hint_hotel: 'Bitte nennen Sie Ihre Unterkunft in Luang Prabang für die Abholung.', hint_map: 'Bitte fügen Sie den Google-Maps-Link Ihrer Unterkunft ein.',
   tab_book: 'Tour buchen', tab_ask: 'Frage stellen', lbl_source: 'Wie haben Sie von uns erfahren?', src_choose: 'Bitte wählen…', src_google: 'Google-Suche', src_maps: 'Google Maps', src_hostel: 'Mein Hostel oder Hotel', src_friend: 'Freunde', src_walk: 'Am Büro vorbeigekommen', src_other: 'Sonstiges', ask_p: 'Fragen Sie uns alles. Ihre Frage öffnet sich in WhatsApp, meist antworten wir noch am selben Tag.', lbl_contact: 'WhatsApp-Nummer oder E-Mail', ph_contact: '+49 … oder sie@email.de', tour_any: 'Noch unsicher', lbl_question: 'Ihre Frage', ph_question: 'Ist es nachts kalt? Können wir am Freitag mitkommen?', ask_submit: 'Per WhatsApp senden', ask_hint: 'Bitte Name, Kontakt und Frage angeben.',
   nav_reviews: 'Bewertungen', rev_tag: 'Bewertungen', rev_h: 'Das sagen unsere Gäste', rev_sub: 'Echte Bewertungen unserer Gäste auf Google.', rev_more: 'Alle Google-Bewertungen lesen', rev_src: 'Google-Bewertung',
-  food_vegan: 'Vegan', food_gf: 'Glutenfrei'
+  food_vegan: 'Vegan', food_gf: 'Glutenfrei',
+  hint_past: 'Bitte ein Tourdatum ab heute wählen.', hint_pass_dates: 'Reisende/r {n}: Bitte die Passdaten prüfen (ausgestellt vor heute, Ablauf nach dem Ausstellungsdatum).', hint_pass_exp: 'Reisende/r {n}: Dieser Pass läuft vor dem Tourdatum ab. Bitte prüfen.'
 }
 
   };

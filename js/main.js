@@ -230,6 +230,10 @@
     for (var j = have.length - 1; j >= want; j--) travBox.removeChild(have[j]);
   }
   $('#fGuests').addEventListener('input', syncTravellers);
+  $('#fGuests').addEventListener('change', function () {
+    this.value = Math.min(Math.max(parseInt(this.value, 10) || 1, 1), 30);
+    syncTravellers();
+  });
   syncTravellers();
 
   /* first Google Maps URL in the pasted text (Share often adds the place name), or '' */
@@ -275,9 +279,13 @@
     var hint = $('#formHint');
     var missing = (date ? [] : [dateInput]).concat($$('.trav [required]', travBox).filter(function (el) { return !el.value.trim(); }));
     if (missing.length) { hint.textContent = t('hint'); missing[0].focus(); return; }
+    if (date < dateInput.min) { hint.textContent = t('hint_past'); dateInput.focus(); return; }
+    var badPass = passportProblem(date);
+    if (badPass) { hint.textContent = t(badPass.key).replace('{n}', badPass.n); badPass.el.focus(); return; }
     if (transfer !== 'No' && !hotel) { hint.textContent = t('hint_hotel'); $('#fHotel').focus(); return; }
     if (transfer !== 'No' && !mapLink) { hint.textContent = t('hint_map'); $('#fMap').focus(); return; }
     hint.textContent = '';
+    if (!lockSubmit(this)) return;
     var ref = bookingRef();
     var source = $('#fSource').value;
     saveToSheet({
@@ -303,6 +311,25 @@
     window.open('https://wa.me/' + WA + '?text=' + encodeURIComponent(msg), '_blank', 'noopener');
   });
 
+  // Issue date not in the future, expiry after issue, and passport still valid on the tour date (dates are yyyy-mm-dd).
+  function passportProblem(tourDate) {
+    var blocks = $$('.trav', travBox);
+    for (var i = 0; i < blocks.length; i++) {
+      var issued = $('[data-k="issued"]', blocks[i]), expires = $('[data-k="expires"]', blocks[i]);
+      if (issued.value > dateInput.min || expires.value <= issued.value) return { key: 'hint_pass_dates', n: i + 1, el: issued };
+      if (expires.value <= tourDate) return { key: 'hint_pass_exp', n: i + 1, el: expires };
+    }
+    return null;
+  }
+  // One send per click: a double click must not create two bookings.
+  function lockSubmit(form) {
+    var btn = $('button[type=submit]', form);
+    if (btn.disabled) return false;
+    btn.disabled = true;
+    setTimeout(function () { btn.disabled = false; }, 4000);
+    return true;
+  }
+
   /* ---------- book / ask tabs ---------- */
   function showTab(which) {
     var ask = which === 'ask';
@@ -321,6 +348,7 @@
     var missing = [$('#qName'), $('#qContact'), $('#qText')].filter(function (el) { return !el.value.trim(); });
     if (missing.length) { $('#askHint').textContent = t('ask_hint'); missing[0].focus(); return; }
     $('#askHint').textContent = '';
+    if (!lockSubmit(this)) return;
     saveToSheet({ type: 'inquiry', website: $('#askForm [name=website]').value, name: name, contact: contact,
       tour: tour, question: question, source: $('#qSource').value });
     var msg = 'Hello! I have a question' + (tour ? ' about ' + (TOURS[tour] || tour) : '') + ':\n' + question +
