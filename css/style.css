@@ -358,3 +358,16 @@ em{font-style:italic}
 .tab[aria-selected="true"]{background:var(--cream);color:var(--ink)}
 .form[hidden]{display:none}
 .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.reviews{padding:clamp(60px,9vw,110px) 0;background:var(--cream)}
+.rev-head{max-width:640px;margin-bottom:34px}
+.rev-head h2{font-size:clamp(2rem,4.2vw,3.1rem);margin-bottom:10px}
+.rev-head p:not(.tag){color:var(--muted);margin:0}
+.rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:30px}
+.rev{margin:0;background:#fff;border-radius:20px;padding:22px 24px;box-shadow:var(--shadow);display:flex;flex-direction:column;justify-content:space-between;gap:16px}
+.rev blockquote{margin:0;font-size:1rem;line-height:1.6}
+.rev blockquote::before{content:"\201C";display:block;font-size:2.6rem;line-height:.6;color:var(--sun);margin-bottom:6px}
+.rev figcaption{font-size:.88rem;color:var(--muted)}
+.rev figcaption strong{color:var(--ink);margin-right:6px}
+.foot-bottom .social a{color:inherit}
+@media (max-width:960px){.rev-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:620px){.rev-grid{grid-template-columns:1fr}}
