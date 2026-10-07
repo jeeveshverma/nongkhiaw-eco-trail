@@ -218,7 +218,9 @@
         field('lbl_expiry', '<input type="date" data-k="expires" required>') +
       '</div>' +
       field('lbl_food', '<select data-k="food"><option value="Regular" data-i18n="food_reg">' + t('food_reg') +
-        '</option><option value="Vegetarian" data-i18n="food_veg">' + t('food_veg') + '</option></select>');
+        '</option><option value="Vegetarian" data-i18n="food_veg">' + t('food_veg') +
+        '</option><option value="Vegan" data-i18n="food_vegan">' + t('food_vegan') +
+        '</option><option value="Gluten-free" data-i18n="food_gf">' + t('food_gf') + '</option></select>');
     return f;
   }
   function syncTravellers() {

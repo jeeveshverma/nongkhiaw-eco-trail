@@ -11,7 +11,7 @@
 var TABS = { bookings: 'Bookings', travellers: 'Travellers', inquiries: 'Inquiries', settings: 'Settings', dashboard: 'Dashboard' };
 
 var BOOKING_COLS = ['Booking ID', 'Submitted at', 'Tour date', 'Tour month', 'Tour', 'Tour name', 'People', 'Lead name',
-  'Countries', 'Vegetarians', 'Transfer', 'Accommodation', 'Maps link', 'Source', 'Referrer', 'Site language', 'Note',
+  'Countries', 'Special food', 'Transfer', 'Accommodation', 'Maps link', 'Source', 'Referrer', 'Site language', 'Note',
   'Est. tour USD', 'Est. transfer kip', 'Status', 'Amount paid USD', 'Staff notes'];
 var TRAVELLER_COLS = ['Booking ID', 'Tour date', 'Tour', 'Traveller #', 'Country', 'Gender', 'Food', 'Status'];
 var INQUIRY_COLS = ['Submitted at', 'Month', 'Name', 'Contact', 'Tour', 'Question', 'Source', 'Referrer', 'Site language',
@@ -70,7 +70,7 @@ function setupSettings_(ss) {
 
 function setupTable_(ss, name, cols, dropdowns, formats) {
   var sh = sheet_(ss, name);
-  if (sh.getLastRow() === 0) sh.getRange(1, 1, 1, cols.length).setValues([cols]);
+  sh.getRange(1, 1, 1, cols.length).setValues([cols]);  // headers follow the column list; data rows untouched
   sh.getRange(1, 1, 1, cols.length).setFontWeight('bold').setBackground('#e8f0ea');
   sh.setFrozenRows(1);
   Object.keys(formats).forEach(function (c) {
@@ -215,12 +215,14 @@ function saveBooking_(ss, d) {
   var transfer = clean_(d.transfer, 40) || 'No';
   var legs = /round/i.test(transfer) ? 2 : (/one way/i.test(transfer) ? 1 : 0);
   var countries = people.map(function (p) { return country_(p.nat); });
-  var veg = people.filter(function (p) { return /veg/i.test(p.food || ''); }).length;
+  var food = {};  // e.g. {Vegetarian: 2, Vegan: 1}; Regular is not listed
+  people.forEach(function (p) { var f = clean_(p.food, 20); if (f && f !== 'Regular') food[f] = (food[f] || 0) + 1; });
+  var specialFood = Object.keys(food).map(function (f) { return f + ' ' + food[f]; }).join(', ');
   var id = clean_(d.id, 20) || ('NK' + Utilities.formatDate(new Date(), TIME_ZONE, 'yyMMddHHmmss'));
 
   addRow_(ss, TABS.bookings, BOOKING_COLS, [
     id, new Date(), date, date ? text_(Utilities.formatDate(date, TIME_ZONE, 'yyyy-MM')) : '', text_(tour), info.name,
-    people.length, clean_(people[0].name, 80), unique_(countries).join(', '), veg, transfer,
+    people.length, clean_(people[0].name, 80), unique_(countries).join(', '), specialFood, transfer,
     legs ? clean_(d.hotel, 120) : '', legs ? clean_(d.map, 300) : '', clean_(d.source, 40) || 'Not given',
     clean_(d.referrer, 120), clean_(d.lang, 5), clean_(d.note, 1000), info.price * people.length,
     legs * kipPerWay_(ss) * people.length, 'Requested', '', ''
