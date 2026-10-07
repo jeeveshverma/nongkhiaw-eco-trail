@@ -289,7 +289,12 @@
         </li>
       </ul>
     </div>
-    <form class="form reveal" id="bookForm" novalidate>
+    <div class="form-col reveal">
+    <div class="form-tabs" role="tablist">
+      <button type="button" class="tab" role="tab" id="tabBook" aria-selected="true" aria-controls="bookForm" data-i18n="tab_book">Book a tour</button>
+      <button type="button" class="tab" role="tab" id="tabAsk" aria-selected="false" aria-controls="askForm" data-i18n="tab_ask">Ask a question</button>
+    </div>
+    <form class="form" id="bookForm" novalidate>
       <label><span data-i18n="lbl_tour">Tour</span>
         <select id="fTour" name="tour">
           <option value="101" data-i18n="tour_101">101 · Overnight camping (USD 30)</option>
@@ -327,12 +332,44 @@
           <a class="map-ok" id="mapOk" href="#" target="_blank" rel="noopener" hidden data-i18n="map_ok">✓ Check the pin on Google Maps</a>
         </div>
       </div>
+      <label><span><span data-i18n="lbl_source">How did you hear about us?</span> <small data-i18n="opt">(optional)</small></span>
+        <select id="fSource" name="source"><option value="" data-i18n="src_choose">Choose…</option><option value="Google" data-i18n="src_google">Google search</option><option value="Google Maps" data-i18n="src_maps">Google Maps</option><option value="Facebook">Facebook</option><option value="Instagram">Instagram</option><option value="TripAdvisor">TripAdvisor</option><option value="Hostel / hotel" data-i18n="src_hostel">My hostel or hotel</option><option value="Friend" data-i18n="src_friend">A friend</option><option value="Walk-in" data-i18n="src_walk">Walked past your office</option><option value="Other" data-i18n="src_other">Other</option></select>
+      </label>
+      <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
       <label><span><span data-i18n="lbl_note">Anything we should know?</span> <small data-i18n="opt">(optional)</small></span>
         <textarea id="fNote" name="note" rows="3" data-i18n-ph="ph_note" placeholder="Allergies, kids coming, questions&hellip;"></textarea>
       </label>
       <button class="btn btn-sun btn-block" type="submit" data-i18n="submit">Continue on WhatsApp</button>
       <p class="form-hint" id="formHint" role="status" aria-live="polite"></p>
     </form>
+    <form class="form" id="askForm" novalidate hidden>
+      <p class="trav-p" data-i18n="ask_p">Ask us anything. Your question opens in WhatsApp, and we usually reply the same day.</p>
+      <label><span data-i18n="lbl_name">Your name</span>
+        <input type="text" id="qName" name="name" autocomplete="name" required>
+      </label>
+      <label><span data-i18n="lbl_contact">WhatsApp number or email</span>
+        <input type="text" id="qContact" name="contact" autocomplete="email" data-i18n-ph="ph_contact" placeholder="+49 … or you@email.com" required>
+      </label>
+      <label><span><span data-i18n="lbl_tour">Tour</span> <small data-i18n="opt">(optional)</small></span>
+        <select id="qTour" name="tour">
+          <option value="" data-i18n="tour_any">Not sure yet</option>
+          <option value="101" data-i18n="tour_101">101 · Overnight camping (USD 30)</option>
+          <option value="102" data-i18n="tour_102">102 · 2 days 1 night (USD 60)</option>
+          <option value="103" data-i18n="tour_103">103 · 3 days 2 nights (USD 90)</option>
+          <option value="001" data-i18n="tour_001">001 · 1-day boat trip (USD 30)</option>
+        </select>
+      </label>
+      <label><span data-i18n="lbl_question">Your question</span>
+        <textarea id="qText" name="question" rows="4" data-i18n-ph="ph_question" placeholder="Is it cold at night? Can we join on Friday?" required></textarea>
+      </label>
+      <label><span><span data-i18n="lbl_source">How did you hear about us?</span> <small data-i18n="opt">(optional)</small></span>
+        <select id="qSource" name="source"><option value="" data-i18n="src_choose">Choose…</option><option value="Google" data-i18n="src_google">Google search</option><option value="Google Maps" data-i18n="src_maps">Google Maps</option><option value="Facebook">Facebook</option><option value="Instagram">Instagram</option><option value="TripAdvisor">TripAdvisor</option><option value="Hostel / hotel" data-i18n="src_hostel">My hostel or hotel</option><option value="Friend" data-i18n="src_friend">A friend</option><option value="Walk-in" data-i18n="src_walk">Walked past your office</option><option value="Other" data-i18n="src_other">Other</option></select>
+      </label>
+      <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button class="btn btn-sun btn-block" type="submit" data-i18n="ask_submit">Send on WhatsApp</button>
+      <p class="form-hint" id="askHint" role="status" aria-live="polite"></p>
+    </form>
+    </div>
   </div>
 </section>
 

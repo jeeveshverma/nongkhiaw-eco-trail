@@ -155,6 +155,26 @@
 
   /* ---------- booking form -> WhatsApp ---------- */
   var WA = '8562058975057';
+  // Google Apps Script web app that saves submissions to the bookings sheet (apps-script/Code.gs); '' = off
+  var SHEET_URL = '';
+  function saveToSheet(data) {
+    if (!SHEET_URL) return;
+    data.lang = current;
+    data.referrer = referrer();
+    fetch(SHEET_URL, { method: 'POST', mode: 'no-cors', keepalive: true,
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(data) })
+      .catch(function (err) { console.error('Saving to the bookings sheet failed', err); });
+  }
+  function referrer() {
+    var q = new URLSearchParams(location.search);
+    if (q.get('utm_source')) return q.get('utm_source') + (q.get('utm_campaign') ? ' / ' + q.get('utm_campaign') : '');
+    try { return document.referrer ? new URL(document.referrer).hostname : 'direct'; } catch (e) { return 'direct'; }
+  }
+  function bookingRef() {
+    var d = new Date(), p = function (n) { return ('0' + n).slice(-2); };
+    return 'NK' + String(d.getFullYear()).slice(2) + p(d.getMonth() + 1) + p(d.getDate()) + '-' +
+      Math.random().toString(36).slice(2, 6).toUpperCase();
+  }
   var dateInput = $('#fDate');
   (function () {
     var d = new Date();
@@ -171,6 +191,7 @@
     a.addEventListener('click', function () {
       var sel = $('#fTour');
       if (sel) sel.value = a.getAttribute('data-tour');
+      showTab('book');
       setTimeout(function () { dateInput.focus({ preventScroll: true }); }, 700);
     });
   });
@@ -255,6 +276,16 @@
     if (transfer !== 'No' && !hotel) { hint.textContent = t('hint_hotel'); $('#fHotel').focus(); return; }
     if (transfer !== 'No' && !mapLink) { hint.textContent = t('hint_map'); $('#fMap').focus(); return; }
     hint.textContent = '';
+    var ref = bookingRef();
+    var source = $('#fSource').value;
+    saveToSheet({
+      type: 'booking', id: ref, website: $('#bookForm [name=website]').value, tour: tour, date: date,
+      transfer: transfer, hotel: hotel, map: mapLink, source: source, note: note,
+      travellers: $$('.trav', travBox).map(function (f) {
+        var v = function (k) { return $('[data-k="' + k + '"]', f).value.trim(); };
+        return { name: v('name'), gender: v('gender'), nat: v('nat'), food: v('food') };
+      })
+    });
     var people = $$('.trav', travBox).map(function (f, i) {
       var v = function (k) { return $('[data-k="' + k + '"]', f).value.trim(); };
       return '\nTraveller ' + (i + 1) + ': ' + v('name') +
@@ -262,11 +293,36 @@
         '\n- Passport: ' + v('pass').toUpperCase() + ' (issued ' + v('issued') + ', expires ' + v('expires') + ')' +
         '\n- Food: ' + v('food');
     });
-    var msg = 'Hello! I would like to book:\n' + (TOURS[tour] || tour) + '\n' +
+    var msg = 'Hello! I would like to book:\n' + (TOURS[tour] || tour) + '\nBooking ref: ' + ref + '\n' +
       'Date: ' + date + '\nPeople: ' + people.length +
       '\nTransfer from Luang Prabang: ' + transfer + (transfer !== 'No' ? '\nAccommodation: ' + hotel + '\nGoogle Maps: ' + mapLink : '') + '\n' +
       people.join('\n') +
       (note ? '\n\nNote: ' + note : '');
+    window.open('https://wa.me/' + WA + '?text=' + encodeURIComponent(msg), '_blank', 'noopener');
+  });
+
+  /* ---------- book / ask tabs ---------- */
+  function showTab(which) {
+    var ask = which === 'ask';
+    $('#bookForm').hidden = ask;
+    $('#askForm').hidden = !ask;
+    $('#tabBook').setAttribute('aria-selected', String(!ask));
+    $('#tabAsk').setAttribute('aria-selected', String(ask));
+  }
+  $('#tabBook').addEventListener('click', function () { showTab('book'); });
+  $('#tabAsk').addEventListener('click', function () { showTab('ask'); });
+
+  $('#askForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name = $('#qName').value.trim(), contact = $('#qContact').value.trim();
+    var question = $('#qText').value.trim(), tour = $('#qTour').value;
+    var missing = [$('#qName'), $('#qContact'), $('#qText')].filter(function (el) { return !el.value.trim(); });
+    if (missing.length) { $('#askHint').textContent = t('ask_hint'); missing[0].focus(); return; }
+    $('#askHint').textContent = '';
+    saveToSheet({ type: 'inquiry', website: $('#askForm [name=website]').value, name: name, contact: contact,
+      tour: tour, question: question, source: $('#qSource').value });
+    var msg = 'Hello! I have a question' + (tour ? ' about ' + (TOURS[tour] || tour) : '') + ':\n' + question +
+      '\n\nName: ' + name + '\nContact: ' + contact;
     window.open('https://wa.me/' + WA + '?text=' + encodeURIComponent(msg), '_blank', 'noopener');
   });
 
