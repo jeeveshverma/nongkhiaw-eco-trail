@@ -11,9 +11,9 @@
 var TABS = { bookings: 'Bookings', travellers: 'Travellers', inquiries: 'Inquiries', settings: 'Settings', dashboard: 'Dashboard' };
 
 var BOOKING_COLS = ['Booking ID', 'Submitted at', 'Tour date', 'Tour month', 'Tour', 'Tour name', 'People', 'Lead name',
-  'Countries', 'Special food', 'Transfer', 'Accommodation', 'Maps link', 'Source', 'Referrer', 'Site language', 'Note',
+  'Traveller names', 'Countries', 'Special food', 'Transfer', 'Accommodation', 'Maps link', 'Source', 'Referrer', 'Site language', 'Note',
   'Est. tour USD', 'Est. transfer kip', 'Status', 'Amount paid USD', 'Staff notes'];
-var TRAVELLER_COLS = ['Booking ID', 'Tour date', 'Tour', 'Traveller #', 'Country', 'Gender', 'Food', 'Status'];
+var TRAVELLER_COLS = ['Booking ID', 'Tour date', 'Tour', 'Traveller #', 'Name', 'Country', 'Gender', 'Food', 'Status'];
 var INQUIRY_COLS = ['Submitted at', 'Month', 'Name', 'Contact', 'Tour', 'Question', 'Source', 'Referrer', 'Site language',
   'Status', 'Staff notes'];
 
@@ -70,6 +70,7 @@ function setupSettings_(ss) {
 
 function setupTable_(ss, name, cols, dropdowns, formats) {
   var sh = sheet_(ss, name);
+  addMissingColumns_(sh, cols);
   sh.getRange(1, 1, 1, cols.length).setValues([cols]);  // headers follow the column list; data rows untouched
   sh.getRange(1, 1, 1, cols.length).setFontWeight('bold').setBackground('#e8f0ea');
   sh.setFrozenRows(1);
@@ -126,7 +127,7 @@ function setupDashboard_(ss) {
         B('People') + ') \'\'",0),"")',
       paid: { col: 'J', key: 'Tour name', from: 'G' } },
     { col: 'L', head: ['Country', 'Travellers'],
-      q: '=IFERROR(QUERY(Travellers!A2:H,"select ' + T('Country') + ', count(A) where A is not null and ' + T('Status') +
+      q: '=IFERROR(QUERY(Travellers!A2:' + colLetter_(TRAVELLER_COLS.length) + ',"select ' + T('Country') + ', count(A) where A is not null and ' + T('Status') +
         " <> 'Cancelled' group by " + T('Country') + ' order by count(A) desc label count(A) \'\'",0),"")' },
     { col: 'O', head: ['Booking source', 'Bookings'],
       q: '=IFERROR(QUERY(' + bRange + ',"select ' + B('Source') + ', count(A) where A is not null group by ' + B('Source') +
@@ -222,13 +223,14 @@ function saveBooking_(ss, d) {
 
   addRow_(ss, TABS.bookings, BOOKING_COLS, [
     id, new Date(), date, date ? text_(Utilities.formatDate(date, TIME_ZONE, 'yyyy-MM')) : '', text_(tour), info.name,
-    people.length, clean_(people[0].name, 80), unique_(countries).join(', '), specialFood, transfer,
+    people.length, clean_(people[0].name, 80),
+    people.map(function (p) { return clean_(p.name, 80); }).join(', '), unique_(countries).join(', '), specialFood, transfer,
     legs ? clean_(d.hotel, 120) : '', legs ? clean_(d.map, 300) : '', clean_(d.source, 40) || 'Not given',
     clean_(d.referrer, 120), clean_(d.lang, 5), clean_(d.note, 1000), info.price * people.length,
     legs * kipPerWay_(ss) * people.length, 'Requested', '', ''
   ]);
   people.forEach(function (p, i) {
-    addRow_(ss, TABS.travellers, TRAVELLER_COLS, [id, date, text_(tour), i + 1, countries[i], clean_(p.gender, 10), clean_(p.food, 20)]);
+    addRow_(ss, TABS.travellers, TRAVELLER_COLS, [id, date, text_(tour), i + 1, clean_(p.name, 80), countries[i], clean_(p.gender, 10), clean_(p.food, 20)]);
   });
 }
 
@@ -273,6 +275,17 @@ function addRow_(ss, name, cols, values) {
   sh.getRange(r, 1, 1, values.length).setValues([values]);
   var f = FORMATS[name] || {};
   Object.keys(f).forEach(function (c) { sh.getRange(r, cols.indexOf(c) + 1).setNumberFormat(f[c]); });
+}
+
+// A column added to the code later is inserted at its place in the sheet, shifting old data with its header.
+function addMissingColumns_(sh, cols) {
+  if (sh.getLastRow() === 0) return;
+  for (var i = 0; i < cols.length; i++) {
+    var have = sh.getRange(1, 1, 1, Math.max(sh.getLastColumn(), 1)).getValues()[0];
+    if (have.indexOf(cols[i]) !== -1 || i >= have.length) continue;
+    if (i === 0) sh.insertColumnBefore(1); else sh.insertColumnAfter(i);
+    sh.getRange(1, i + 1).setValue(cols[i]);
+  }
 }
 
 function sheet_(ss, name) { return ss.getSheetByName(name) || ss.insertSheet(name); }
