@@ -29,7 +29,7 @@ var INQUIRY_STATUSES = ['New', 'Replied', 'Booked', 'Closed'];
 var SOURCES = ['Google', 'Google Maps', 'Facebook', 'Instagram', 'TripAdvisor', 'Hostel / hotel', 'Friend', 'Walk-in', 'Other'];
 var TOURS = [['101', 'Overnight camping above the clouds', 30], ['102', '2 days 1 night', 60],
   ['103', '3 days 2 nights', 90], ['001', '1-day boat trip', 30]];
-var TRANSFER_KIP = 200000;
+var TRANSFER_KIP = 250000;
 var TIME_ZONE = 'Asia/Vientiane';
 
 /* ---------- setup: safe to run again; it never deletes data rows ---------- */
@@ -57,6 +57,8 @@ function setup() {
 
 function setupSettings_(ss) {
   var sh = sheet_(ss, TABS.settings);
+  // 2026-10-09 price change: move the old default on; a value staff typed themselves is left alone
+  if (sh.getRange('F2').getValue() === 200000) sh.getRange('F2').setValue(TRANSFER_KIP);
   if (sh.getLastRow() > 0) return;
   sh.getRange('A:A').setNumberFormat('@');
   sh.getRange(1, 1, 1, 3).setValues([['Tour', 'Name', 'Price USD (per person)']]);
