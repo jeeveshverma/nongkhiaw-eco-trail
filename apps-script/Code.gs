@@ -8,17 +8,25 @@
  * The website sends JSON here; passport numbers are never sent or stored.
  */
 
-var TABS = { bookings: 'Bookings', travellers: 'Travellers', inquiries: 'Inquiries', settings: 'Settings', dashboard: 'Dashboard' };
+var TABS = { bookings: 'Bookings', travellers: 'Travellers', inquiries: 'Inquiries', reviews: 'Reviews', settings: 'Settings',
+  dashboard: 'Dashboard' };
 
 var BOOKING_COLS = ['Booking ID', 'Submitted at', 'Tour date', 'Tour month', 'Tour', 'Tour name', 'People', 'Lead name',
-  'Traveller names', 'Countries', 'Special food', 'Transfer', 'Accommodation', 'Maps link', 'Source', 'Referrer', 'Site language', 'Note',
+  'Traveller names', 'Countries', 'Special food', 'Transfer', 'Pickup date', 'Return date', 'Accommodation', 'Maps link', 'Source', 'Referrer', 'Site language', 'Note',
   'Est. tour USD', 'Est. transfer kip', 'Status', 'Amount paid USD', 'Staff notes'];
-var TRAVELLER_COLS = ['Booking ID', 'Tour date', 'Tour', 'Traveller #', 'Name', 'Country', 'Gender', 'Food', 'Status'];
+var TRAVELLER_COLS = ['Booking ID', 'Tour date', 'Tour', 'Traveller #', 'First name', 'Last name', 'Full name', 'Country',
+  'Gender', 'Food', 'Status'];
+// Headers renamed in a later version: the old name is renamed in place, so its data stays put.
+var RENAMES = { Travellers: { 'Name': 'Full name' } };
+// Reviews shown on the website: staff tick Show; newest Date first, at most REVIEWS_SHOWN.
+var REVIEW_COLS = ['Show', 'Date', 'Name', 'Review'];
+var REVIEWS_SHOWN = 8;
 var INQUIRY_COLS = ['Submitted at', 'Month', 'Name', 'Contact', 'Tour', 'Question', 'Source', 'Referrer', 'Site language',
   'Status', 'Staff notes'];
 
 var FORMATS = {
   Bookings: { 'Submitted at': 'yyyy-mm-dd hh:mm', 'Tour date': 'yyyy-mm-dd', 'Tour month': '@', 'Tour': '@',
+    'Pickup date': 'yyyy-mm-dd', 'Return date': 'yyyy-mm-dd',
     'Est. tour USD': '#,##0', 'Est. transfer kip': '#,##0', 'Amount paid USD': '#,##0.00' },
   Travellers: { 'Tour date': 'yyyy-mm-dd', 'Tour': '@' },
   Inquiries: { 'Submitted at': 'yyyy-mm-dd hh:mm', 'Month': '@', 'Tour': '@' }
@@ -41,6 +49,7 @@ function setup() {
   setupTable_(ss, TABS.bookings, BOOKING_COLS, { 'Status': STATUSES, 'Source': SOURCES }, FORMATS.Bookings);
   setupTable_(ss, TABS.travellers, TRAVELLER_COLS, {}, FORMATS.Travellers);
   setupTable_(ss, TABS.inquiries, INQUIRY_COLS, { 'Status': INQUIRY_STATUSES, 'Source': SOURCES }, FORMATS.Inquiries);
+  setupReviews_(ss);
 
   // Travellers.Status follows the booking's status, so cancelled trips drop out of the reports.
   var trav = ss.getSheetByName(TABS.travellers);
@@ -72,6 +81,7 @@ function setupSettings_(ss) {
 
 function setupTable_(ss, name, cols, dropdowns, formats) {
   var sh = sheet_(ss, name);
+  renameColumns_(sh, RENAMES[name] || {});
   addMissingColumns_(sh, cols);
   sh.getRange(1, 1, 1, cols.length).setValues([cols]);  // headers follow the column list; data rows untouched
   sh.getRange(1, 1, 1, cols.length).setFontWeight('bold').setBackground('#e8f0ea');
@@ -83,6 +93,52 @@ function setupTable_(ss, name, cols, dropdowns, formats) {
     var rule = SpreadsheetApp.newDataValidation().requireValueInList(dropdowns[c], true).setAllowInvalid(true).build();
     sh.getRange(2, cols.indexOf(c) + 1, sh.getMaxRows() - 1, 1).setDataValidation(rule);
   });
+}
+
+// Seeded once with the reviews the site showed before; after that the tab is staff-owned and never overwritten.
+var SEED_REVIEWS = [
+  [true, '2026-10-08', 'Callum Kemp', 'Had an amazing time on this trip, it was well organised and all the staff were very friendly. The views at the top were incredible. Just be wary, the hike…'],
+  [true, '', 'Tim', 'It was perfectly organized, I felt safe all the time and the views were stunning. Besides the regular touring he helped me with the bus transfer, offered a place to take a shower after the tour…'],
+  [true, '', 'Lucie Desmoulin', 'We had the best time during our 2 days tour with Pat and his team! … a wonderful hike in the jungle leading to the best viewpoint we had in Laos!'],
+  [true, '', 'Felix Dagnaud', 'But hang on tight for the climb it’s tough! Still, no pain, no view… and trust us, the view is totally worth it!'],
+  [true, '', 'Owen Knight', 'We had a really tasty dinner (they catered for Vegetarians too) … We got picked up and dropped off from the town before and after the hikes and had a guide for the hike up and down too.'],
+  [true, '', 'Jack Paddick', 'It was a little bit more money than some other tours but the extra cost in price is completely worth it! It is incredible value for money!!'],
+  [true, '', 'Marie Cerisel', 'This experience was even better than we expected! … The guides cooked delicious meals, and the whole experience felt so authentic.']
+];
+
+function setupReviews_(ss) {
+  var sh = ss.getSheetByName(TABS.reviews);
+  if (sh) return;
+  sh = ss.insertSheet(TABS.reviews);
+  sh.getRange(1, 1, 1, REVIEW_COLS.length).setValues([REVIEW_COLS]).setFontWeight('bold').setBackground('#e8f0ea');
+  sh.getRange(2, 1, SEED_REVIEWS.length, REVIEW_COLS.length).setValues(SEED_REVIEWS.map(function (r) {
+    return [r[0], r[1] ? parseDate_(r[1]) : '', r[2], r[3]]; }));
+  sh.getRange('A2:A100').insertCheckboxes();
+  sh.getRange('B2:B100').setNumberFormat('yyyy-mm-dd');
+  sh.getRange('D:D').setWrap(true);
+  sh.setColumnWidth(1, 60); sh.setColumnWidth(2, 100); sh.setColumnWidth(3, 160); sh.setColumnWidth(4, 640);
+  sh.setFrozenRows(1);
+  sh.getRange('F1').setValue('Tick Show to put a review on the website (newest Date first, up to ' + REVIEWS_SHOWN +
+    '). Paste new Google reviews as new rows. The site updates within 5 minutes.').setWrap(true);
+  sh.setColumnWidth(6, 260);
+}
+
+// Public list for the website: only ticked reviews, cached for 5 minutes.
+function reviewsJson_() {
+  var cache = CacheService.getScriptCache(), hit = cache.get('reviews');
+  if (hit) return hit;
+  var sh = SpreadsheetApp.getActive().getSheetByName(TABS.reviews), list = [];
+  if (sh && sh.getLastRow() > 1) {
+    sh.getRange(2, 1, sh.getLastRow() - 1, REVIEW_COLS.length).getValues().forEach(function (r, i) {
+      if (r[0] === true && String(r[3]).trim()) {
+        list.push({ name: String(r[2]).trim(), text: String(r[3]).trim(), when: r[1] instanceof Date ? r[1].getTime() : 0, row: i });
+      }
+    });
+  }
+  list.sort(function (a, b) { return (b.when - a.when) || (a.row - b.row); });
+  var json = JSON.stringify(list.slice(0, REVIEWS_SHOWN).map(function (r) { return { name: r.name, text: r.text }; }));
+  cache.put('reviews', json, 300);
+  return json;
 }
 
 function setupDashboard_(ss) {
@@ -206,6 +262,9 @@ function doGet(e) {
     setup();
     return reply_('Setup done. Open the sheet to see the Dashboard.');
   }
+  if (e && e.parameter.reviews === '1') {
+    return ContentService.createTextOutput(reviewsJson_()).setMimeType(ContentService.MimeType.JSON);
+  }
   return reply_('Nong Khiaw Eco-Trail booking endpoint is running.');
 }
 
@@ -218,6 +277,11 @@ function saveBooking_(ss, d) {
   var transfer = clean_(d.transfer, 40) || 'No';
   var legs = /round/i.test(transfer) ? 2 : (/one way/i.test(transfer) ? 1 : 0);
   var countries = people.map(function (p) { return country_(p.nat); });
+  // First and last name come separately; an older cached page may still send one full name.
+  var names = people.map(function (p) {
+    var first = clean_(p.first, 60), last = clean_(p.last, 60);
+    return { first: first, last: last, full: first || last ? (first + ' ' + last).trim() : clean_(p.name, 80) };
+  });
   var food = {};  // e.g. {Vegetarian: 2, Vegan: 1}; Regular is not listed
   people.forEach(function (p) { var f = clean_(p.food, 20); if (f && f !== 'Regular') food[f] = (food[f] || 0) + 1; });
   var specialFood = Object.keys(food).map(function (f) { return f + ' ' + food[f]; }).join(', ');
@@ -225,22 +289,25 @@ function saveBooking_(ss, d) {
 
   addRow_(ss, TABS.bookings, BOOKING_COLS, [
     id, new Date(), date, date ? text_(Utilities.formatDate(date, TIME_ZONE, 'yyyy-MM')) : '', text_(tour), info.name,
-    people.length, clean_(people[0].name, 80),
-    people.map(function (p) { return clean_(p.name, 80); }).join(', '), unique_(countries).join(', '), specialFood, transfer,
+    people.length, names[0].full,
+    names.map(function (n) { return n.full; }).join(', '), unique_(countries).join(', '), specialFood, transfer,
+    legs ? parseDate_(d.pickupDate) : '', legs === 2 ? parseDate_(d.returnDate) : '',
     legs ? clean_(d.hotel, 120) : '', legs ? clean_(d.map, 300) : '', clean_(d.source, 40) || 'Not given',
     clean_(d.referrer, 120), clean_(d.lang, 5), clean_(d.note, 1000), info.price * people.length,
     legs * kipPerWay_(ss) * people.length, 'Requested', '', ''
   ]);
   people.forEach(function (p, i) {
-    addRow_(ss, TABS.travellers, TRAVELLER_COLS, [id, date, text_(tour), i + 1, clean_(p.name, 80), countries[i], clean_(p.gender, 10), clean_(p.food, 20)]);
+    addRow_(ss, TABS.travellers, TRAVELLER_COLS, [id, date, text_(tour), i + 1, names[i].first, names[i].last, names[i].full,
+      countries[i], clean_(p.gender, 10), clean_(p.food, 20)]);
   });
 }
 
 // Writes one sample booking and inquiry, reads them back, then deletes them. Returns what was written.
 function selfTest_(ss) {
   var id = 'SELFTEST-' + new Date().getTime().toString(36);  // must fit the 20-char ID limit
-  saveBooking_(ss, { id: id, tour: '101', date: '2030-01-15', transfer: 'One way to Nong Khiaw', hotel: 'Test hostel',
-    map: 'https://maps.app.goo.gl/test', source: 'Other', travellers: [{ name: 'Test', gender: 'X', nat: 'deutsch', food: 'Vegetarian' }] });
+  saveBooking_(ss, { id: id, tour: '101', date: '2030-01-15', transfer: 'Round trip', pickupDate: '2030-01-15', returnDate: '2030-01-18',
+    hotel: 'Test hostel', map: 'https://maps.app.goo.gl/test', source: 'Other',
+    travellers: [{ first: 'Test', last: 'Person', gender: 'X', nat: 'deutsch', food: 'Vegetarian' }] });
   saveInquiry_(ss, { name: id, contact: 'test', question: 'test' });
   SpreadsheetApp.flush();
   var dash = ss.getSheetByName(TABS.dashboard);
@@ -248,6 +315,14 @@ function selfTest_(ss) {
   var kpis = dash.getRange('A5:F5').getDisplayValues()[0], tables = dash.getRange('A10:W10').getDisplayValues()[0];
   var out = { dashboardOk: Number(kpis[0]) >= 1 && Number(kpis[5]) >= 1 && ['A', 'G', 'L', 'O', 'R', 'U'].every(function (c) {
     return tables[dash.getRange(c + '1').getColumn() - 1] !== ''; }) };
+  var header = function (name) { var sh = ss.getSheetByName(name); return sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0].join('|'); };
+  out.headersOk = header(TABS.bookings) === BOOKING_COLS.join('|') && header(TABS.travellers) === TRAVELLER_COLS.join('|');
+  var b = ss.getSheetByName(TABS.bookings).getDataRange().getDisplayValues().filter(function (r) { return r[0] === id; })[0] || [];
+  var t = ss.getSheetByName(TABS.travellers).getDataRange().getDisplayValues().filter(function (r) { return r[0] === id; })[0] || [];
+  out.datesOk = b[BOOKING_COLS.indexOf('Pickup date')] === '2030-01-15' && b[BOOKING_COLS.indexOf('Return date')] === '2030-01-18';
+  out.namesOk = t[TRAVELLER_COLS.indexOf('First name')] === 'Test' && t[TRAVELLER_COLS.indexOf('Last name')] === 'Person' &&
+    b[BOOKING_COLS.indexOf('Lead name')] === 'Test Person';
+  out.reviewsOk = JSON.parse(reviewsJson_()).length > 0;
   var testIds = {};  // booking IDs of test bookings (a site test has an NK... ID and SELFTEST- as lead name)
   [TABS.bookings, TABS.travellers, TABS.inquiries].forEach(function (name) {
     var sh = ss.getSheetByName(name), values = sh.getDataRange().getDisplayValues();
@@ -259,7 +334,7 @@ function selfTest_(ss) {
       if (isTest) sh.deleteRow(r + 1);  // also clears leftovers of earlier runs
     }
   });
-  out.tabsOk = ss.getSheets().length >= 5;
+  out.tabsOk = ss.getSheets().length >= 6;
   return JSON.stringify(out);
 }
 
@@ -280,6 +355,15 @@ function addRow_(ss, name, cols, values) {
   sh.getRange(r, 1, 1, values.length).setValues([values]);
   var f = FORMATS[name] || {};
   Object.keys(f).forEach(function (c) { sh.getRange(r, cols.indexOf(c) + 1).setNumberFormat(f[c]); });
+}
+
+function renameColumns_(sh, renames) {
+  if (sh.getLastRow() === 0) return;
+  var have = sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0];
+  Object.keys(renames).forEach(function (from) {
+    var at = have.indexOf(from);
+    if (at !== -1 && have.indexOf(renames[from]) === -1) sh.getRange(1, at + 1).setValue(renames[from]);
+  });
 }
 
 // A column added to the code later is inserted at its place in the sheet, shifting old data with its header.

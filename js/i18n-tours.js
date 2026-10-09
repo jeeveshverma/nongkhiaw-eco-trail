@@ -21,7 +21,7 @@ en: {
   p102_t: '2 days 1 night: camping & full-day adventure', p102_s: 'Camp above the clouds, then a full day: Khmu village, waterfall, organic farm, Muang Ngoi cave and viewpoint, and a kayak home.',
   p103_t: '3 days 2 nights: camping, homestay & adventure', p103_s: 'Camp above the clouds, waterfall and Muang Ngoi, a night in a village homestay, a jungle trek and a kayak down the Nam Ou.',
   camp_d1: 'Meet at our office inside The Trio Bar & Cafe at 2:30 pm. Slow boat upstream to a local village, explore the rice fields and village life, then trek about 2.5 hours to the campsite above the clouds. Tents, toilets, campfire, BBQ dinner, sunset and stars.',
-  p101_d2: 'Wake up for sunrise and breakfast, then trek down for 40 to 50 minutes past villages and seasonal rice fields. A slow boat takes you back to Nong Khiaw (about 9:00 to 9:30 am).',
+  p101_d2: 'Wake up for sunrise and breakfast, then trek down for 40 to 50 minutes past one village and seasonal rice fields. A slow boat takes you back to Nong Khiaw (about 9:00 to 9:30 am).',
   p102_d2: 'Sunrise and breakfast, then walk down for about 1.5 hours to the riverbank. Around 9:00 am your boat picks you up: upstream to Sopkong, Khmu village and waterfall, an organic farm with lunch (coffee or smoothie not included), Muang Ngoi cave and viewpoint, then kayak downstream to Nong Khiaw. Finish about 4:30 to 5:30 pm.',
   p103_d2: 'After breakfast, slow boat upstream to Sopkong. Visit Tad Mok waterfall and an organic farm, continue to Muang Ngoi for the village, a viewpoint and a cave. In the evening, on to Sopjaem village for a traditional homestay.',
   p103_d3: 'After breakfast, a 3 to 4 hour jungle trek through mountains and forest. After lunch, kayak down the Nam Ou to Nong Khiaw. Return to Luang Prabang with drop-off at your accommodation or the city centre (about 3:00 to 4:30 pm).',
@@ -44,13 +44,13 @@ en: {
   lbl_tour: 'Tour', tour_101: '101 · Overnight camping (USD 30)', tour_102: '102 · 2 days 1 night (USD 60)', tour_103: '103 · 3 days 2 nights (USD 90)', tour_001: '001 · 1-day boat trip (USD 30)',
   lbl_food: 'Food', food_reg: 'Regular', food_veg: 'Vegetarian',
   lbl_transfer: 'Transfer from Luang Prabang', tr_none: 'No, thanks', tr_round: 'Round trip (500,000 kip)',
-  book_tag: 'Book your tour', book_p: 'Fill in the short form and it opens WhatsApp with your message ready to send. Nothing is sent until you press send there. You pay in person when you arrive.',
+  book_tag: 'Book your tour', book_p: 'Fill in the short form and it opens WhatsApp with your message ready to send. Nothing is sent until you press send there. You pay in person when you arrive: cash, or card with a 3% bank fee.',
   q1: 'How much do the tours cost?', a1: 'Per person: overnight camping (101) USD 30, 2 days 1 night (102) USD 60, 3 days 2 nights (103) USD 90, 1-day boat trip (001) USD 30.',
   q2: 'What time do the tours start?', a2: 'The camping tours start around 2:00 to 2:30 pm at our office inside The Trio Bar & Cafe. The 1-day boat trip starts at 8:30 am.',
   q3: 'What is included?', a3: 'An English-speaking local guide, camping gear (tent, mat, blankets), water, and the meals listed for each tour. Entrance fees are included on the 3-day tour and the 1-day trip.',
   q4: 'Can I eat vegetarian?', a4: 'Yes. Tell us when you book if you are vegetarian or have food allergies.',
   q5: 'What should I bring?', a5: 'A small backpack, comfortable hiking shoes, warm clothes for the cold nights and mornings, a headlamp, mosquito repellent and a camera. In the rainy season bring rain gear. For the 2-day tour also a towel. For the 3-day tour also a towel, swimsuit and sandals.',
-  q6: 'How do I book and pay?', a6: 'Message us on WhatsApp at +856 20 5897 5057 or use the form below. You pay in person at our office when you arrive (kip or USD, cash or card with a 3% fee).',
+  q6: 'How do I book and pay?', a6: 'Message us on WhatsApp at +856 20 5897 5057 or use the form below. You pay in person at our office when you arrive (kip or USD, cash or card; cards carry a 3% bank fee).',
   q7: 'Is transport from Luang Prabang included?', a7: 'No, but we can arrange it. It costs 250,000 kip per person each way. Pickup is 7:30 to 8:00 am from your hotel in the city centre area. The minivan back leaves Nong Khiaw at around 10:00 to 10:30 am and drops you off in the city centre near the night market. A drop-off at Luang Prabang train station costs an extra 70,000 kip per person.',
   q8: 'Do I need to bring a tent?', a8: 'No. We provide the tent, sleeping mat and blankets. There is a basic local-style toilet at the campsite, with no shower.',
   q9: 'Where can I leave my luggage?', a9: 'At our office inside The Trio Bar & Cafe, free during the tour.',
@@ -77,7 +77,8 @@ en: {
   pa4: 'If the tour cannot operate due to unsafe conditions, we will arrange an alternative date or discuss the best solution with you.',
   pol_thanks: 'Thank you for your understanding and for supporting sustainable local tourism in Nong Khiaw, Laos.',
   pol_link: 'Read our booking & cancellation policy',
-  c_email: 'Email'
+  c_email: 'Email',
+  lbl_first: 'First name(s) (as in passport)', lbl_last: 'Last name (as in passport)', lbl_pickup_date: 'Pickup date (Luang Prabang → Nong Khiaw)', lbl_return_date: 'Return date (Nong Khiaw → Luang Prabang)', hint_pickup: 'Please choose the pickup date in Luang Prabang (today or later).', hint_return: 'Please choose the return date. It cannot be before the pickup date.'
 },
 
 lo: {
@@ -98,7 +99,7 @@ lo: {
   p102_t: '2 ມື້ 1 ຄືນ: ກາງເຕັນ ແລະ ຜະຈົນໄພເຕັມມື້', p102_s: 'ກາງເຕັນເໜືອທະເລໝອກ ແລ້ວທ່ຽວເຕັມມື້: ບ້ານຂະມຸ, ນ້ຳຕົກ, ສວນອິນຊີ, ຖ້ຳ ແລະ ຈຸດຊົມວິວເມືອງງອຍ ແລ້ວພາຍເຮືອຄາຢັກກັບ.',
   p103_t: '3 ມື້ 2 ຄືນ: ກາງເຕັນ, ໂຮມສະເຕ ແລະ ຜະຈົນໄພ', p103_s: 'ກາງເຕັນເໜືອທະເລໝອກ, ນ້ຳຕົກ ແລະ ເມືອງງອຍ, ນອນໂຮມສະເຕໃນບ້ານ, ຍ່າງປ່າ ແລະ ພາຍເຮືອຄາຢັກລົງນ້ຳອູ.',
   camp_d1: 'ພົບກັນທີ່ຫ້ອງການຂອງພວກເຮົາໃນ The Trio Bar & Cafe ເວລາ 14:30. ນັ່ງເຮືອຊ້າຂຶ້ນນ້ຳໄປບ້ານທ້ອງຖິ່ນ, ຊົມທົ່ງນາ ແລະ ວິຖີຊີວິດ, ແລ້ວຍ່າງປະມານ 2.5 ຊົ່ວໂມງໄປຈຸດກາງເຕັນເໜືອທະເລໝອກ. ມີເຕັນ, ຫ້ອງນ້ຳ, ກອງໄຟ, ຂ້າວແລງບາບີຄິວ, ຕາເວັນຕົກ ແລະ ດວງດາວ.',
-  p101_d2: 'ຕື່ນຊົມຕາເວັນຂຶ້ນ ແລະ ກິນເຂົ້າເຊົ້າ, ແລ້ວຍ່າງລົງ 40 ຫາ 50 ນາທີ ຜ່ານບ້ານ ແລະ ທົ່ງນາ. ນັ່ງເຮືອຊ້າກັບໜອງຂຽວ (ປະມານ 9:00 ຫາ 9:30).',
+  p101_d2: 'ຕື່ນຊົມຕາເວັນຂຶ້ນ ແລະ ກິນເຂົ້າເຊົ້າ, ແລ້ວຍ່າງລົງ 40 ຫາ 50 ນາທີ ຜ່ານບ້ານໜຶ່ງ ແລະ ທົ່ງນາຕາມລະດູ. ນັ່ງເຮືອຊ້າກັບໜອງຂຽວ (ປະມານ 9:00 ຫາ 9:30).',
   p102_d2: 'ຊົມຕາເວັນຂຶ້ນ ແລະ ກິນເຂົ້າເຊົ້າ ແລ້ວຍ່າງລົງປະມານ 1.5 ຊົ່ວໂມງໄປຝັ່ງນ້ຳ. ປະມານ 9:00 ເຮືອມາຮັບ: ຂຶ້ນນ້ຳໄປສົບກອງ, ບ້ານຂະມຸ ແລະ ນ້ຳຕົກ, ສວນອິນຊີ ພ້ອມອາຫານທ່ຽງ (ບໍ່ລວມກາເຟ ຫຼື ສະມູດຕີ້), ຖ້ຳ ແລະ ຈຸດຊົມວິວເມືອງງອຍ ແລ້ວພາຍເຮືອຄາຢັກລົງນ້ຳກັບໜອງຂຽວ. ຈົບປະມານ 16:30 ຫາ 17:30.',
   p103_d2: 'ຫຼັງອາຫານເຊົ້າ ນັ່ງເຮືອຊ້າຂຶ້ນນ້ຳໄປສົບກອງ. ຊົມນ້ຳຕົກຕາດໝອກ ແລະ ສວນອິນຊີ, ຕໍ່ໄປເມືອງງອຍ ເບິ່ງບ້ານ, ຈຸດຊົມວິວ ແລະ ຖ້ຳ. ຕອນແລງໄປບ້ານສົບແຈມ ພັກໂຮມສະເຕແບບດັ້ງເດີມ.',
   p103_d3: 'ຫຼັງອາຫານເຊົ້າ ຍ່າງປ່າ 3 ຫາ 4 ຊົ່ວໂມງ. ຫຼັງອາຫານທ່ຽງ ພາຍເຮືອຄາຢັກລົງນ້ຳອູກັບໜອງຂຽວ. ກັບຫຼວງພະບາງ ສົ່ງທີ່ທີ່ພັກ ຫຼື ກາງເມືອງ (ປະມານ 15:00 ຫາ 16:30).',
@@ -121,13 +122,13 @@ lo: {
   lbl_tour: 'ທົວ', tour_101: '101 · ກາງເຕັນຄ້າງຄືນ (30 USD)', tour_102: '102 · 2 ມື້ 1 ຄືນ (60 USD)', tour_103: '103 · 3 ມື້ 2 ຄືນ (90 USD)', tour_001: '001 · ທົວເຮືອ 1 ມື້ (30 USD)',
   lbl_food: 'ອາຫານ', food_reg: 'ທົ່ວໄປ', food_veg: 'ເຈ',
   lbl_transfer: 'ລົດຮັບສົ່ງຈາກຫຼວງພະບາງ', tr_none: 'ບໍ່ຕ້ອງການ', tr_round: 'ໄປ-ກັບ (500,000 ກີບ)',
-  book_tag: 'ຈອງທົວຂອງທ່ານ', book_p: 'ກອກແບບຟອມສັ້ນໆ ແລ້ວ WhatsApp ຈະເປີດພ້ອມຂໍ້ຄວາມ. ບໍ່ມີຫຍັງຖືກສົ່ງຈົນກວ່າທ່ານກົດສົ່ງໃນ WhatsApp. ຈ່າຍດ້ວຍຕົວເອງເມື່ອມາຮອດ.',
+  book_tag: 'ຈອງທົວຂອງທ່ານ', book_p: 'ກອກແບບຟອມສັ້ນໆ ແລ້ວ WhatsApp ຈະເປີດພ້ອມຂໍ້ຄວາມ. ບໍ່ມີຫຍັງຖືກສົ່ງຈົນກວ່າທ່ານກົດສົ່ງໃນ WhatsApp. ຈ່າຍດ້ວຍຕົວເອງເມື່ອມາຮອດ: ເງິນສົດ ຫຼື ບັດ (ຄ່າທຳນຽມທະນາຄານ 3%).',
   q1: 'ທົວລາຄາເທົ່າໃດ?', a1: 'ຕໍ່ຄົນ: ກາງເຕັນຄ້າງຄືນ (101) 30 USD, 2 ມື້ 1 ຄືນ (102) 60 USD, 3 ມື້ 2 ຄືນ (103) 90 USD, ທົວເຮືອ 1 ມື້ (001) 30 USD.',
   q2: 'ທົວເລີ່ມຈັກໂມງ?', a2: 'ທົວກາງເຕັນເລີ່ມປະມານ 14:00 ຫາ 14:30 ທີ່ຫ້ອງການໃນ The Trio Bar & Cafe. ທົວເຮືອ 1 ມື້ເລີ່ມ 8:30.',
   q3: 'ລວມຫຍັງແດ່?', a3: 'ໄກດ໌ທ້ອງຖິ່ນເວົ້າພາສາອັງກິດ, ອຸປະກອນກາງເຕັນ (ເຕັນ, ເສື່ອ, ຜ້າຫົ່ມ), ນ້ຳດື່ມ ແລະ ອາຫານຕາມທີ່ລະບຸ. ທົວ 3 ມື້ ແລະ ທົວ 1 ມື້ ລວມຄ່າເຂົ້າຊົມ.',
   q4: 'ກິນເຈໄດ້ບໍ?', a4: 'ໄດ້. ບອກພວກເຮົາຕອນຈອງຖ້າທ່ານກິນເຈ ຫຼື ແພ້ອາຫານ.',
   q5: 'ຄວນເອົາຫຍັງມາ?', a5: 'ເປ້ນ້ອຍ, ເກີບຍ່າງປ່າ, ເສື້ອຜ້າອຸ່ນ, ໄຟສາຍຫົວ, ຢາກັນຍຸງ ແລະ ກ້ອງຖ່າຍຮູບ. ລະດູຝົນເອົາເຄື່ອງກັນຝົນ. ທົວ 2 ມື້ເອົາຜ້າເຊັດໂຕ. ທົວ 3 ມື້ເອົາຜ້າເຊັດໂຕ, ຊຸດລອຍນ້ຳ ແລະ ເກີບແຕະ.',
-  q6: 'ຈອງ ແລະ ຈ່າຍແນວໃດ?', a6: 'ສົ່ງຂໍ້ຄວາມທາງ WhatsApp +856 20 5897 5057 ຫຼື ໃຊ້ແບບຟອມລຸ່ມນີ້. ຈ່າຍທີ່ຫ້ອງການເມື່ອມາຮອດ (ກີບ ຫຼື USD, ເງິນສົດ ຫຼື ບັດ ມີຄ່າທຳນຽມ 3%).',
+  q6: 'ຈອງ ແລະ ຈ່າຍແນວໃດ?', a6: 'ສົ່ງຂໍ້ຄວາມທາງ WhatsApp +856 20 5897 5057 ຫຼື ໃຊ້ແບບຟອມລຸ່ມນີ້. ຈ່າຍທີ່ຫ້ອງການເມື່ອມາຮອດ (ກີບ ຫຼື USD, ເງິນສົດ ຫຼື ບັດ ມີຄ່າທຳນຽມທະນາຄານ 3%).',
   q7: 'ລວມລົດຈາກຫຼວງພະບາງບໍ?', a7: 'ບໍ່ລວມ ແຕ່ຈັດໃຫ້ໄດ້ 250,000 ກີບຕໍ່ຄົນຕໍ່ທາງ. ຮັບທີ່ໂຮງແຮມໃນເຂດໃຈກາງເມືອງ 7:30 ຫາ 8:00. ລົດຕູ້ກັບອອກຈາກໜອງຂຽວປະມານ 10:00 ຫາ 10:30 ແລະ ສົ່ງທີ່ໃຈກາງເມືອງໃກ້ຕະຫຼາດມືດ. ຖ້າຕ້ອງການໄປສົ່ງສະຖານີລົດໄຟຫຼວງພະບາງ ມີຄ່າເພີ່ມ 70,000 ກີບຕໍ່ຄົນ.',
   q8: 'ຕ້ອງເອົາເຕັນມາບໍ?', a8: 'ບໍ່ຕ້ອງ. ພວກເຮົາມີເຕັນ, ເສື່ອນອນ ແລະ ຜ້າຫົ່ມ. ທີ່ຈຸດກາງເຕັນມີຫ້ອງນ້ຳແບບທ້ອງຖິ່ນ ແຕ່ບໍ່ມີຫ້ອງອາບນ້ຳ.',
   q9: 'ຝາກກະເປົາໄດ້ຢູ່ໃສ?', a9: 'ທີ່ຫ້ອງການຂອງພວກເຮົາໃນ The Trio Bar & Cafe ຟຣີຕະຫຼອດທົວ.',
@@ -154,7 +155,8 @@ lo: {
   pa4: 'ຖ້າທົວດຳເນີນບໍ່ໄດ້ຍ້ອນສະພາບບໍ່ປອດໄພ ພວກເຮົາຈະຈັດວັນໃໝ່ ຫຼື ປຶກສາທາງອອກທີ່ດີທີ່ສຸດກັບທ່ານ.',
   pol_thanks: 'ຂອບໃຈທີ່ເຂົ້າໃຈ ແລະ ສະໜັບສະໜູນການທ່ອງທ່ຽວທ້ອງຖິ່ນແບບຍືນຍົງໃນໜອງຂຽວ, ລາວ.',
   pol_link: 'ອ່ານນະໂຍບາຍການຈອງ ແລະ ການຍົກເລີກ',
-  c_email: 'ອີເມວ'
+  c_email: 'ອີເມວ',
+  lbl_first: 'ຊື່ (ຕາມໜັງສືຜ່ານແດນ)', lbl_last: 'ນາມສະກຸນ (ຕາມໜັງສືຜ່ານແດນ)', lbl_pickup_date: 'ວັນຮັບ (ຫຼວງພະບາງ → ໜອງຂຽວ)', lbl_return_date: 'ວັນກັບ (ໜອງຂຽວ → ຫຼວງພະບາງ)', hint_pickup: 'ກະລຸນາເລືອກວັນຮັບໃນຫຼວງພະບາງ (ມື້ນີ້ ຫຼື ຫຼັງຈາກນັ້ນ).', hint_return: 'ກະລຸນາເລືອກວັນກັບ. ຕ້ອງບໍ່ກ່ອນວັນຮັບ.'
 },
 
 th: {
@@ -175,7 +177,7 @@ th: {
   p102_t: '2 วัน 1 คืน: แคมป์ปิ้งและผจญภัยเต็มวัน', p102_s: 'ค้างแคมป์เหนือทะเลหมอก แล้วเที่ยวเต็มวัน: หมู่บ้านขมุ น้ำตก ฟาร์มออร์แกนิก ถ้ำและจุดชมวิวเมืองงอย แล้วพายคายัคกลับ',
   p103_t: '3 วัน 2 คืน: แคมป์ โฮมสเตย์ และผจญภัย', p103_s: 'ค้างแคมป์เหนือทะเลหมอก น้ำตกและเมืองงอย พักโฮมสเตย์ในหมู่บ้าน เทรคป่า และพายคายัคตามแม่น้ำอู',
   camp_d1: 'พบกันที่ออฟฟิศของเราใน The Trio Bar & Cafe เวลา 14:30 น. นั่งเรือช้าขึ้นแม่น้ำไปหมู่บ้านท้องถิ่น ชมทุ่งนาและวิถีชีวิต แล้วเดินเทรคประมาณ 2.5 ชั่วโมงไปยังแคมป์เหนือทะเลหมอก มีเต็นท์ ห้องน้ำ กองไฟ อาหารเย็นบาร์บีคิว พระอาทิตย์ตกและดวงดาว',
-  p101_d2: 'ตื่นชมพระอาทิตย์ขึ้นและกินอาหารเช้า แล้วเดินลง 40 ถึง 50 นาที ผ่านหมู่บ้านและนาข้าว นั่งเรือช้ากลับน้ำเกี๋ยว (ประมาณ 9:00 ถึง 9:30 น.)',
+  p101_d2: 'ตื่นชมพระอาทิตย์ขึ้นและกินอาหารเช้า แล้วเดินลง 40 ถึง 50 นาที ผ่านหมู่บ้านหนึ่งแห่งและนาข้าวตามฤดูกาล นั่งเรือช้ากลับน้ำเกี๋ยว (ประมาณ 9:00 ถึง 9:30 น.)',
   p102_d2: 'ชมพระอาทิตย์ขึ้นและอาหารเช้า แล้วเดินลงประมาณ 1.5 ชั่วโมงถึงริมแม่น้ำ ราว 9:00 น. เรือมารับ: ขึ้นแม่น้ำไปสบกอง หมู่บ้านขมุและน้ำตก ฟาร์มออร์แกนิกพร้อมอาหารกลางวัน (ไม่รวมกาแฟหรือสมูทตี้) ถ้ำและจุดชมวิวเมืองงอย แล้วพายคายัคล่องแม่น้ำกลับน้ำเกี๋ยว เสร็จประมาณ 16:30 ถึง 17:30 น.',
   p103_d2: 'หลังอาหารเช้า นั่งเรือช้าขึ้นแม่น้ำไปสบกอง เที่ยวน้ำตกตาดหมอกและฟาร์มออร์แกนิก ต่อไปเมืองงอย ชมหมู่บ้าน จุดชมวิว และถ้ำ ตอนเย็นไปหมู่บ้านสบแจ่ม พักโฮมสเตย์แบบดั้งเดิม',
   p103_d3: 'หลังอาหารเช้า เทรคป่า 3 ถึง 4 ชั่วโมง หลังอาหารกลางวัน พายคายัคล่องแม่น้ำอูกลับน้ำเกี๋ยว กลับหลวงพระบาง ส่งที่พักหรือกลางเมือง (ประมาณ 15:00 ถึง 16:30 น.)',
@@ -198,13 +200,13 @@ th: {
   lbl_tour: 'ทัวร์', tour_101: '101 · ค้างแคมป์ (30 USD)', tour_102: '102 · 2 วัน 1 คืน (60 USD)', tour_103: '103 · 3 วัน 2 คืน (90 USD)', tour_001: '001 · ทริปเรือ 1 วัน (30 USD)',
   lbl_food: 'อาหาร', food_reg: 'ทั่วไป', food_veg: 'มังสวิรัติ',
   lbl_transfer: 'รถรับส่งจากหลวงพระบาง', tr_none: 'ไม่ต้องการ', tr_round: 'ไปกลับ (500,000 กีบ)',
-  book_tag: 'จองทัวร์ของคุณ', book_p: 'กรอกแบบฟอร์มสั้น ๆ แล้ว WhatsApp จะเปิดพร้อมข้อความ ไม่มีอะไรถูกส่งจนกว่าคุณจะกดส่งใน WhatsApp จ่ายด้วยตัวเองเมื่อมาถึง',
+  book_tag: 'จองทัวร์ของคุณ', book_p: 'กรอกแบบฟอร์มสั้น ๆ แล้ว WhatsApp จะเปิดพร้อมข้อความ ไม่มีอะไรถูกส่งจนกว่าคุณจะกดส่งใน WhatsApp จ่ายด้วยตัวเองเมื่อมาถึง: เงินสด หรือบัตร (ค่าธรรมเนียมธนาคาร 3%)',
   q1: 'ทัวร์ราคาเท่าไร?', a1: 'ต่อคน: ค้างแคมป์ (101) 30 USD, 2 วัน 1 คืน (102) 60 USD, 3 วัน 2 คืน (103) 90 USD, ทริปเรือ 1 วัน (001) 30 USD',
   q2: 'ทัวร์เริ่มกี่โมง?', a2: 'ทัวร์แคมป์เริ่มประมาณ 14:00 ถึง 14:30 น. ที่ออฟฟิศใน The Trio Bar & Cafe ทริปเรือ 1 วันเริ่ม 8:30 น.',
   q3: 'รวมอะไรบ้าง?', a3: 'ไกด์ท้องถิ่นพูดภาษาอังกฤษ อุปกรณ์แคมป์ (เต็นท์ แผ่นรองนอน ผ้าห่ม) น้ำดื่ม และอาหารตามที่ระบุ ทัวร์ 3 วันและทริป 1 วันรวมค่าเข้าชมแล้ว',
   q4: 'ทานมังสวิรัติได้ไหม?', a4: 'ได้ แจ้งเราตอนจองหากคุณทานมังสวิรัติหรือแพ้อาหาร',
   q5: 'ควรเตรียมอะไรมา?', a5: 'เป้ใบเล็ก รองเท้าเดินป่า เสื้อผ้ากันหนาว ไฟฉายคาดหัว ยากันยุง และกล้อง หน้าฝนเตรียมเครื่องกันฝน ทัวร์ 2 วันเตรียมผ้าเช็ดตัว ทัวร์ 3 วันเตรียมผ้าเช็ดตัว ชุดว่ายน้ำและรองเท้าแตะ',
-  q6: 'จองและจ่ายอย่างไร?', a6: 'ส่งข้อความทาง WhatsApp +856 20 5897 5057 หรือใช้แบบฟอร์มด้านล่าง จ่ายที่ออฟฟิศเมื่อมาถึง (กีบหรือ USD เงินสดหรือบัตร ค่าธรรมเนียม 3%)',
+  q6: 'จองและจ่ายอย่างไร?', a6: 'ส่งข้อความทาง WhatsApp +856 20 5897 5057 หรือใช้แบบฟอร์มด้านล่าง จ่ายที่ออฟฟิศเมื่อมาถึง (กีบหรือ USD เงินสดหรือบัตร บัตรมีค่าธรรมเนียมธนาคาร 3%)',
   q7: 'รวมรถจากหลวงพระบางไหม?', a7: 'ไม่รวม แต่จัดให้ได้ 250,000 กีบต่อคนต่อเที่ยว รับที่โรงแรมในย่านใจกลางเมือง 7:30 ถึง 8:00 น. รถตู้กลับออกจากน้ำเกี๋ยวประมาณ 10:00 ถึง 10:30 น. และส่งที่ใจกลางเมืองใกล้ตลาดกลางคืน หากต้องการลงที่สถานีรถไฟหลวงพระบาง มีค่าใช้จ่ายเพิ่ม 70,000 กีบต่อคน',
   q8: 'ต้องเอาเต็นท์มาเองไหม?', a8: 'ไม่ต้อง เรามีเต็นท์ แผ่นรองนอน และผ้าห่มให้ ที่แคมป์มีห้องน้ำแบบท้องถิ่นพื้นฐาน ไม่มีห้องอาบน้ำ',
   q9: 'ฝากสัมภาระได้ที่ไหน?', a9: 'ที่ออฟฟิศของเราใน The Trio Bar & Cafe ฟรีระหว่างทัวร์',
@@ -231,7 +233,8 @@ th: {
   pa4: 'ถ้าทัวร์ดำเนินการไม่ได้เพราะสภาพไม่ปลอดภัย เราจะจัดวันใหม่หรือหารือทางออกที่ดีที่สุดกับคุณ',
   pol_thanks: 'ขอบคุณที่เข้าใจและสนับสนุนการท่องเที่ยวท้องถิ่นอย่างยั่งยืนในน้ำเกี๋ยว ลาว',
   pol_link: 'อ่านนโยบายการจองและการยกเลิก',
-  c_email: 'อีเมล'
+  c_email: 'อีเมล',
+  lbl_first: 'ชื่อ (ตามหนังสือเดินทาง)', lbl_last: 'นามสกุล (ตามหนังสือเดินทาง)', lbl_pickup_date: 'วันรับ (หลวงพระบาง → น้ำเกี๋ยว)', lbl_return_date: 'วันกลับ (น้ำเกี๋ยว → หลวงพระบาง)', hint_pickup: 'กรุณาเลือกวันรับในหลวงพระบาง (วันนี้หรือหลังจากนั้น)', hint_return: 'กรุณาเลือกวันกลับ ต้องไม่ก่อนวันรับ'
 },
 
 zh: {
@@ -252,7 +255,7 @@ zh: {
   p102_t: '2天1晚：露营加全天探险', p102_s: '先在云海之上露营，再享一整天行程：克木族村庄、瀑布、有机农场、孟威洞穴与观景台，最后划皮划艇返回。',
   p103_t: '3天2晚：露营、家庭住宿与探险', p103_s: '云海之上露营，游览瀑布与孟威，在村里家庭住宿一晚，丛林徒步，并划皮划艇顺乌江而下。',
   camp_d1: '下午2:30在我们位于 The Trio Bar & Cafe 内的办公室集合。乘慢船逆流到当地村庄，探访稻田与村庄生活，再徒步约2.5小时到云海之上的营地。帐篷、厕所、篝火、烧烤晚餐、日落与星空。',
-  p101_d2: '起床看日出、吃早餐，然后下山徒步40至50分钟，途经村庄与季节性稻田。乘慢船返回南凯（约上午9:00至9:30）。',
+  p101_d2: '起床看日出、吃早餐，然后下山徒步40至50分钟，途经一个村庄与季节性稻田。乘慢船返回南凯（约上午9:00至9:30）。',
   p102_d2: '看日出、吃早餐，然后下山步行约1.5小时到河边。约上午9:00船来接：逆流到索孔，参观克木族村庄与瀑布，在有机农场用午餐（咖啡或冰沙不含），游览孟威洞穴与观景台，再划皮划艇顺流回南凯。约下午4:30至5:30结束。',
   p103_d2: '早餐后乘慢船逆流到索孔。参观塔莫瀑布和有机农场，继续前往孟威，游览村庄、观景台与洞穴。傍晚前往索占村，体验传统家庭住宿。',
   p103_d3: '早餐后进行3至4小时的丛林徒步。午餐后划皮划艇顺乌江返回南凯。返回琅勃拉邦，送到住宿处或市中心（约下午3:00至4:30）。',
@@ -275,13 +278,13 @@ zh: {
   lbl_tour: '行程', tour_101: '101 · 过夜露营（30美元）', tour_102: '102 · 2天1晚（60美元）', tour_103: '103 · 3天2晚（90美元）', tour_001: '001 · 一日船游（30美元）',
   lbl_food: '餐食', food_reg: '普通', food_veg: '素食',
   lbl_transfer: '琅勃拉邦接送', tr_none: '不需要', tr_round: '往返（500,000基普）',
-  book_tag: '预订您的行程', book_p: '填写简短表单，WhatsApp 会带着您的消息打开。在 WhatsApp 中点击发送之前不会发出任何内容。到店当面付款。',
+  book_tag: '预订您的行程', book_p: '填写简短表单，WhatsApp 会带着您的消息打开。在 WhatsApp 中点击发送之前不会发出任何内容。到店当面付款：现金，或刷卡（收3%银行手续费）。',
   q1: '行程多少钱？', a1: '每人：过夜露营（101）30美元，2天1晚（102）60美元，3天2晚（103）90美元，一日船游（001）30美元。',
   q2: '行程几点开始？', a2: '露营行程约下午2:00至2:30在 The Trio Bar & Cafe 内的办公室开始。一日船游上午8:30开始。',
   q3: '包含什么？', a3: '英语本地向导、露营装备（帐篷、睡垫、毯子）、饮用水和各行程所列餐食。3日行程和一日游含门票。',
   q4: '可以吃素吗？', a4: '可以。预订时告诉我们您吃素或有食物过敏即可。',
   q5: '需要带什么？', a5: '小背包、舒适的登山鞋、保暖衣物、头灯、驱蚊液和相机。雨季请带雨具。2日行程另需毛巾。3日行程另需毛巾、泳衣和凉鞋。',
-  q6: '如何预订和付款？', a6: '通过 WhatsApp +856 20 5897 5057 联系我们，或使用下方表单。到达后在办公室当面付款（基普或美元，现金或刷卡，刷卡收3%手续费）。',
+  q6: '如何预订和付款？', a6: '通过 WhatsApp +856 20 5897 5057 联系我们，或使用下方表单。到达后在办公室当面付款（基普或美元，现金或刷卡，刷卡收3%银行手续费）。',
   q7: '包含琅勃拉邦的交通吗？', a7: '不含，但可代为安排，每人单程250,000基普。上午7:30至8:00在市中心区域的酒店接。返程小巴约10:00至10:30从南凯出发，送到市中心夜市附近。如需送到琅勃拉邦火车站，每人另加70,000基普。',
   q8: '需要自带帐篷吗？', a8: '不需要。我们提供帐篷、睡垫和毯子。营地有简易当地式厕所，没有淋浴。',
   q9: '行李可以寄存在哪里？', a9: '放在我们位于 The Trio Bar & Cafe 的办公室，行程期间免费。',
@@ -308,7 +311,8 @@ zh: {
   pa4: '如因不安全情况无法出团，我们会安排其他日期，或与您商量最佳解决方案。',
   pol_thanks: '感谢您的理解，以及对老挝南凯可持续本地旅游的支持。',
   pol_link: '查看预订与取消政策',
-  c_email: '邮箱'
+  c_email: '邮箱',
+  lbl_first: '名字（与护照一致）', lbl_last: '姓氏（与护照一致）', lbl_pickup_date: '接送日期（琅勃拉邦 → 南凯）', lbl_return_date: '返程日期（南凯 → 琅勃拉邦）', hint_pickup: '请选择在琅勃拉邦的接送日期（今天或之后）。', hint_return: '请选择返程日期，不能早于接送日期。'
 },
 
 ko: {
@@ -329,7 +333,7 @@ ko: {
   p102_t: '2일 1박: 캠핑 & 종일 어드벤처', p102_s: '운해 위 캠핑 후 하루 종일: 크무 마을, 폭포, 유기농 농장, 므앙응오이 동굴과 전망대, 그리고 카약으로 귀환.',
   p103_t: '3일 2박: 캠핑, 홈스테이 & 어드벤처', p103_s: '운해 위 캠핑, 폭포와 므앙응오이, 마을 홈스테이 1박, 정글 트레킹, 남우강 카약.',
   camp_d1: '오후 2시 30분 The Trio Bar & Cafe 안의 사무실에서 만납니다. 슬로 보트로 현지 마을까지 올라가 논과 마을 생활을 둘러보고, 약 2시간 30분 트레킹하여 운해 위 캠프로 갑니다. 텐트, 화장실, 캠프파이어, 바비큐 저녁, 일몰과 별.',
-  p101_d2: '일출과 아침 식사 후 마을과 계절 논을 지나 40~50분 내려갑니다. 슬로 보트로 농키아우로 돌아옵니다(오전 9:00~9:30경).',
+  p101_d2: '일출과 아침 식사 후 마을 한 곳과 계절 논을 지나 40~50분 내려갑니다. 슬로 보트로 농키아우로 돌아옵니다(오전 9:00~9:30경).',
   p102_d2: '일출과 아침 식사 후 강가까지 약 1시간 30분 내려갑니다. 오전 9시경 보트가 마중 나옵니다: 솝콩, 크무 마을과 폭포, 점심이 포함된 유기농 농장(커피·스무디 별도), 므앙응오이 동굴과 전망대, 이어서 카약으로 농키아우까지 하류로. 오후 4:30~5:30경 종료.',
   p103_d2: '아침 식사 후 슬로 보트로 솝콩까지. 땃목 폭포와 유기농 농장을 방문하고 므앙응오이로 이동해 마을, 전망대, 동굴을 둘러봅니다. 저녁에는 솝잼 마을에서 전통 홈스테이를 체험합니다.',
   p103_d3: '아침 식사 후 3~4시간 정글 트레킹. 점심 후 카약으로 남우강을 따라 농키아우로. 루앙프라방으로 돌아가 숙소 또는 시내에서 내립니다(오후 3:00~4:30경).',
@@ -352,13 +356,13 @@ ko: {
   lbl_tour: '투어', tour_101: '101 · 1박 캠핑 (30달러)', tour_102: '102 · 2일 1박 (60달러)', tour_103: '103 · 3일 2박 (90달러)', tour_001: '001 · 1일 보트 투어 (30달러)',
   lbl_food: '식사', food_reg: '일반식', food_veg: '채식',
   lbl_transfer: '루앙프라방 픽업', tr_none: '필요 없음', tr_round: '왕복 (500,000킵)',
-  book_tag: '투어 예약', book_p: '짧은 양식을 작성하면 메시지가 준비된 WhatsApp이 열립니다. WhatsApp에서 보내기를 누르기 전에는 아무것도 전송되지 않습니다. 결제는 도착 후 현장에서.',
+  book_tag: '투어 예약', book_p: '짧은 양식을 작성하면 메시지가 준비된 WhatsApp이 열립니다. WhatsApp에서 보내기를 누르기 전에는 아무것도 전송되지 않습니다. 결제는 도착 후 현장에서: 현금 또는 카드(은행 수수료 3%).',
   q1: '투어 요금은 얼마인가요?', a1: '1인 기준: 1박 캠핑(101) 30달러, 2일 1박(102) 60달러, 3일 2박(103) 90달러, 1일 보트 투어(001) 30달러.',
   q2: '투어는 몇 시에 시작하나요?', a2: '캠핑 투어는 오후 2:00~2:30경 The Trio Bar & Cafe 안 사무실에서 시작합니다. 1일 보트 투어는 오전 8:30에 시작합니다.',
   q3: '무엇이 포함되나요?', a3: '영어를 하는 현지 가이드, 캠핑 장비(텐트, 매트, 담요), 물, 투어별 식사. 3일 투어와 1일 투어는 입장료 포함입니다.',
   q4: '채식이 가능한가요?', a4: '네. 예약 시 채식이거나 음식 알레르기가 있다고 알려 주세요.',
   q5: '무엇을 가져가야 하나요?', a5: '작은 배낭, 편한 등산화, 따뜻한 옷, 헤드랜턴, 모기 기피제, 카메라. 우기에는 우비를 챙기세요. 2일 투어는 수건도 필요합니다. 3일 투어는 수건, 수영복, 샌들도 필요합니다.',
-  q6: '어떻게 예약하고 결제하나요?', a6: 'WhatsApp +856 20 5897 5057로 메시지를 보내거나 아래 양식을 이용하세요. 도착 후 사무실에서 결제합니다(킵 또는 USD, 현금 또는 카드 수수료 3%).',
+  q6: '어떻게 예약하고 결제하나요?', a6: 'WhatsApp +856 20 5897 5057로 메시지를 보내거나 아래 양식을 이용하세요. 도착 후 사무실에서 결제합니다(킵 또는 USD, 현금 또는 카드, 카드는 은행 수수료 3%).',
   q7: '루앙프라방 교통이 포함되나요?', a7: '아니요, 하지만 준비해 드립니다. 편도 1인 250,000킵. 시내 중심가 호텔 픽업은 오전 7:30~8:00. 돌아가는 미니밴은 농키아우에서 오전 10:00~10:30쯤 출발해 야시장 근처 시내 중심가에 내려 드립니다. 루앙프라방 기차역 하차는 1인 70,000킵이 추가됩니다.',
   q8: '텐트를 가져가야 하나요?', a8: '아니요. 텐트, 매트, 담요를 제공합니다. 캠프에는 기본적인 현지식 화장실이 있으며 샤워 시설은 없습니다.',
   q9: '짐은 어디에 맡기나요?', a9: 'The Trio Bar & Cafe 안 사무실에 투어 동안 무료로 맡길 수 있습니다.',
@@ -385,7 +389,8 @@ ko: {
   pa4: '안전하지 않아 투어를 진행할 수 없으면 다른 날짜를 잡아 드리거나 최선의 방법을 함께 의논합니다.',
   pol_thanks: '이해해 주시고 라오스 농키아우의 지속 가능한 지역 관광을 응원해 주셔서 감사합니다.',
   pol_link: '예약 및 취소 정책 보기',
-  c_email: '이메일'
+  c_email: '이메일',
+  lbl_first: '이름 (여권과 동일하게)', lbl_last: '성 (여권과 동일하게)', lbl_pickup_date: '픽업 날짜 (루앙프라방 → 농키아우)', lbl_return_date: '복귀 날짜 (농키아우 → 루앙프라방)', hint_pickup: '루앙프라방 픽업 날짜를 선택해 주세요 (오늘 이후).', hint_return: '복귀 날짜를 선택해 주세요. 픽업 날짜보다 빠를 수 없습니다.'
 },
 
 ja: {
@@ -406,7 +411,7 @@ ja: {
   p102_t: '2日1泊：キャンプ＆終日アドベンチャー', p102_s: '雲海の上でキャンプしたあと、まる一日：クム族の村、滝、オーガニックファーム、ムアンゴイの洞窟と展望台、最後はカヤックで帰ります。',
   p103_t: '3日2泊：キャンプ、ホームステイ＆アドベンチャー', p103_s: '雲海の上でキャンプ、滝とムアンゴイ、村のホームステイ1泊、ジャングルトレッキング、ナムウー川カヤック。',
   camp_d1: '14:30に The Trio Bar & Cafe 内の事務所に集合。スローボートで地元の村まで川をさかのぼり、田んぼと暮らしを見学したあと、約2時間30分トレッキングして雲海の上のキャンプ地へ。テント、トイレ、キャンプファイヤー、BBQの夕食、夕日と星空。',
-  p101_d2: '朝日と朝食のあと、村や季節の田んぼを抜けて40〜50分下山。スローボートでノンキャウへ戻ります（9:00〜9:30頃）。',
+  p101_d2: '朝日と朝食のあと、ひとつの村と季節の田んぼを抜けて40〜50分下山。スローボートでノンキャウへ戻ります（9:00〜9:30頃）。',
   p102_d2: '朝日と朝食のあと、約1時間30分かけて川岸まで下ります。9:00頃にボートが迎えに来ます：ソップコーンへ、クム族の村と滝、昼食付きのオーガニックファーム（コーヒー・スムージーは含まれません）、ムアンゴイの洞窟と展望台、そしてカヤックで下流のノンキャウへ。16:30〜17:30頃に終了。',
   p103_d2: '朝食後、スローボートでソップコーンへ。タートモック滝とオーガニックファームを訪れ、ムアンゴイへ。村、展望台、洞窟を巡ります。夕方はソップジャム村で伝統的なホームステイ。',
   p103_d3: '朝食後、3〜4時間のジャングルトレッキング。昼食後、カヤックでナムウー川を下りノンキャウへ。ルアンパバーンへ戻り、宿泊先または市内中心部で降ります（15:00〜16:30頃）。',
@@ -429,13 +434,13 @@ ja: {
   lbl_tour: 'ツアー', tour_101: '101 · 1泊キャンプ（30USD）', tour_102: '102 · 2日1泊（60USD）', tour_103: '103 · 3日2泊（90USD）', tour_001: '001 · 日帰りボートツアー（30USD）',
   lbl_food: '食事', food_reg: '通常', food_veg: 'ベジタリアン',
   lbl_transfer: 'ルアンパバーンからの送迎', tr_none: '不要', tr_round: '往復（500,000キープ）',
-  book_tag: 'ツアーを予約', book_p: '短いフォームに入力すると、メッセージが入力済みのWhatsAppが開きます。WhatsAppで送信を押すまで何も送られません。お支払いは到着後に現地で。',
+  book_tag: 'ツアーを予約', book_p: '短いフォームに入力すると、メッセージが入力済みのWhatsAppが開きます。WhatsAppで送信を押すまで何も送られません。お支払いは到着後に現地で：現金、またはカード（銀行手数料3%）。',
   q1: 'ツアーの料金は？', a1: '1人あたり：1泊キャンプ(101) 30USD、2日1泊(102) 60USD、3日2泊(103) 90USD、日帰りボートツアー(001) 30USD。',
   q2: '何時に始まりますか？', a2: 'キャンプツアーは14:00〜14:30頃、The Trio Bar & Cafe 内の事務所から出発します。日帰りボートツアーは8:30開始です。',
   q3: '何が含まれますか？', a3: '英語を話す地元ガイド、キャンプ用品（テント、マット、毛布）、水、各ツアーに記載の食事。3日ツアーと日帰りツアーは入場料込みです。',
   q4: 'ベジタリアン食は可能ですか？', a4: 'はい。予約時にベジタリアンまたは食物アレルギーがあるとお知らせください。',
   q5: '何を持っていけばいいですか？', a5: '小さなリュック、歩きやすい登山靴、暖かい服、ヘッドランプ、虫よけ、カメラ。雨季は雨具も。2日ツアーはタオルも必要です。3日ツアーはタオル、水着、サンダルも必要です。',
-  q6: '予約と支払いの方法は？', a6: 'WhatsApp +856 20 5897 5057 にメッセージするか、下のフォームをご利用ください。お支払いは到着後に事務所で（キープまたはUSD、現金またはカード手数料3%）。',
+  q6: '予約と支払いの方法は？', a6: 'WhatsApp +856 20 5897 5057 にメッセージするか、下のフォームをご利用ください。お支払いは到着後に事務所で（キープまたはUSD、現金またはカード、カードは銀行手数料3%）。',
   q7: 'ルアンパバーンからの交通は含まれますか？', a7: '含まれませんが手配できます。片道1人250,000キープ。市内中心部のホテルへのお迎えは7:30〜8:00。帰りのミニバンはノンキャウを10:00〜10:30ごろ出発し、ナイトマーケット近くの市内中心部で降ります。ルアンパバーン駅で降りる場合は1人70,000キープの追加料金がかかります。',
   q8: 'テントは持参が必要ですか？', a8: '不要です。テント、マット、毛布をご用意します。キャンプ地には簡易的な現地式トイレがあり、シャワーはありません。',
   q9: '荷物はどこに預けられますか？', a9: 'The Trio Bar & Cafe 内の事務所で、ツアー中は無料でお預かりします。',
@@ -462,7 +467,8 @@ ja: {
   pa4: '安全上の理由でツアーを催行できない場合は、別の日程をご用意するか、最善の方法をご相談します。',
   pol_thanks: 'ご理解いただき、ラオス・ノンキャウの持続可能な地域観光を応援してくださりありがとうございます。',
   pol_link: '予約・キャンセルポリシーを読む',
-  c_email: 'メール'
+  c_email: 'メール',
+  lbl_first: '名（パスポートの記載どおり）', lbl_last: '姓（パスポートの記載どおり）', lbl_pickup_date: 'お迎え日（ルアンパバーン → ノンキャウ）', lbl_return_date: '帰りの日（ノンキャウ → ルアンパバーン）', hint_pickup: 'ルアンパバーンでのお迎え日を選んでください（本日以降）。', hint_return: '帰りの日を選んでください。お迎え日より前にはできません。'
 },
 
 fr: {
@@ -483,7 +489,7 @@ fr: {
   p102_t: '2 jours 1 nuit : camping et journée d’aventure', p102_s: 'Camping au-dessus des nuages, puis une journée entière : village khmu, cascade, ferme bio, grotte et point de vue de Muang Ngoi, et retour en kayak.',
   p103_t: '3 jours 2 nuits : camping, village et aventure', p103_s: 'Camping au-dessus des nuages, cascade et Muang Ngoi, une nuit chez l’habitant, un trek en jungle et une descente de la Nam Ou en kayak.',
   camp_d1: 'Rendez-vous à 14h30 à notre bureau dans The Trio Bar & Cafe. Bateau lent en amont jusqu’à un village local, découverte des rizières et de la vie du village, puis environ 2 h 30 de marche jusqu’au camp au-dessus des nuages. Tentes, toilettes, feu de camp, dîner barbecue, coucher de soleil et étoiles.',
-  p101_d2: 'Réveil pour le lever du soleil et le petit-déjeuner, puis descente de 40 à 50 minutes à travers villages et rizières saisonnières. Un bateau lent vous ramène à Nong Khiaw (vers 9h00-9h30).',
+  p101_d2: 'Réveil pour le lever du soleil et le petit-déjeuner, puis descente de 40 à 50 minutes en passant par un village et des rizières saisonnières. Un bateau lent vous ramène à Nong Khiaw (vers 9h00-9h30).',
   p102_d2: 'Lever du soleil et petit-déjeuner, puis environ 1 h 30 de descente jusqu’à la rivière. Vers 9h00 le bateau vous récupère : en amont jusqu’à Sopkong, village khmu et cascade, ferme bio avec déjeuner (café et smoothie non inclus), grotte et point de vue de Muang Ngoi, puis kayak en aval jusqu’à Nong Khiaw. Fin vers 16h30-17h30.',
   p103_d2: 'Après le petit-déjeuner, bateau lent en amont jusqu’à Sopkong. Visite de la cascade de Tad Mok et d’une ferme bio, puis Muang Ngoi : village, point de vue et grotte. Le soir, village de Sopjaem pour une nuit traditionnelle chez l’habitant.',
   p103_d3: 'Après le petit-déjeuner, trek en jungle de 3 à 4 heures. Après le déjeuner, descente de la Nam Ou en kayak jusqu’à Nong Khiaw. Retour à Luang Prabang, dépose à votre hébergement ou au centre-ville (vers 15h00-16h30).',
@@ -506,13 +512,13 @@ fr: {
   lbl_tour: 'Excursion', tour_101: '101 · Nuit de camping (30 USD)', tour_102: '102 · 2 jours 1 nuit (60 USD)', tour_103: '103 · 3 jours 2 nuits (90 USD)', tour_001: '001 · Excursion en bateau d’1 jour (30 USD)',
   lbl_food: 'Repas', food_reg: 'Normal', food_veg: 'Végétarien',
   lbl_transfer: 'Transfert depuis Luang Prabang', tr_none: 'Non merci', tr_round: 'Aller-retour (500 000 kips)',
-  book_tag: 'Réservez votre excursion', book_p: 'Remplissez le court formulaire : WhatsApp s’ouvre avec votre message prêt à envoyer. Rien n’est envoyé tant que vous n’appuyez pas sur envoyer dans WhatsApp. Vous payez sur place à votre arrivée.',
+  book_tag: 'Réservez votre excursion', book_p: 'Remplissez le court formulaire : WhatsApp s’ouvre avec votre message prêt à envoyer. Rien n’est envoyé tant que vous n’appuyez pas sur envoyer dans WhatsApp. Vous payez sur place à votre arrivée : en espèces, ou par carte avec 3 % de frais bancaires.',
   q1: 'Combien coûtent les excursions ?', a1: 'Par personne : nuit de camping (101) 30 USD, 2 jours 1 nuit (102) 60 USD, 3 jours 2 nuits (103) 90 USD, excursion en bateau d’1 jour (001) 30 USD.',
   q2: 'À quelle heure commencent-elles ?', a2: 'Les excursions avec camping commencent vers 14h00-14h30 à notre bureau dans The Trio Bar & Cafe. L’excursion en bateau d’1 jour commence à 8h30.',
   q3: 'Qu’est-ce qui est inclus ?', a3: 'Un guide local anglophone, le matériel de camping (tente, matelas, couvertures), l’eau et les repas indiqués pour chaque excursion. Les droits d’entrée sont inclus pour l’excursion de 3 jours et celle d’1 jour.',
   q4: 'Puis-je manger végétarien ?', a4: 'Oui. Dites-nous à la réservation si vous êtes végétarien ou avez des allergies alimentaires.',
   q5: 'Que dois-je apporter ?', a5: 'Un petit sac à dos, des chaussures de marche confortables, des vêtements chauds, une lampe frontale, de l’anti-moustiques et un appareil photo. En saison des pluies, prévoyez un vêtement de pluie. Pour l’excursion de 2 jours, ajoutez une serviette. Pour celle de 3 jours, ajoutez serviette, maillot de bain et sandales.',
-  q6: 'Comment réserver et payer ?', a6: 'Écrivez-nous sur WhatsApp au +856 20 5897 5057 ou utilisez le formulaire ci-dessous. Vous payez à notre bureau à l’arrivée (kips ou USD, espèces ou carte avec 3 % de frais).',
+  q6: 'Comment réserver et payer ?', a6: 'Écrivez-nous sur WhatsApp au +856 20 5897 5057 ou utilisez le formulaire ci-dessous. Vous payez à notre bureau à l’arrivée (kips ou USD, espèces ou carte, avec 3 % de frais bancaires pour la carte).',
   q7: 'Le transport depuis Luang Prabang est-il inclus ?', a7: 'Non, mais nous pouvons l’organiser : 250 000 kips par personne et par trajet. Prise en charge de 7h30 à 8h00 à votre hôtel dans le centre-ville. Le minibus retour part de Nong Khiaw vers 10h00–10h30 et vous dépose au centre-ville, près du marché de nuit. Une dépose à la gare de Luang Prabang coûte 70 000 kips de plus par personne.',
   q8: 'Dois-je apporter une tente ?', a8: 'Non. Nous fournissons la tente, le matelas et les couvertures. Il y a des toilettes locales simples au camp, sans douche.',
   q9: 'Où laisser mes bagages ?', a9: 'À notre bureau dans The Trio Bar & Cafe, gratuitement pendant l’excursion.',
@@ -539,7 +545,8 @@ fr: {
   pa4: 'Si l’excursion ne peut pas avoir lieu en sécurité, nous proposons une autre date ou cherchons avec vous la meilleure solution.',
   pol_thanks: 'Merci de votre compréhension et de soutenir un tourisme local durable à Nong Khiaw, au Laos.',
   pol_link: 'Lire nos conditions de réservation et d’annulation',
-  c_email: 'E-mail'
+  c_email: 'E-mail',
+  lbl_first: 'Prénom(s) (comme sur le passeport)', lbl_last: 'Nom de famille (comme sur le passeport)', lbl_pickup_date: 'Date de prise en charge (Luang Prabang → Nong Khiaw)', lbl_return_date: 'Date de retour (Nong Khiaw → Luang Prabang)', hint_pickup: 'Merci de choisir la date de prise en charge à Luang Prabang (aujourd’hui ou plus tard).', hint_return: 'Merci de choisir la date de retour. Elle ne peut pas précéder la prise en charge.'
 },
 
 de: {
@@ -560,7 +567,7 @@ de: {
   p102_t: '2 Tage 1 Nacht: Camping & Tagesabenteuer', p102_s: 'Camping über den Wolken, dann ein ganzer Tag: Khmu-Dorf, Wasserfall, Bio-Farm, Höhle und Aussichtspunkt von Muang Ngoi und mit dem Kajak zurück.',
   p103_t: '3 Tage 2 Nächte: Camping, Homestay & Abenteuer', p103_s: 'Camping über den Wolken, Wasserfall und Muang Ngoi, eine Nacht im Dorf-Homestay, Dschungeltrek und Kajakfahrt die Nam Ou hinab.',
   camp_d1: 'Treffpunkt um 14:30 Uhr in unserem Büro im The Trio Bar & Cafe. Mit dem langsamen Boot flussaufwärts zu einem Dorf, Reisfelder und Dorfleben erkunden, dann etwa 2,5 Stunden Trek zum Camp über den Wolken. Zelte, Toiletten, Lagerfeuer, BBQ-Abendessen, Sonnenuntergang und Sterne.',
-  p101_d2: 'Aufstehen zu Sonnenaufgang und Frühstück, dann 40 bis 50 Minuten Abstieg vorbei an Dörfern und Reisfeldern. Ein langsames Boot bringt Sie zurück nach Nong Khiaw (gegen 9:00 bis 9:30 Uhr).',
+  p101_d2: 'Aufstehen zu Sonnenaufgang und Frühstück, dann 40 bis 50 Minuten Abstieg vorbei an einem Dorf und saisonalen Reisfeldern. Ein langsames Boot bringt Sie zurück nach Nong Khiaw (gegen 9:00 bis 9:30 Uhr).',
   p102_d2: 'Sonnenaufgang und Frühstück, dann etwa 1,5 Stunden Abstieg zum Flussufer. Gegen 9:00 Uhr holt Sie das Boot ab: flussaufwärts nach Sopkong, Khmu-Dorf und Wasserfall, Bio-Farm mit Mittagessen (Kaffee und Smoothie nicht inklusive), Höhle und Aussichtspunkt von Muang Ngoi, dann mit dem Kajak flussabwärts nach Nong Khiaw. Ende gegen 16:30 bis 17:30 Uhr.',
   p103_d2: 'Nach dem Frühstück mit dem langsamen Boot flussaufwärts nach Sopkong. Besuch des Tad-Mok-Wasserfalls und einer Bio-Farm, weiter nach Muang Ngoi mit Dorf, Aussichtspunkt und Höhle. Am Abend weiter ins Dorf Sopjaem zu einem traditionellen Homestay.',
   p103_d3: 'Nach dem Frühstück 3 bis 4 Stunden Dschungeltrek. Nach dem Mittagessen mit dem Kajak die Nam Ou hinab nach Nong Khiaw. Rückfahrt nach Luang Prabang mit Absetzen an Ihrer Unterkunft oder im Zentrum (gegen 15:00 bis 16:30 Uhr).',
@@ -583,13 +590,13 @@ de: {
   lbl_tour: 'Tour', tour_101: '101 · Übernachtung im Zelt (30 USD)', tour_102: '102 · 2 Tage 1 Nacht (60 USD)', tour_103: '103 · 3 Tage 2 Nächte (90 USD)', tour_001: '001 · Tagesbootstour (30 USD)',
   lbl_food: 'Essen', food_reg: 'Normal', food_veg: 'Vegetarisch',
   lbl_transfer: 'Transfer ab Luang Prabang', tr_none: 'Nein, danke', tr_round: 'Hin und zurück (500.000 Kip)',
-  book_tag: 'Buchen Sie Ihre Tour', book_p: 'Füllen Sie das kurze Formular aus, dann öffnet sich WhatsApp mit Ihrer fertigen Nachricht. Es wird nichts gesendet, bis Sie in WhatsApp auf Senden drücken. Sie zahlen persönlich bei Ankunft.',
+  book_tag: 'Buchen Sie Ihre Tour', book_p: 'Füllen Sie das kurze Formular aus, dann öffnet sich WhatsApp mit Ihrer fertigen Nachricht. Es wird nichts gesendet, bis Sie in WhatsApp auf Senden drücken. Sie zahlen persönlich bei Ankunft: bar oder mit Karte (3 % Bankgebühr).',
   q1: 'Was kosten die Touren?', a1: 'Pro Person: Übernachtung im Zelt (101) 30 USD, 2 Tage 1 Nacht (102) 60 USD, 3 Tage 2 Nächte (103) 90 USD, Tagesbootstour (001) 30 USD.',
   q2: 'Wann beginnen die Touren?', a2: 'Die Camping-Touren beginnen gegen 14:00 bis 14:30 Uhr in unserem Büro im The Trio Bar & Cafe. Die Tagesbootstour beginnt um 8:30 Uhr.',
   q3: 'Was ist inklusive?', a3: 'Ein englischsprachiger lokaler Guide, Campingausrüstung (Zelt, Isomatte, Decken), Wasser und die für jede Tour genannten Mahlzeiten. Bei der 3-Tage-Tour und der Tagestour sind die Eintrittsgelder inbegriffen.',
   q4: 'Gibt es vegetarisches Essen?', a4: 'Ja. Sagen Sie uns bei der Buchung, wenn Sie Vegetarier sind oder Nahrungsmittelallergien haben.',
   q5: 'Was soll ich mitbringen?', a5: 'Einen kleinen Rucksack, bequeme Wanderschuhe, warme Kleidung, Stirnlampe, Mückenschutz und Kamera. In der Regenzeit Regenschutz. Für die 2-Tage-Tour zusätzlich ein Handtuch. Für die 3-Tage-Tour zusätzlich Handtuch, Badebekleidung und Sandalen.',
-  q6: 'Wie buche und bezahle ich?', a6: 'Schreiben Sie uns per WhatsApp an +856 20 5897 5057 oder nutzen Sie das Formular unten. Sie zahlen bei Ankunft in unserem Büro (Kip oder USD, bar oder Karte mit 3 % Gebühr).',
+  q6: 'Wie buche und bezahle ich?', a6: 'Schreiben Sie uns per WhatsApp an +856 20 5897 5057 oder nutzen Sie das Formular unten. Sie zahlen bei Ankunft in unserem Büro (Kip oder USD, bar oder Karte, bei Karte 3 % Bankgebühr).',
   q7: 'Ist der Transport ab Luang Prabang inklusive?', a7: 'Nein, aber wir können ihn organisieren: 250.000 Kip pro Person und Strecke. Abholung 7:30 bis 8:00 Uhr an Ihrem Hotel im Stadtzentrum. Der Minibus zurück fährt gegen 10:00 bis 10:30 Uhr in Nong Khiaw ab und bringt Sie ins Stadtzentrum nahe dem Nachtmarkt. Ein Halt am Bahnhof Luang Prabang kostet 70.000 Kip pro Person extra.',
   q8: 'Muss ich ein Zelt mitbringen?', a8: 'Nein. Zelt, Isomatte und Decken stellen wir. Am Camp gibt es eine einfache Toilette im lokalen Stil, aber keine Dusche.',
   q9: 'Wo kann ich mein Gepäck lassen?', a9: 'In unserem Büro im The Trio Bar & Cafe, während der Tour kostenlos.',
@@ -616,7 +623,8 @@ de: {
   pa4: 'Wenn die Tour wegen unsicherer Bedingungen nicht stattfinden kann, bieten wir einen anderen Termin an oder besprechen mit Ihnen die beste Lösung.',
   pol_thanks: 'Danke für Ihr Verständnis und dafür, dass Sie nachhaltigen lokalen Tourismus in Nong Khiaw, Laos, unterstützen.',
   pol_link: 'Buchungs- und Stornierungsbedingungen lesen',
-  c_email: 'E-Mail'
+  c_email: 'E-Mail',
+  lbl_first: 'Vorname(n) (wie im Pass)', lbl_last: 'Nachname (wie im Pass)', lbl_pickup_date: 'Abholdatum (Luang Prabang → Nong Khiaw)', lbl_return_date: 'Rückfahrtdatum (Nong Khiaw → Luang Prabang)', hint_pickup: 'Bitte das Abholdatum in Luang Prabang wählen (heute oder später).', hint_return: 'Bitte das Rückfahrtdatum wählen. Es darf nicht vor der Abholung liegen.'
 }
 
   };

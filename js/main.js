@@ -153,6 +153,34 @@
     tx = null;
   });
 
+  /* ---------- in-page jumps ----------
+     A smooth scroll to a section far down the page ends short on iPhones: images above the target are still
+     loading, so the target moves away mid-scroll. Load them first, jump in one step, then re-check the position
+     while the layout settles (and stop at once if the visitor starts scrolling). */
+  function jumpTo(el) {
+    var header = $('.site-header');
+    var offset = (header ? header.offsetHeight : 70) + 6;
+    var stopped = false;
+    var stop = function () { stopped = true; };
+    ['touchstart', 'wheel', 'keydown'].forEach(function (ev) { window.addEventListener(ev, stop, { once: true, passive: true }); });
+    var go = function () { window.scrollTo({ top: el.getBoundingClientRect().top + window.pageYOffset - offset, behavior: 'auto' }); };
+    $$('img[loading="lazy"]').forEach(function (img) { img.loading = 'eager'; });
+    go();
+    [120, 350, 800, 1500, 2500].forEach(function (ms) {
+      setTimeout(function () { if (!stopped && Math.abs(el.getBoundingClientRect().top - offset) > 6) go(); }, ms);
+    });
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (!a) return;
+    var id = a.hasAttribute('data-tour') ? 'booking-form' : a.getAttribute('href').slice(1);
+    var el = id && document.getElementById(id);
+    if (!el) return;
+    e.preventDefault();
+    jumpTo(el);
+    try { history.replaceState(null, '', '#' + id); } catch (err) { /* private mode: the jump still worked */ }
+  });
+
   /* ---------- booking form -> WhatsApp ---------- */
   var WA = '8562058975057';
   // Google Apps Script web app that saves submissions to the bookings sheet (apps-script/Code.gs); '' = off
@@ -192,7 +220,8 @@
       var sel = $('#fTour');
       if (sel) sel.value = a.getAttribute('data-tour');
       showTab('book');
-      setTimeout(function () { dateInput.focus({ preventScroll: true }); }, 700);
+      // focusing a date field on a phone opens the picker over the page, so only do it with a mouse
+      if (window.matchMedia('(hover: hover)').matches) setTimeout(function () { dateInput.focus({ preventScroll: true }); }, 700);
     });
   });
   /* one block of passport fields per guest; typed values survive count changes */
@@ -205,7 +234,10 @@
     f.className = 'trav';
     f.innerHTML =
       '<legend><span data-i18n="trav">' + t('trav') + '</span> ' + n + '</legend>' +
-      field('lbl_fullname', '<input type="text" data-k="name" autocomplete="off" required>') +
+      '<div class="row2">' +
+        field('lbl_first', '<input type="text" data-k="first" autocomplete="off" required>') +
+        field('lbl_last', '<input type="text" data-k="last" autocomplete="off" required>') +
+      '</div>' +
       '<div class="row2">' +
         field('lbl_gender', '<select data-k="gender" required><option value="" data-i18n="g_sel">' + t('g_sel') + '</option>' +
           '<option value="Female" data-i18n="g_f">' + t('g_f') + '</option><option value="Male" data-i18n="g_m">' + t('g_m') + '</option>' +
@@ -266,7 +298,23 @@
     });
   }
   var transferSel = $('#fTransfer');
-  transferSel.addEventListener('change', function () { $('#hotelRow').hidden = transferSel.value === 'No'; });
+  var pickupInput = $('#fPickup'), returnInput = $('#fReturn');
+  pickupInput.min = returnInput.min = dateInput.min;
+  function syncTransfer() {
+    var none = transferSel.value === 'No', round = transferSel.value === 'Round trip';
+    $('#hotelRow').hidden = none;
+    $('#transferDates').hidden = none;
+    $('#returnRow').hidden = !round;
+    if (!none && !pickupInput.value) pickupInput.value = dateInput.value;  // usually the same day as the tour
+  }
+  transferSel.addEventListener('change', syncTransfer);
+  // keep the pickup date following the tour date until the guest sets their own
+  var lastTourDate = '';
+  dateInput.addEventListener('change', function () {
+    if (!pickupInput.value || pickupInput.value === lastTourDate) pickupInput.value = transferSel.value === 'No' ? '' : dateInput.value;
+    lastTourDate = dateInput.value;
+  });
+  pickupInput.addEventListener('change', function () { returnInput.min = pickupInput.value || dateInput.min; });
 
   $('#bookForm').addEventListener('submit', function (e) {
     e.preventDefault();
@@ -282,6 +330,9 @@
     if (date < dateInput.min) { hint.textContent = t('hint_past'); dateInput.focus(); return; }
     var badPass = passportProblem(date);
     if (badPass) { hint.textContent = t(badPass.key).replace('{n}', badPass.n); badPass.el.focus(); return; }
+    var pickup = pickupInput.value, ret = returnInput.value;
+    if (transfer !== 'No' && (!pickup || pickup < dateInput.min)) { hint.textContent = t('hint_pickup'); pickupInput.focus(); return; }
+    if (transfer === 'Round trip' && (!ret || ret < pickup)) { hint.textContent = t('hint_return'); returnInput.focus(); return; }
     if (transfer !== 'No' && !hotel) { hint.textContent = t('hint_hotel'); $('#fHotel').focus(); return; }
     if (transfer !== 'No' && !mapLink) { hint.textContent = t('hint_map'); $('#fMap').focus(); return; }
     hint.textContent = '';
@@ -290,22 +341,27 @@
     var source = $('#fSource').value;
     saveToSheet({
       type: 'booking', id: ref, website: $('#bookForm [name=website]').value, tour: tour, date: date,
-      transfer: transfer, hotel: hotel, map: mapLink, source: source, note: note,
+      transfer: transfer, pickupDate: transfer !== 'No' ? pickup : '', returnDate: transfer === 'Round trip' ? ret : '',
+      hotel: hotel, map: mapLink, source: source, note: note,
       travellers: $$('.trav', travBox).map(function (f) {
         var v = function (k) { return $('[data-k="' + k + '"]', f).value.trim(); };
-        return { name: v('name'), gender: v('gender'), nat: v('nat'), food: v('food') };
+        return { name: v('first') + ' ' + v('last'), first: v('first'), last: v('last'), gender: v('gender'), nat: v('nat'), food: v('food') };
       })
     });
     var people = $$('.trav', travBox).map(function (f, i) {
       var v = function (k) { return $('[data-k="' + k + '"]', f).value.trim(); };
-      return '\nTraveller ' + (i + 1) + ': ' + v('name') +
+      return '\nTraveller ' + (i + 1) + ': ' + v('first') + ' ' + v('last') +
+        '\n- First name: ' + v('first') + '\n- Last name: ' + v('last') +
         '\n- Gender: ' + v('gender') + '\n- Nationality: ' + v('nat') +
         '\n- Passport: ' + v('pass').toUpperCase() + ' (issued ' + v('issued') + ', expires ' + v('expires') + ')' +
         '\n- Food: ' + v('food');
     });
     var msg = 'Hello! I would like to book:\n' + (TOURS[tour] || tour) + '\nBooking ref: ' + ref + '\n' +
       'Date: ' + date + '\nPeople: ' + people.length +
-      '\nTransfer from Luang Prabang: ' + transfer + (transfer !== 'No' ? '\nAccommodation: ' + hotel + '\nGoogle Maps: ' + mapLink : '') + '\n' +
+      '\nTransfer from Luang Prabang: ' + transfer +
+      (transfer !== 'No' ? '\nPickup date (Luang Prabang to Nong Khiaw): ' + pickup : '') +
+      (transfer === 'Round trip' ? '\nReturn date (Nong Khiaw to Luang Prabang): ' + ret : '') +
+      (transfer !== 'No' ? '\nAccommodation: ' + hotel + '\nGoogle Maps: ' + mapLink : '') + '\n' +
       people.join('\n') +
       (note ? '\n\nNote: ' + note : '');
     window.open('https://wa.me/' + WA + '?text=' + encodeURIComponent(msg), '_blank', 'noopener');
@@ -356,6 +412,30 @@
     window.open('https://wa.me/' + WA + '?text=' + encodeURIComponent(msg), '_blank', 'noopener');
   });
 
+  /* ---------- reviews: the ones staff tick in the sheet's Reviews tab; the reviews in the HTML stay if that fails ---------- */
+  function loadReviews() {
+    if (!SHEET_URL || !window.fetch) return;
+    fetch(SHEET_URL + '?reviews=1')
+      .then(function (r) { return r.json(); })
+      .then(function (list) {
+        if (!Array.isArray(list) || !list.length) return;
+        var grid = $('.rev-grid');
+        grid.textContent = '';
+        list.forEach(function (rv) {
+          var fig = document.createElement('figure'), q = document.createElement('blockquote');
+          var cap = document.createElement('figcaption'), who = document.createElement('strong'), src = document.createElement('span');
+          fig.className = 'rev';
+          q.textContent = rv.text;
+          who.textContent = rv.name;
+          src.setAttribute('data-i18n', 'rev_src');
+          src.textContent = t('rev_src');
+          cap.appendChild(who); cap.appendChild(document.createTextNode(' ')); cap.appendChild(src);
+          fig.appendChild(q); fig.appendChild(cap); grid.appendChild(fig);
+        });
+      })
+      .catch(function (err) { console.error('Reviews from the sheet could not be loaded; showing the built-in ones', err); });
+  }
+
   /* ---------- copy phone number ---------- */
   var copyBtn = $('#copyBtn');
   copyBtn.addEventListener('click', function () {
@@ -378,4 +458,5 @@
   $('#year').textContent = new Date().getFullYear();
   buildLangMenu();
   applyLang(detectLang());
+  loadReviews();
 })();

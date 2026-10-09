@@ -356,6 +356,14 @@
       <label><span data-i18n="lbl_transfer">Transfer from Luang Prabang</span>
         <select id="fTransfer" name="transfer"><option value="No" data-i18n="tr_none">No, thanks</option><option value="One way to Nong Khiaw" data-i18n="tr_one">One way to Nong Khiaw (250,000 kip)</option><option value="Round trip" data-i18n="tr_round">Round trip (500,000 kip)</option></select>
       </label>
+      <div class="row2 tdates" id="transferDates" hidden>
+        <label><span data-i18n="lbl_pickup_date">Pickup date (Luang Prabang → Nong Khiaw)</span>
+          <input type="date" id="fPickup" name="pickup_date">
+        </label>
+        <label id="returnRow" hidden><span data-i18n="lbl_return_date">Return date (Nong Khiaw → Luang Prabang)</span>
+          <input type="date" id="fReturn" name="return_date">
+        </label>
+      </div>
       <div class="pickup" id="hotelRow" hidden>
         <label><span data-i18n="lbl_hotel">Accommodation in Luang Prabang</span>
           <input type="text" id="fHotel" name="hotel" data-i18n-ph="ph_hotel" placeholder="Name of your hotel or hostel">
