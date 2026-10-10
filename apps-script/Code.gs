@@ -12,12 +12,14 @@ var TABS = { bookings: 'Bookings', travellers: 'Travellers', inquiries: 'Inquiri
   dashboard: 'Dashboard' };
 
 var BOOKING_COLS = ['Booking ID', 'Submitted at', 'Tour date', 'Tour month', 'Tour', 'Tour name', 'People', 'Lead name',
-  'Traveller names', 'Countries', 'Special food', 'Transfer', 'Pickup date', 'Return date', 'Accommodation', 'Maps link', 'Source', 'Referrer', 'Site language', 'Note',
-  'Est. tour USD', 'Est. transfer kip', 'Status', 'Amount paid USD', 'Staff notes'];
+  'Traveller names', 'Countries', 'Food', 'Transfer', 'Pickup date', 'Return date', 'Accommodation', 'Maps link',
+  'Payment method', 'Source', 'Referrer', 'Site language', 'Note', 'Est. tour USD', 'Est. transfer kip', 'Status',
+  'Receipt No', 'Amount paid USD', 'Staff notes'];
+// Status and Receipt No are formulas (spilled from their header cell) that look the booking up: never written per row.
 var TRAVELLER_COLS = ['Booking ID', 'Tour date', 'Tour', 'Traveller #', 'First name', 'Last name', 'Full name', 'Country',
-  'Gender', 'Food', 'Status'];
+  'Gender', 'Passport no', 'Passport issued', 'Passport expires', 'Food', 'Status', 'Receipt No'];
 // Headers renamed in a later version: the old name is renamed in place, so its data stays put.
-var RENAMES = { Travellers: { 'Name': 'Full name' } };
+var RENAMES = { Travellers: { 'Name': 'Full name' }, Bookings: { 'Special food': 'Food' } };
 // Reviews shown on the website: staff tick Show; newest Date first, at most REVIEWS_SHOWN.
 var REVIEW_COLS = ['Show', 'Date', 'Name', 'Review'];
 var REVIEWS_SHOWN = 8;
@@ -28,7 +30,7 @@ var FORMATS = {
   Bookings: { 'Submitted at': 'yyyy-mm-dd hh:mm', 'Tour date': 'yyyy-mm-dd', 'Tour month': '@', 'Tour': '@',
     'Pickup date': 'yyyy-mm-dd', 'Return date': 'yyyy-mm-dd',
     'Est. tour USD': '#,##0', 'Est. transfer kip': '#,##0', 'Amount paid USD': '#,##0.00' },
-  Travellers: { 'Tour date': 'yyyy-mm-dd', 'Tour': '@' },
+  Travellers: { 'Tour date': 'yyyy-mm-dd', 'Tour': '@', 'Passport no': '@', 'Passport issued': '@', 'Passport expires': '@' },
   Inquiries: { 'Submitted at': 'yyyy-mm-dd hh:mm', 'Month': '@', 'Tour': '@' }
 };
 
@@ -53,10 +55,12 @@ function setup() {
 
   // Travellers.Status follows the booking's status, so cancelled trips drop out of the reports.
   var trav = ss.getSheetByName(TABS.travellers);
-  var bStatus = colLetter_(BOOKING_COLS.indexOf('Status') + 1);
-  trav.getRange(1, TRAVELLER_COLS.indexOf('Status') + 1).setFormula(
-    '={"Status";ARRAYFORMULA(IF(A2:A="",,IFERROR(VLOOKUP(A2:A,{Bookings!A2:A,Bookings!' + bStatus + '2:' + bStatus +
-    '},2,FALSE),"")))}');
+  ['Status', 'Receipt No'].forEach(function (col) {
+    var bc = colLetter_(BOOKING_COLS.indexOf(col) + 1);
+    trav.getRange(1, TRAVELLER_COLS.indexOf(col) + 1).setFormula(
+      '={"' + col + '";ARRAYFORMULA(IF(A2:A="",,IFERROR(VLOOKUP(A2:A,{Bookings!A2:A,Bookings!' + bc + '2:' + bc +
+      '},2,FALSE),"")))}');
+  });
 
   setupDashboard_(ss);
   var blank = ss.getSheetByName('Sheet1');
@@ -282,23 +286,29 @@ function saveBooking_(ss, d) {
     var first = clean_(p.first, 60), last = clean_(p.last, 60);
     return { first: first, last: last, full: first || last ? (first + ' ' + last).trim() : clean_(p.name, 80) };
   });
-  var food = {};  // e.g. {Vegetarian: 2, Vegan: 1}; Regular is not listed
-  people.forEach(function (p) { var f = clean_(p.food, 20); if (f && f !== 'Regular') food[f] = (food[f] || 0) + 1; });
-  var specialFood = Object.keys(food).map(function (f) { return f + ' ' + food[f]; }).join(', ');
+  var food = {};  // everyone's choice with counts, e.g. "Regular 1, Vegan 1"
+  people.forEach(function (p) { var f = clean_(p.food, 20) || 'Regular'; food[f] = (food[f] || 0) + 1; });
+  var foodText = Object.keys(food).map(function (f) { return f + ' ' + food[f]; }).join(', ');
   var id = clean_(d.id, 20) || ('NK' + Utilities.formatDate(new Date(), TIME_ZONE, 'yyMMddHHmmss'));
 
-  addRow_(ss, TABS.bookings, BOOKING_COLS, [
-    id, new Date(), date, date ? text_(Utilities.formatDate(date, TIME_ZONE, 'yyyy-MM')) : '', text_(tour), info.name,
-    people.length, names[0].full,
-    names.map(function (n) { return n.full; }).join(', '), unique_(countries).join(', '), specialFood, transfer,
-    legs ? parseDate_(d.pickupDate) : '', legs === 2 ? parseDate_(d.returnDate) : '',
-    legs ? clean_(d.hotel, 120) : '', legs ? clean_(d.map, 300) : '', clean_(d.source, 40) || 'Not given',
-    clean_(d.referrer, 120), clean_(d.lang, 5), clean_(d.note, 1000), info.price * people.length,
-    legs * kipPerWay_(ss) * people.length, 'Requested', '', ''
-  ]);
+  addRow_(ss, TABS.bookings, BOOKING_COLS, {
+    'Booking ID': id, 'Submitted at': new Date(), 'Tour date': date,
+    'Tour month': date ? text_(Utilities.formatDate(date, TIME_ZONE, 'yyyy-MM')) : '', 'Tour': text_(tour), 'Tour name': info.name,
+    'People': people.length, 'Lead name': names[0].full, 'Traveller names': names.map(function (n) { return n.full; }).join(', '),
+    'Countries': unique_(countries).join(', '), 'Food': foodText, 'Transfer': transfer,
+    'Pickup date': legs ? parseDate_(d.pickupDate) : '', 'Return date': legs === 2 ? parseDate_(d.returnDate) : '',
+    'Accommodation': legs ? clean_(d.hotel, 120) : '', 'Maps link': legs ? clean_(d.map, 300) : '',
+    'Payment method': clean_(d.payment, 40), 'Source': clean_(d.source, 40) || 'Not given', 'Referrer': clean_(d.referrer, 120),
+    'Site language': clean_(d.lang, 5), 'Note': clean_(d.note, 1000), 'Est. tour USD': info.price * people.length,
+    'Est. transfer kip': legs * kipPerWay_(ss) * people.length, 'Status': 'Requested'
+  });
   people.forEach(function (p, i) {
-    addRow_(ss, TABS.travellers, TRAVELLER_COLS, [id, date, text_(tour), i + 1, names[i].first, names[i].last, names[i].full,
-      countries[i], clean_(p.gender, 10), clean_(p.food, 20)]);
+    addRow_(ss, TABS.travellers, TRAVELLER_COLS, {
+      'Booking ID': id, 'Tour date': date, 'Tour': text_(tour), 'Traveller #': i + 1, 'First name': names[i].first,
+      'Last name': names[i].last, 'Full name': names[i].full, 'Country': countries[i], 'Gender': clean_(p.gender, 10),
+      'Passport no': text_(clean_(p.pass, 40).toUpperCase()), 'Passport issued': text_(clean_(p.issued, 10)),
+      'Passport expires': text_(clean_(p.expires, 10)), 'Food': clean_(p.food, 20)
+    });
   });
 }
 
@@ -306,8 +316,9 @@ function saveBooking_(ss, d) {
 function selfTest_(ss) {
   var id = 'SELFTEST-' + new Date().getTime().toString(36);  // must fit the 20-char ID limit
   saveBooking_(ss, { id: id, tour: '101', date: '2030-01-15', transfer: 'Round trip', pickupDate: '2030-01-15', returnDate: '2030-01-18',
-    hotel: 'Test hostel', map: 'https://maps.app.goo.gl/test', source: 'Other',
-    travellers: [{ first: 'Test', last: 'Person', gender: 'X', nat: 'deutsch', food: 'Vegetarian' }] });
+    hotel: 'Test hostel', map: 'https://maps.app.goo.gl/test', source: 'Other', payment: 'BCEL QR',
+    travellers: [{ first: 'Test', last: 'Person', gender: 'X', nat: 'deutsch', food: 'Vegetarian', pass: 'ab123',
+      issued: '2020-01-01', expires: '2030-01-01' }] });
   saveInquiry_(ss, { name: id, contact: 'test', question: 'test' });
   SpreadsheetApp.flush();
   var dash = ss.getSheetByName(TABS.dashboard);
@@ -322,6 +333,9 @@ function selfTest_(ss) {
   out.datesOk = b[BOOKING_COLS.indexOf('Pickup date')] === '2030-01-15' && b[BOOKING_COLS.indexOf('Return date')] === '2030-01-18';
   out.namesOk = t[TRAVELLER_COLS.indexOf('First name')] === 'Test' && t[TRAVELLER_COLS.indexOf('Last name')] === 'Person' &&
     b[BOOKING_COLS.indexOf('Lead name')] === 'Test Person';
+  out.fieldsOk = b[BOOKING_COLS.indexOf('Food')] === 'Vegetarian 1' && b[BOOKING_COLS.indexOf('Payment method')] === 'BCEL QR' &&
+    t[TRAVELLER_COLS.indexOf('Passport no')] === 'AB123' && t[TRAVELLER_COLS.indexOf('Passport issued')] === '2020-01-01' &&
+    t[TRAVELLER_COLS.indexOf('Passport expires')] === '2030-01-01' && t[TRAVELLER_COLS.indexOf('Food')] === 'Vegetarian';
   out.reviewsOk = JSON.parse(reviewsJson_()).length > 0;
   var testIds = {};  // booking IDs of test bookings (a site test has an NK... ID and SELFTEST- as lead name)
   [TABS.bookings, TABS.travellers, TABS.inquiries].forEach(function (name) {
@@ -352,6 +366,10 @@ function saveInquiry_(ss, d) {
 // Appends a row and sets its number formats (column formats from setup do not always carry to new rows).
 function addRow_(ss, name, cols, values) {
   var sh = ss.getSheetByName(name), r = sh.getLastRow() + 1;
+  if (!Array.isArray(values)) {  // an object keyed by column name; only columns before the lookup formulas are written
+    var last = name === TABS.travellers ? cols.indexOf('Status') : cols.length;
+    values = cols.slice(0, last).map(function (c) { return values[c] == null ? '' : values[c]; });
+  }
   sh.getRange(r, 1, 1, values.length).setValues([values]);
   var f = FORMATS[name] || {};
   Object.keys(f).forEach(function (c) { sh.getRange(r, cols.indexOf(c) + 1).setNumberFormat(f[c]); });
@@ -371,7 +389,8 @@ function addMissingColumns_(sh, cols) {
   if (sh.getLastRow() === 0) return;
   for (var i = 0; i < cols.length; i++) {
     var have = sh.getRange(1, 1, 1, Math.max(sh.getLastColumn(), 1)).getValues()[0];
-    if (have.indexOf(cols[i]) !== -1 || i >= have.length) continue;
+    if (have.indexOf(cols[i]) !== -1) continue;
+    if (i >= have.length) { sh.getRange(1, have.length + 1).setValue(cols[i]); continue; }  // belongs at the end: just add it
     if (i === 0) sh.insertColumnBefore(1); else sh.insertColumnAfter(i);
     sh.getRange(1, i + 1).setValue(cols[i]);
   }

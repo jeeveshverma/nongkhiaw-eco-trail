@@ -378,3 +378,4 @@ em{font-style:italic}
 .policy-link{margin:-6px 0 0;text-align:center;font-size:.88rem}
 .policy-link a{color:var(--moss);font-weight:700}
 @media (max-width:960px){.policy{grid-column:auto}}
+.rainnote{margin-top:10px;font-style:italic}

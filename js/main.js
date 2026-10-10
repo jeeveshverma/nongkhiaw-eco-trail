@@ -330,6 +330,8 @@
     if (date < dateInput.min) { hint.textContent = t('hint_past'); dateInput.focus(); return; }
     var badPass = passportProblem(date);
     if (badPass) { hint.textContent = t(badPass.key).replace('{n}', badPass.n); badPass.el.focus(); return; }
+    var pay = $('#fPay').value;
+    if (!pay) { hint.textContent = t('hint_pay'); $('#fPay').focus(); return; }
     var pickup = pickupInput.value, ret = returnInput.value;
     if (transfer !== 'No' && (!pickup || pickup < dateInput.min)) { hint.textContent = t('hint_pickup'); pickupInput.focus(); return; }
     if (transfer === 'Round trip' && (!ret || ret < pickup)) { hint.textContent = t('hint_return'); returnInput.focus(); return; }
@@ -342,10 +344,11 @@
     saveToSheet({
       type: 'booking', id: ref, website: $('#bookForm [name=website]').value, tour: tour, date: date,
       transfer: transfer, pickupDate: transfer !== 'No' ? pickup : '', returnDate: transfer === 'Round trip' ? ret : '',
-      hotel: hotel, map: mapLink, source: source, note: note,
+      hotel: hotel, map: mapLink, payment: pay, source: source, note: note,
       travellers: $$('.trav', travBox).map(function (f) {
         var v = function (k) { return $('[data-k="' + k + '"]', f).value.trim(); };
-        return { name: v('first') + ' ' + v('last'), first: v('first'), last: v('last'), gender: v('gender'), nat: v('nat'), food: v('food') };
+        return { name: v('first') + ' ' + v('last'), first: v('first'), last: v('last'), gender: v('gender'), nat: v('nat'),
+          pass: v('pass').toUpperCase(), issued: v('issued'), expires: v('expires'), food: v('food') };
       })
     });
     var people = $$('.trav', travBox).map(function (f, i) {
@@ -358,6 +361,7 @@
     });
     var msg = 'Hello! I would like to book:\n' + (TOURS[tour] || tour) + '\nBooking ref: ' + ref + '\n' +
       'Date: ' + date + '\nPeople: ' + people.length +
+      '\nPayment method: ' + pay +
       '\nTransfer from Luang Prabang: ' + transfer +
       (transfer !== 'No' ? '\nPickup date (Luang Prabang to Nong Khiaw): ' + pickup : '') +
       (transfer === 'Round trip' ? '\nReturn date (Nong Khiaw to Luang Prabang): ' + ret : '') +
