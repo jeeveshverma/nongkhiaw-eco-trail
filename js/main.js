@@ -36,8 +36,36 @@
 
   /* Overrides written in the sheet (Content and Settings tabs). Cached in the browser so a repeat visit shows
      them at once; if the sheet cannot be reached the built-in text stays. */
+  // Takeaway lunch from The Trio Bar & Cafe. The sheet's "Lunch menu" tab replaces this list; this one is the fallback.
+  var MENU = [
+    { group: 'Lao-Asian dishes', dish: 'Stir fried ginger', choices: ['Chicken', 'Pork', 'Tofu'], price: 69000 },
+    { group: 'Lao-Asian dishes', dish: 'Stir fried holy basil', choices: ['Chicken', 'Pork', 'Tofu'], price: 69000 },
+    { group: 'Lao-Asian dishes', dish: 'Fried cashew nut', choices: ['Chicken', 'Pork', 'Tofu'], price: 79000 },
+    { group: 'Lao-Asian dishes', dish: 'Green curry', choices: ['Chicken', 'Pork', 'Tofu'], price: 79000 },
+    { group: 'Lao-Asian dishes', dish: 'Yellow curry', choices: ['Chicken', 'Pork', 'Tofu'], price: 79000 },
+    { group: 'Lao-Asian dishes', dish: 'Red curry', choices: ['Chicken', 'Pork', 'Tofu'], price: 79000 },
+    { group: 'Lao-Asian dishes', dish: 'Pad Thai', choices: ['Chicken', 'Pork', 'Tofu'], price: 69000 },
+    { group: 'Lao-Asian dishes', dish: 'Classic fried rice', choices: ['Chicken', 'Pork', 'Bacon', 'Egg', 'Tofu'], price: 69000 },
+    { group: 'Sandwiches', dish: 'Lemongrass chicken sandwich', choices: [], price: 80000 },
+    { group: 'Sandwiches', dish: 'Lemongrass tofu sandwich', choices: [], price: 70000 },
+    { group: 'Sandwiches', dish: 'Chicken sandwich', choices: [], price: 70000 },
+    { group: 'Sandwiches', dish: 'Bacon sandwich', choices: [], price: 70000 },
+    { group: 'Sandwiches', dish: 'Tuna sandwich', choices: [], price: 70000 },
+    { group: 'Sandwiches', dish: 'Avocado sandwich', choices: [], price: 65000 },
+    { group: 'Sandwiches', dish: 'Omelette or scrambled eggs sandwich', choices: ['Omelette', 'Scrambled eggs'], price: 70000 },
+    { group: 'Sandwiches', dish: 'Chilli tamarind tofu sandwich', choices: [], price: 65000 },
+    { group: 'Sandwiches', dish: 'Pumpkin caramelised sandwich', choices: [], price: 80000 },
+    { group: 'Sandwiches', dish: 'Vegetable sandwich', choices: [], price: 60000 }
+  ];
+  function menuItem(dish) { return MENU.filter(function (m) { return m.dish === dish; })[0]; }
+
   function applyConfig(cfg) {
     if (!cfg || typeof cfg !== 'object') return;
+    if (Array.isArray(cfg.menu) && cfg.menu.length) {
+      MENU = cfg.menu.filter(function (m) { return m && m.dish && Number(m.price) > 0; }).map(function (m) {
+        return { group: String(m.group || 'Menu'), dish: String(m.dish), price: Number(m.price), choices: Array.isArray(m.choices) ? m.choices.map(String) : [] };
+      });
+    }
     if (cfg.prices) Object.keys(cfg.prices).forEach(function (c) { var n = Number(cfg.prices[c]); if (n > 0) CONFIG.prices[c] = n; });
     if (cfg.kip) ['one', 'round', 'train'].forEach(function (k) { var n = Number(cfg.kip[k]); if (n > 0) CONFIG.kip[k] = n; });
     if (cfg.content) Object.keys(cfg.content).forEach(function (lang) {
@@ -81,6 +109,7 @@
     $('#formHint').textContent = '';
     var cb = $('#copyBtn');
     if (cb) cb.textContent = t('copy');
+    if (typeof refillLunch === 'function') refillLunch();
     try { localStorage.setItem('nke-lang', code); } catch (e) {}
   }
 
@@ -301,9 +330,38 @@
           field('lbl_pk_map', '<input type="url" data-k="pkmap" inputmode="url" placeholder="https://maps.app.goo.gl/…">') +
           '<a class="btn btn-line btn-sm" data-k="pkfind" href="https://www.google.com/maps/search/?api=1&amp;query=Luang+Prabang" ' +
           'target="_blank" rel="noopener" data-i18n="btn_findmap">' + t('btn_findmap') + '</a>' +
-        '</div></div>' : '');
+        '</div></div>' : '') +
+      field('lbl_lunch', '<select data-k="lunch"></select>') +
+      '<div class="lunch-choice" hidden>' + field('lbl_lunch_choice', '<select data-k="lunchchoice"></select>') + '</div>';
+    fillLunch(f);
     return f;
   }
+  // Dish list (grouped, with prices) and, for dishes that have options, the choice list. Built with DOM calls because the
+  // names come from the sheet. Keeps what the guest already picked.
+  function option(value, label) { var o = document.createElement('option'); o.value = value; o.textContent = label; return o; }
+  function fillLunch(f) {
+    var sel = $('[data-k="lunch"]', f), keep = sel.value, groups = [];
+    sel.textContent = '';
+    sel.appendChild(option('', t('lunch_none')));
+    MENU.forEach(function (m) {
+      var g = groups.filter(function (x) { return x.label === m.group; })[0];
+      if (!g) { g = document.createElement('optgroup'); g.label = m.group; groups.push(g); sel.appendChild(g); }
+      g.appendChild(option(m.dish, m.dish + ' – ' + fmtNum(m.price) + ' ' + t('unit_kip')));
+    });
+    if (keep && menuItem(keep)) sel.value = keep;
+    fillChoice(f);
+  }
+  function fillChoice(f) {
+    var item = menuItem($('[data-k="lunch"]', f).value), box = $('.lunch-choice', f), cs = $('[data-k="lunchchoice"]', f), keep = cs.value;
+    cs.textContent = '';
+    box.hidden = !(item && item.choices.length);
+    if (box.hidden) return;
+    cs.appendChild(option('', t('g_sel')));
+    item.choices.forEach(function (c) { cs.appendChild(option(c, c)); });
+    if (keep && item.choices.indexOf(keep) !== -1) cs.value = keep;
+  }
+  function refillLunch() { $$('.trav', travBox).forEach(fillLunch); }
+
   function syncTravellers() {
     var want = Math.min(Math.max(parseInt($('#fGuests').value, 10) || 1, 1), 30);
     var have = $$('.trav', travBox);
@@ -320,7 +378,10 @@
       $('.pk-other', f).hidden = !on || $('[data-k="pickup"]', f).value !== 'other';
     });
   }
-  travBox.addEventListener('change', function (e) { if (e.target.matches('[data-k="pickup"]')) syncPickups(); });
+  travBox.addEventListener('change', function (e) {
+    if (e.target.matches('[data-k="pickup"]')) syncPickups();
+    if (e.target.matches('[data-k="lunch"]')) fillChoice(e.target.closest('.trav'));
+  });
   travBox.addEventListener('input', function (e) {
     if (!e.target.matches('[data-k="pkplace"]')) return;
     $('[data-k="pkfind"]', e.target.closest('.trav')).href =
@@ -412,6 +473,12 @@
       var pl = $('[data-k="pkplace"]', blocks[q]), pm = $('[data-k="pkmap"]', blocks[q]);
       if (!pl.value.trim() || !mapsLink(pm.value)) { hint.textContent = t('hint_pk').replace('{n}', q + 1); (pl.value.trim() ? pm : pl).focus(); return; }
     }
+    for (var w = 0; w < blocks.length; w++) {
+      var dishItem = menuItem($('[data-k="lunch"]', blocks[w]).value);
+      if (dishItem && dishItem.choices.length && !$('[data-k="lunchchoice"]', blocks[w]).value) {
+        hint.textContent = t('hint_lunch').replace('{n}', w + 1); $('[data-k="lunchchoice"]', blocks[w]).focus(); return;
+      }
+    }
     var train = transfer === 'Round trip' && $('#fTrain').checked;
     hint.textContent = '';
     if (!lockSubmit(this)) return;
@@ -425,7 +492,8 @@
         var v = function (k) { return $('[data-k="' + k + '"]', f).value.trim(); };
         return { name: v('first') + ' ' + v('last'), first: v('first'), last: v('last'), gender: v('gender'), nat: v('nat'),
           pass: v('pass').toUpperCase(), issued: v('issued'), expires: v('expires'), food: v('food'), pickup: modes[i],
-          pkPlace: modes[i] === 'other' ? v('pkplace') : '', pkMap: modes[i] === 'other' ? mapsLink(v('pkmap')) : '' };
+          pkPlace: modes[i] === 'other' ? v('pkplace') : '', pkMap: modes[i] === 'other' ? mapsLink(v('pkmap')) : '',
+          lunch: v('lunch'), lunchChoice: v('lunchchoice') };
       })
     });
     // Pickups listed by place so the driver sees the stops at a glance (only when someone differs from the group).
@@ -441,13 +509,20 @@
       pickupLines = '\nPickups:' + (groupAt.length ? '\n- ' + hotel + ' (' + nums(groupAt) + '): ' + mapLink : '') +
         (stops.length ? '\n' + stops.join('\n') : '') + (none.length ? '\n- No transfer: ' + nums(none) : '');
     }
+    var lunchKip = 0;
     var people = blocks.map(function (f, i) {
       var v = function (k) { return $('[data-k="' + k + '"]', f).value.trim(); };
+      var dish = menuItem(v('lunch')), lunchLine = '';
+      if (dish) {
+        lunchKip += dish.price;
+        lunchLine = '\n- Takeaway lunch: ' + dish.dish + (v('lunchchoice') ? ' (' + v('lunchchoice') + ')' : '') + ', ' +
+          String(dish.price).replace(/\B(?=(\d{3})+(?!\d))/g, ',') + ' kip';
+      }
       return '\nTraveller ' + (i + 1) + ': ' + v('first') + ' ' + v('last') +
         '\n- First name: ' + v('first') + '\n- Last name: ' + v('last') +
         '\n- Gender: ' + v('gender') + '\n- Nationality: ' + v('nat') +
         '\n- Passport: ' + v('pass').toUpperCase() + ' (issued ' + v('issued') + ', expires ' + v('expires') + ')' +
-        '\n- Food: ' + v('food');
+        '\n- Food: ' + v('food') + lunchLine;
     });
     var msg = 'Hello! I would like to book:\n' + tourLabel(tour) + '\nBooking ref: ' + ref + '\n' +
       'Date: ' + date + '\nPeople: ' + people.length +
@@ -459,6 +534,8 @@
         String(CONFIG.kip.train).replace(/\B(?=(\d{3})+(?!\d))/g, ',') + ' kip per person)' : 'city centre near the night market') : '') +
       (transfer !== 'No' ? '\nAccommodation: ' + hotel + '\nGoogle Maps: ' + mapLink : '') + pickupLines + '\n' +
       people.join('\n') +
+      (lunchKip ? '\n\nTakeaway lunch total: ' + String(lunchKip).replace(/\B(?=(\d{3})+(?!\d))/g, ',') +
+        ' kip (not included in the tour price, paid separately)' : '') +
       (note ? '\n\nNote: ' + note : '');
     window.open('https://wa.me/' + WA + '?text=' + encodeURIComponent(msg), '_blank', 'noopener');
   });

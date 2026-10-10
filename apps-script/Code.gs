@@ -9,15 +9,15 @@
  */
 
 var TABS = { bookings: 'Bookings', travellers: 'Travellers', inquiries: 'Inquiries', reviews: 'Reviews', settings: 'Settings',
-  dashboard: 'Dashboard', content: 'Content', contentBase: 'Content base', help: 'How to edit', trip: 'Trip sheet' };
+  dashboard: 'Dashboard', content: 'Content', contentBase: 'Content base', help: 'How to edit', trip: 'Trip sheet', lunch: 'Lunch menu' };
 
 var BOOKING_COLS = ['Booking ID', 'Submitted at', 'Tour date', 'Tour month', 'Tour', 'Tour name', 'People', 'Lead name',
   'Traveller names', 'Countries', 'Food', 'Transfer', 'Pickup date', 'Return date', 'Train station drop-off', 'Accommodation',
-  'Maps link', 'Pickups', 'Payment method', 'Source', 'Referrer', 'Site language', 'Note', 'Est. tour USD', 'Est. transfer kip', 'Status',
+  'Maps link', 'Pickups', 'Takeaway lunch', 'Lunch kip', 'Payment method', 'Source', 'Referrer', 'Site language', 'Note', 'Est. tour USD', 'Est. transfer kip', 'Status',
   'Receipt No', 'Amount paid USD', 'Staff notes'];
 // Status and Receipt No are formulas (spilled from their header cell) that look the booking up: never written per row.
 var TRAVELLER_COLS = ['Booking ID', 'Tour date', 'Tour', 'Traveller #', 'First name', 'Last name', 'Full name', 'Country',
-  'Gender', 'Passport no', 'Passport issued', 'Passport expires', 'Food', 'Pickup place', 'Pickup map', 'Status', 'Receipt No'];
+  'Gender', 'Passport no', 'Passport issued', 'Passport expires', 'Food', 'Pickup place', 'Pickup map', 'Takeaway lunch', 'Lunch kip', 'Status', 'Receipt No'];
 // Headers renamed in a later version: the old name is renamed in place, so its data stays put.
 var RENAMES = { Travellers: { 'Name': 'Full name' }, Bookings: { 'Special food': 'Food' } };
 // Reviews shown on the website: staff tick Show; newest Date first, at most REVIEWS_SHOWN.
@@ -29,8 +29,8 @@ var INQUIRY_COLS = ['Submitted at', 'Month', 'Name', 'Contact', 'Tour', 'Questio
 var FORMATS = {
   Bookings: { 'Submitted at': 'yyyy-mm-dd hh:mm', 'Tour date': 'yyyy-mm-dd', 'Tour month': '@', 'Tour': '@',
     'Pickup date': 'yyyy-mm-dd', 'Return date': 'yyyy-mm-dd',
-    'Est. tour USD': '#,##0', 'Est. transfer kip': '#,##0', 'Amount paid USD': '#,##0.00' },
-  Travellers: { 'Tour date': 'yyyy-mm-dd', 'Tour': '@', 'Passport no': '@', 'Passport issued': '@', 'Passport expires': '@' },
+    'Est. tour USD': '#,##0', 'Est. transfer kip': '#,##0', 'Lunch kip': '#,##0', 'Amount paid USD': '#,##0.00' },
+  Travellers: { 'Tour date': 'yyyy-mm-dd', 'Tour': '@', 'Lunch kip': '#,##0', 'Passport no': '@', 'Passport issued': '@', 'Passport expires': '@' },
   Inquiries: { 'Submitted at': 'yyyy-mm-dd hh:mm', 'Month': '@', 'Tour': '@' }
 };
 
@@ -54,6 +54,7 @@ function setup() {
   setupReviews_(ss);
   setupContent_(ss);
   setupHelp_(ss);
+  setupLunch_(ss);
   setupTrip_(ss);
 
   // Travellers.Status follows the booking's status, so cancelled trips drop out of the reports.
@@ -121,6 +122,71 @@ function setupTable_(ss, name, cols, dropdowns, formats) {
   });
 }
 
+/* ---------- Lunch menu (takeaway lunch from The Trio Bar & Cafe, ordered with the booking) ---------- */
+
+var LUNCH_COLS = ['Show', 'Group', 'Dish', 'Choices (comma separated; empty if none)', 'Price kip'];
+var SEED_LUNCH = [
+  [true, 'Lao-Asian dishes', 'Stir fried ginger', 'Chicken, Pork, Tofu', 69000],
+  [true, 'Lao-Asian dishes', 'Stir fried holy basil', 'Chicken, Pork, Tofu', 69000],
+  [true, 'Lao-Asian dishes', 'Fried cashew nut', 'Chicken, Pork, Tofu', 79000],
+  [true, 'Lao-Asian dishes', 'Green curry', 'Chicken, Pork, Tofu', 79000],
+  [true, 'Lao-Asian dishes', 'Yellow curry', 'Chicken, Pork, Tofu', 79000],
+  [true, 'Lao-Asian dishes', 'Red curry', 'Chicken, Pork, Tofu', 79000],
+  [true, 'Lao-Asian dishes', 'Pad Thai', 'Chicken, Pork, Tofu', 69000],
+  [true, 'Lao-Asian dishes', 'Classic fried rice', 'Chicken, Pork, Bacon, Egg, Tofu', 69000],
+  [true, 'Sandwiches', 'Lemongrass chicken sandwich', '', 80000],
+  [true, 'Sandwiches', 'Lemongrass tofu sandwich', '', 70000],
+  [true, 'Sandwiches', 'Chicken sandwich', '', 70000],
+  [true, 'Sandwiches', 'Bacon sandwich', '', 70000],
+  [true, 'Sandwiches', 'Tuna sandwich', '', 70000],
+  [true, 'Sandwiches', 'Avocado sandwich', '', 65000],
+  [true, 'Sandwiches', 'Omelette or scrambled eggs sandwich', 'Omelette, Scrambled eggs', 70000],
+  [true, 'Sandwiches', 'Chilli tamarind tofu sandwich', '', 65000],
+  [true, 'Sandwiches', 'Pumpkin caramelised sandwich', '', 80000],
+  [true, 'Sandwiches', 'Vegetable sandwich', '', 60000]
+];
+
+// Seeded once from The Trio's menu; after that the tab belongs to staff and is never overwritten.
+function setupLunch_(ss) {
+  if (ss.getSheetByName(TABS.lunch)) return;
+  var sh = ss.insertSheet(TABS.lunch);
+  sh.getRange(1, 1, 1, LUNCH_COLS.length).setValues([LUNCH_COLS]).setFontWeight('bold').setBackground('#e8f0ea').setWrap(true);
+  sh.getRange(2, 1, SEED_LUNCH.length, LUNCH_COLS.length).setValues(SEED_LUNCH);
+  sh.getRange('A2:A100').insertCheckboxes();
+  sh.getRange('E2:E100').setNumberFormat('#,##0');
+  sh.setColumnWidth(1, 60); sh.setColumnWidth(2, 150); sh.setColumnWidth(3, 280); sh.setColumnWidth(4, 260); sh.setColumnWidth(5, 100);
+  sh.setFrozenRows(1);
+  sh.getRange('G1').setValue('Guests can order these as takeaway lunch when they book (not included in the tour price, paid separately). ' +
+    'Tick Show to offer a dish. Add new dishes as new rows; Group decides the heading in the list. ' +
+    'Choices (e.g. Chicken, Pork, Tofu) are asked after the dish. Price is per portion in kip. Changes show on the website within 5 minutes.').setWrap(true);
+  sh.setColumnWidth(7, 320);
+}
+
+// dish -> { price, choices[] } for every priced row (shown or not, so an order placed just before a change is still priced)
+function lunchMap_(ss) {
+  var sh = ss.getSheetByName(TABS.lunch), map = {};
+  if (!sh || sh.getLastRow() < 2) return map;
+  sh.getRange(2, 1, sh.getLastRow() - 1, LUNCH_COLS.length).getValues().forEach(function (r) {
+    var dish = String(r[2]).trim(), price = Number(r[4]);
+    if (dish && price > 0) map[dish] = { price: price, choices: String(r[3]).split(',').map(function (c) { return c.trim(); }).filter(String) };
+  });
+  return map;
+}
+
+function lunchMenuJson_(ss) {
+  var sh = ss.getSheetByName(TABS.lunch), out = [];
+  if (sh && sh.getLastRow() > 1) {
+    sh.getRange(2, 1, sh.getLastRow() - 1, LUNCH_COLS.length).getValues().forEach(function (r) {
+      var dish = String(r[2]).trim(), price = Number(r[4]);
+      if (r[0] === true && dish && price > 0) {
+        out.push({ group: String(r[1]).trim() || 'Menu', dish: dish, price: price,
+          choices: String(r[3]).split(',').map(function (c) { return c.trim(); }).filter(String) });
+      }
+    });
+  }
+  return out;
+}
+
 /* ---------- Trip sheet: pick a date, see everyone on tours that day ---------- */
 
 function setupTrip_(ss) {
@@ -146,19 +212,21 @@ function setupTrip_(ss) {
     ['Food: Vegan', '=COUNTIFS(' + tDay + ',' + T('Food') + ',"Vegan")'],
     ['Food: Gluten-free', '=COUNTIFS(' + tDay + ',' + T('Food') + ',"Gluten-free")'],
     ['Tours to collect (USD, not yet paid)', '=SUMIFS(' + B('Est. tour USD') + ',' + bDay + ')-SUMIFS(' + B('Amount paid USD') + ',' + bDay + ')'],
-    ['Transfers (kip, estimate)', '=SUMIFS(' + B('Est. transfer kip') + ',' + bDay + ')']
+    ['Transfers (kip, estimate)', '=SUMIFS(' + B('Est. transfer kip') + ',' + bDay + ')'],
+    ['Takeaway lunches (kip, paid separately)', '=SUMIFS(' + B('Lunch kip') + ',' + bDay + ')']
   ];
   kpis.forEach(function (k, i) { sh.getRange(4 + i, 1).setValue(k[0]); sh.getRange(4 + i, 2).setFormula(k[1]).setFontWeight('bold').setHorizontalAlignment('left'); });
-  sh.getRange('B11:B12').setNumberFormat('#,##0');
-  var head = ['Tour', 'Name', 'Country', 'Gender', 'Food', 'Pickup place', 'Pickup map', 'Booking ID', 'Receipt No'];
-  var cols = ['Tour', 'Full name', 'Country', 'Gender', 'Food', 'Pickup place', 'Pickup map', 'Booking ID', 'Receipt No'];
-  sh.getRange(14, 1, 1, head.length).setValues([head]).setFontWeight('bold').setBackground('#e8f0ea');
+  sh.getRange('B11:B13').setNumberFormat('#,##0');
+  var head = ['Tour', 'Name', 'Country', 'Gender', 'Food', 'Takeaway lunch', 'Pickup place', 'Pickup map', 'Booking ID', 'Receipt No'];
+  var cols = ['Tour', 'Full name', 'Country', 'Gender', 'Food', 'Takeaway lunch', 'Pickup place', 'Pickup map', 'Booking ID', 'Receipt No'];
+  sh.getRange(15, 1, 1, head.length).setValues([head]).setFontWeight('bold').setBackground('#e8f0ea');
   var arr = '{' + cols.map(function (c) { return T(c); }).join(',') + '}';
   var cond = '(' + T('Tour date') + '>=$B$2)*(' + T('Tour date') + '<$B$2+1)*(' + T('Status') + '<>"Cancelled")*(' + T('Booking ID') + '<>"")';
-  sh.getRange('A15').setFormula('=IFERROR(SORT(FILTER(' + arr + ',' + cond + '),1,TRUE,2,TRUE),"No travellers on this date")');
+  sh.getRange('A16').setFormula('=IFERROR(SORT(FILTER(' + arr + ',' + cond + '),1,TRUE,2,TRUE),"No travellers on this date")');
   sh.setColumnWidth(1, 250); sh.setColumnWidth(2, 220); sh.setColumnWidth(3, 120); sh.setColumnWidth(4, 90);
-  sh.setColumnWidth(5, 110); sh.setColumnWidth(6, 210); sh.setColumnWidth(7, 260); sh.setColumnWidth(8, 140); sh.setColumnWidth(9, 100);
-  sh.setFrozenRows(14);
+  sh.setColumnWidth(5, 110); sh.setColumnWidth(6, 200); sh.setColumnWidth(7, 210); sh.setColumnWidth(8, 260);
+  sh.setColumnWidth(9, 140); sh.setColumnWidth(10, 100);
+  sh.setFrozenRows(15);
 }
 
 /* ---------- editable website text (Content tab) and prices (Settings tab) ---------- */
@@ -259,7 +327,7 @@ function configJson_(holdsLock) {
   var ss = SpreadsheetApp.getActive(), waiting = 0, lock = LockService.getScriptLock();
   if (holdsLock) waiting = refreshContent_(3);   // the caller (doPost) already holds the script lock
   else if (lock.tryLock(5000)) { try { waiting = refreshContent_(3); } finally { lock.releaseLock(); } }
-  var out = { content: {}, prices: {}, kip: kipPrices_(ss) };
+  var out = { content: {}, prices: {}, kip: kipPrices_(ss), menu: lunchMenuJson_(ss) };
   var sh = ss.getSheetByName(TABS.content), base = ss.getSheetByName(TABS.contentBase);
   if (sh && base && sh.getLastRow() > 1) {
     var baseMap = {};
@@ -294,8 +362,8 @@ function updateWebsiteNow() {
 }
 
 function setupHelp_(ss) {
-  if (ss.getSheetByName(TABS.help)) return;
-  var sh = ss.insertSheet(TABS.help, 1);
+  var sh = ss.getSheetByName(TABS.help) || ss.insertSheet(TABS.help, 1);   // rewritten on every setup: staff do not edit it
+  sh.clear();
   var lines = [
     ['How to edit the website'],
     [''],
@@ -314,6 +382,9 @@ function setupHelp_(ss) {
     ['REVIEWS  (tab "Reviews")'],
     ['Tick Show for the reviews that should appear on the website (newest Date first, up to 8). Paste new Google reviews as new rows.'],
     [''],
+    ['LUNCH MENU  (tab "Lunch menu")'],
+    ['Dishes guests can order as takeaway lunch when they book. Tick Show, add dishes as new rows, change prices. Paid separately.'],
+    [''],
     ['PHOTOS'],
     ['Photos are not in the sheet. Send the new photo to Jeevesh, or upload it on GitHub (images folder) with the same file name.'],
     [''],
@@ -323,7 +394,7 @@ function setupHelp_(ss) {
   sh.getRange(1, 1, lines.length, 1).setValues(lines).setWrap(true).setVerticalAlignment('top');
   sh.setColumnWidth(1, 760);
   sh.getRange('A1').setFontSize(16).setFontWeight('bold');
-  ['A3', 'A12', 'A15', 'A18', 'A21'].forEach(function (a) { sh.getRange(a).setFontWeight('bold').setFontColor('#2f6b4f'); });
+  ['A3', 'A12', 'A15', 'A18', 'A21', 'A24'].forEach(function (a) { sh.getRange(a).setFontWeight('bold').setFontColor('#2f6b4f'); });
 }
 
 // Seeded once with the reviews the site showed before; after that the tab is staff-owned and never overwritten.
@@ -526,6 +597,17 @@ function saveBooking_(ss, d) {
   });
   var riders = pickup.filter(function (x) { return x.mode !== 'none'; }).length;   // people who take the transfer
   var train = legs === 2 && d.train === true;
+  var menu = lunchMap_(ss);
+  var lunch = people.map(function (p) {   // priced here from the Lunch menu tab: the page's numbers are never trusted
+    var dish = clean_(p.lunch, 80), item = menu[dish];
+    if (!dish || !item) return { text: '', kip: 0 };
+    var choice = clean_(p.lunchChoice, 40);
+    return { text: dish + (item.choices.indexOf(choice) !== -1 ? ' (' + choice + ')' : ''), kip: item.price };
+  });
+  var lunchCount = {};
+  lunch.forEach(function (x) { if (x.text) lunchCount[x.text] = (lunchCount[x.text] || 0) + 1; });
+  var lunchText = Object.keys(lunchCount).map(function (k) { return k + ' ' + lunchCount[k]; }).join('; ');
+  var lunchKip = lunch.reduce(function (a, x) { return a + x.kip; }, 0);
   var food = {};  // everyone's choice with counts, e.g. "Regular 1, Vegan 1"
   people.forEach(function (p) { var f = clean_(p.food, 20) || 'Regular'; food[f] = (food[f] || 0) + 1; });
   var foodText = Object.keys(food).map(function (f) { return f + ' ' + food[f]; }).join(', ');
@@ -539,7 +621,7 @@ function saveBooking_(ss, d) {
     'Pickup date': legs ? parseDate_(d.pickupDate) : '', 'Return date': legs === 2 ? parseDate_(d.returnDate) : '',
     'Train station drop-off': train ? 'Yes' : '',
     'Accommodation': legs ? clean_(d.hotel, 120) : '', 'Maps link': legs ? clean_(d.map, 300) : '',
-    'Pickups': legs ? pickupSummary_(pickup) : '',
+    'Pickups': legs ? pickupSummary_(pickup) : '', 'Takeaway lunch': lunchText, 'Lunch kip': lunchKip || '',
     'Payment method': clean_(d.payment, 40), 'Source': clean_(d.source, 40) || 'Not given', 'Referrer': clean_(d.referrer, 120),
     'Site language': clean_(d.lang, 5), 'Note': clean_(d.note, 1000), 'Est. tour USD': info.price * people.length,
     'Est. transfer kip': ((legs === 2 ? kipPrices_(ss).round : legs === 1 ? kipPrices_(ss).one : 0) + (train ? kipPrices_(ss).train : 0)) * riders, 'Status': 'Requested'
@@ -550,7 +632,7 @@ function saveBooking_(ss, d) {
       'Last name': names[i].last, 'Full name': names[i].full, 'Country': countries[i], 'Gender': clean_(p.gender, 10),
       'Passport no': text_(clean_(p.pass, 40).toUpperCase()), 'Passport issued': text_(clean_(p.issued, 10)),
       'Passport expires': text_(clean_(p.expires, 10)), 'Food': clean_(p.food, 20),
-      'Pickup place': pickup[i].place, 'Pickup map': pickup[i].map
+      'Pickup place': pickup[i].place, 'Pickup map': pickup[i].map, 'Takeaway lunch': lunch[i].text, 'Lunch kip': lunch[i].kip || ''
     });
   });
 }
@@ -574,7 +656,7 @@ function selfTest_(ss) {
     travellers: [{ first: 'Test', last: 'Person', gender: 'X', nat: 'deutsch', food: 'Vegetarian', pass: 'ab123',
       issued: '2020-01-01', expires: '2030-01-01', pickup: 'same' },
       { first: 'Second', last: 'Person', gender: 'X', nat: 'german', food: 'Regular', pass: 'cd456', issued: '2020-01-01',
-        expires: '2030-01-01', pickup: 'none' }] });
+        expires: '2030-01-01', pickup: 'none', lunch: 'Avocado sandwich' }] });
   saveInquiry_(ss, { name: id, contact: 'test', question: 'test' });
   SpreadsheetApp.flush();
   var dash = ss.getSheetByName(TABS.dashboard);
@@ -601,6 +683,9 @@ function selfTest_(ss) {
   out.transferOk = b[BOOKING_COLS.indexOf('Train station drop-off')] === 'Yes' &&
     b[BOOKING_COLS.indexOf('Pickups')] === 'Test hostel: 1; No transfer: 2' &&
     b[BOOKING_COLS.indexOf('Est. transfer kip')] === '570,000' && t[TRAVELLER_COLS.indexOf('Pickup place')] === 'Test hostel';
+  var t2 = ss.getSheetByName(TABS.travellers).getDataRange().getDisplayValues().filter(function (r) { return r[0] === id; })[1] || [];
+  out.lunchOk = b[BOOKING_COLS.indexOf('Takeaway lunch')] === 'Avocado sandwich 1' && b[BOOKING_COLS.indexOf('Lunch kip')] === '65,000' &&
+    t2[TRAVELLER_COLS.indexOf('Takeaway lunch')] === 'Avocado sandwich' && t2[TRAVELLER_COLS.indexOf('Lunch kip')] === '65,000';
   out.tripOk = tripSelfTest_(ss);
   out.reviewsOk = JSON.parse(reviewsJson_()).length > 0;
   out.contentOk = contentSelfTest_(ss);
@@ -624,10 +709,11 @@ function tripSelfTest_(ss) {
   var sh = ss.getSheetByName(TABS.trip), cell = sh.getRange('B2'), saved = cell.getValue(), ok = false;
   try {
     cell.setValue(new Date(2030, 0, 15, 12)); SpreadsheetApp.flush();
-    var rows = sh.getRange(15, 1, 4, 9).getDisplayValues();
+    var rows = sh.getRange(16, 1, 4, 10).getDisplayValues();
     var people = Number(sh.getRange('B5').getValue()), riders = Number(sh.getRange('B6').getValue());
-    ok = rows.some(function (r) { return r[1] === 'Test Person' && r[5] === 'Test hostel'; }) &&
-      rows.some(function (r) { return r[1] === 'Second Person' && r[5] === 'No transfer'; }) && people >= 2 && riders >= 1;
+    ok = rows.some(function (r) { return r[1] === 'Test Person' && r[6] === 'Test hostel'; }) &&
+      rows.some(function (r) { return r[1] === 'Second Person' && r[6] === 'No transfer' && r[5] === 'Avocado sandwich'; }) &&
+      people >= 2 && riders >= 1 && Number(sh.getRange('B13').getValue()) >= 65000;
   } catch (err) { console.error('trip selftest: ' + err); }
   finally { cell.setValue(saved); }
   return ok;

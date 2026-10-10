@@ -37,7 +37,7 @@ en: {
   inf1h: 'Pay when you arrive', inf1p: 'At our office inside The Trio Bar & Cafe. We accept kip or USD, cash or card (3% bank fee for cards).',
   inf2h: 'Transfer from Luang Prabang', inf2p: 'Not included, but we can arrange it: {kip1} kip per person one way, {kip2} kip round trip. Pickup 7:30 to 8:00 am from your hotel in the city centre area. The minivan back leaves at around 10:00 to 10:30 am and drops you off in the city centre near the night market (train station drop-off: +{kipTrain} kip per person). Please book 2 to 3 days ahead.',
   inf3h: 'Leave your big bag', inf3p: 'Store your luggage at our office during the tour and take only a small backpack.',
-  inf4h: 'Food', inf4p: 'Please tell us if you are vegetarian or have allergies.',
+  inf4h: 'Food', inf4p: 'Please tell us if you are vegetarian or have allergies. You can also pre-order a takeaway lunch from The Trio Bar & Café when you book (not included in the tour price, paid separately).',
   inf5h: 'Groups', inf5p: 'Groups are shared. Some days there are more than 10 people, some days fewer. All packages currently camp at the same viewpoint.',
   office_h: 'Meeting point', office_p: 'Our office is inside The Trio Bar & Cafe, Nong Khiaw.', office_map: 'Open the pin in Google Maps',
   review_link: 'Read our Google reviews',
@@ -89,7 +89,8 @@ en: {
   hint_pay: 'Please choose how you will pay.',
   inc_camp2: 'English-speaking local guide · entrance fees · tent, sleeping mat and blankets · one big bottle of water per day',
   br_102: 'Small backpack, comfortable hiking shoes, a jacket or warm clothes (cold at night and early morning), headlamp, mosquito repellent, camera, swimming suit and a change of clothes',
-  lbl_train: 'Drop me at Luang Prabang train station on the way back (+{kipTrain} kip per person)', lbl_pickup_who: 'Pickup for this traveller', pk_same: 'Same as the group', pk_other: 'A different place', pk_none: 'No transfer needed', lbl_pk_place: 'Accommodation of this traveller', lbl_pk_map: 'Google Maps link of this accommodation', hint_pk: 'Traveller {n}: please add the accommodation name and its Google Maps link.'
+  lbl_train: 'Drop me at Luang Prabang train station on the way back (+{kipTrain} kip per person)', lbl_pickup_who: 'Pickup for this traveller', pk_same: 'Same as the group', pk_other: 'A different place', pk_none: 'No transfer needed', lbl_pk_place: 'Accommodation of this traveller', lbl_pk_map: 'Google Maps link of this accommodation', hint_pk: 'Traveller {n}: please add the accommodation name and its Google Maps link.',
+  lbl_lunch: 'Takeaway lunch for the boat (optional, not included in the tour price)', lunch_none: 'No, thanks', lbl_lunch_choice: 'Choice', hint_lunch: 'Traveller {n}: please choose an option for the lunch.', unit_kip: 'kip'
 },
 
 lo: {
@@ -126,7 +127,7 @@ lo: {
   inf1h: 'ຈ່າຍເມື່ອມາຮອດ', inf1p: 'ທີ່ຫ້ອງການຂອງພວກເຮົາໃນ The Trio Bar & Cafe. ຮັບເງິນກີບ ຫຼື USD, ເງິນສົດ ຫຼື ບັດ (ຄ່າທຳນຽມບັດ 3%).',
   inf2h: 'ລົດຮັບສົ່ງຈາກຫຼວງພະບາງ', inf2p: 'ບໍ່ລວມ ແຕ່ຈັດໃຫ້ໄດ້: {kip1} ກີບຕໍ່ຄົນຕໍ່ທາງ, ໄປ-ກັບ {kip2} ກີບ. ຮັບທີ່ໂຮງແຮມໃນເຂດໃຈກາງເມືອງ 7:30 ຫາ 8:00. ລົດຕູ້ກັບອອກປະມານ 10:00 ຫາ 10:30 ແລະ ສົ່ງທີ່ໃຈກາງເມືອງໃກ້ຕະຫຼາດມືດ (ສົ່ງສະຖານີລົດໄຟ: +{kipTrain} ກີບຕໍ່ຄົນ). ກະລຸນາຈອງລ່ວງໜ້າ 2 ຫາ 3 ມື້.',
   inf3h: 'ຝາກກະເປົາໃຫຍ່', inf3p: 'ຝາກກະເປົາທີ່ຫ້ອງການຕະຫຼອດທົວ ແລະ ເອົາແຕ່ເປ້ນ້ອຍ.',
-  inf4h: 'ອາຫານ', inf4p: 'ບອກພວກເຮົາຖ້າທ່ານກິນເຈ ຫຼື ແພ້ອາຫານ.',
+  inf4h: 'ອາຫານ', inf4p: 'ບອກພວກເຮົາຖ້າທ່ານກິນເຈ ຫຼື ແພ້ອາຫານ. ທ່ານສັ່ງອາຫານທ່ຽງແບບເອົາໄປນຳ The Trio Bar & Café ລ່ວງໜ້າໄດ້ຕອນຈອງ (ບໍ່ລວມໃນລາຄາທົວ, ຈ່າຍແຍກ).',
   inf5h: 'ກຸ່ມ', inf5p: 'ເປັນກຸ່ມຮ່ວມ. ບາງມື້ມີຫຼາຍກວ່າ 10 ຄົນ, ບາງມື້ໜ້ອຍກວ່າ. ປັດຈຸບັນທຸກແພັກເກັດກາງເຕັນຢູ່ຈຸດຊົມວິວດຽວກັນ.',
   office_h: 'ຈຸດນັດພົບ', office_p: 'ຫ້ອງການຂອງພວກເຮົາຢູ່ໃນ The Trio Bar & Cafe, ໜອງຂຽວ.', office_map: 'ເປີດໝຸດໃນ Google Maps',
   review_link: 'ອ່ານຣີວິວ Google ຂອງພວກເຮົາ',
@@ -178,7 +179,8 @@ lo: {
   hint_pay: 'ກະລຸນາເລືອກວິທີຈ່າຍເງິນ.',
   inc_camp2: 'ໄກດ໌ທ້ອງຖິ່ນເວົ້າພາສາອັງກິດ · ຄ່າເຂົ້າຊົມ · ເຕັນ, ເສື່ອນອນ ແລະ ຜ້າຫົ່ມ · ນ້ຳດື່ມຕຸກໃຫຍ່ 1 ຕຸກຕໍ່ມື້',
   br_102: 'ກະເປົາເປ້ນ້ອຍ, ເກີບຍ່າງປ່າ, ເສື້ອກັນໜາວ (ກາງຄືນ ແລະ ເຊົ້າໜາວ), ໄຟສາຍຫົວ, ຢາກັນຍຸງ, ກ້ອງຖ່າຍຮູບ, ຊຸດລອຍນ້ຳ ແລະ ເສື້ອຜ້າປ່ຽນ',
-  lbl_train: 'ສົ່ງຂ້ອຍທີ່ສະຖານີລົດໄຟຫຼວງພະບາງຕອນກັບ (+{kipTrain} ກີບຕໍ່ຄົນ)', lbl_pickup_who: 'ການຮັບຂອງນັກທ່ອງທ່ຽວຄົນນີ້', pk_same: 'ຄືກັບກຸ່ມ', pk_other: 'ບ່ອນອື່ນ', pk_none: 'ບໍ່ຕ້ອງການລົດຮັບສົ່ງ', lbl_pk_place: 'ທີ່ພັກຂອງນັກທ່ອງທ່ຽວຄົນນີ້', lbl_pk_map: 'ລິ້ງ Google Maps ຂອງທີ່ພັກນີ້', hint_pk: 'ນັກທ່ອງທ່ຽວ {n}: ກະລຸນາໃສ່ຊື່ທີ່ພັກ ແລະ ລິ້ງ Google Maps.'
+  lbl_train: 'ສົ່ງຂ້ອຍທີ່ສະຖານີລົດໄຟຫຼວງພະບາງຕອນກັບ (+{kipTrain} ກີບຕໍ່ຄົນ)', lbl_pickup_who: 'ການຮັບຂອງນັກທ່ອງທ່ຽວຄົນນີ້', pk_same: 'ຄືກັບກຸ່ມ', pk_other: 'ບ່ອນອື່ນ', pk_none: 'ບໍ່ຕ້ອງການລົດຮັບສົ່ງ', lbl_pk_place: 'ທີ່ພັກຂອງນັກທ່ອງທ່ຽວຄົນນີ້', lbl_pk_map: 'ລິ້ງ Google Maps ຂອງທີ່ພັກນີ້', hint_pk: 'ນັກທ່ອງທ່ຽວ {n}: ກະລຸນາໃສ່ຊື່ທີ່ພັກ ແລະ ລິ້ງ Google Maps.',
+  lbl_lunch: 'ອາຫານທ່ຽງແບບເອົາໄປກິນເທິງເຮືອ (ທາງເລືອກ, ບໍ່ລວມໃນລາຄາທົວ)', lunch_none: 'ບໍ່, ຂອບໃຈ', lbl_lunch_choice: 'ທາງເລືອກ', hint_lunch: 'ນັກທ່ອງທ່ຽວ {n}: ກະລຸນາເລືອກຕົວເລືອກຂອງອາຫານທ່ຽງ.', unit_kip: 'ກີບ'
 },
 
 th: {
@@ -215,7 +217,7 @@ th: {
   inf1h: 'จ่ายเมื่อมาถึง', inf1p: 'ที่ออฟฟิศของเราใน The Trio Bar & Cafe รับเงินกีบหรือ USD เงินสดหรือบัตร (ค่าธรรมเนียมบัตร 3%)',
   inf2h: 'รถรับส่งจากหลวงพระบาง', inf2p: 'ไม่รวม แต่จัดให้ได้: {kip1} กีบต่อคนต่อเที่ยว ไปกลับ {kip2} กีบ รับที่โรงแรมในย่านใจกลางเมือง 7:30 ถึง 8:00 น. รถตู้กลับออกประมาณ 10:00 ถึง 10:30 น. และส่งที่ใจกลางเมืองใกล้ตลาดกลางคืน (ส่งที่สถานีรถไฟ: +{kipTrain} กีบต่อคน) กรุณาจองล่วงหน้า 2 ถึง 3 วัน',
   inf3h: 'ฝากกระเป๋าใบใหญ่', inf3p: 'ฝากสัมภาระที่ออฟฟิศระหว่างทัวร์ และเอาไปแค่เป้ใบเล็ก',
-  inf4h: 'อาหาร', inf4p: 'แจ้งเราหากคุณทานมังสวิรัติหรือแพ้อาหาร',
+  inf4h: 'อาหาร', inf4p: 'แจ้งเราหากคุณทานมังสวิรัติหรือแพ้อาหาร คุณสั่งอาหารกลางวันแบบห่อจาก The Trio Bar & Café ล่วงหน้าได้ตอนจอง (ไม่รวมในราคาทัวร์ ชำระแยกต่างหาก)',
   inf5h: 'กลุ่ม', inf5p: 'เป็นกลุ่มร่วม บางวันมากกว่า 10 คน บางวันน้อยกว่า ตอนนี้ทุกแพ็กเกจค้างแคมป์ที่จุดชมวิวเดียวกัน',
   office_h: 'จุดนัดพบ', office_p: 'ออฟฟิศของเราอยู่ใน The Trio Bar & Cafe น้ำเกี๋ยว', office_map: 'เปิดหมุดใน Google Maps',
   review_link: 'อ่านรีวิว Google ของเรา',
@@ -267,7 +269,8 @@ th: {
   hint_pay: 'กรุณาเลือกวิธีชำระเงิน',
   inc_camp2: 'ไกด์ท้องถิ่นพูดภาษาอังกฤษ · ค่าเข้าชม · เต็นท์ แผ่นรองนอน และผ้าห่ม · น้ำดื่มขวดใหญ่ 1 ขวดต่อวัน',
   br_102: 'เป้ใบเล็ก รองเท้าเดินป่า เสื้อกันหนาว (กลางคืนและเช้าหนาว) ไฟฉายคาดหัว ยากันยุง กล้องถ่ายรูป ชุดว่ายน้ำ และเสื้อผ้าเปลี่ยน',
-  lbl_train: 'ส่งฉันที่สถานีรถไฟหลวงพระบางขากลับ (+{kipTrain} กีบต่อคน)', lbl_pickup_who: 'การรับของผู้เดินทางคนนี้', pk_same: 'เหมือนกับกลุ่ม', pk_other: 'สถานที่อื่น', pk_none: 'ไม่ต้องการรถรับส่ง', lbl_pk_place: 'ที่พักของผู้เดินทางคนนี้', lbl_pk_map: 'ลิงก์ Google Maps ของที่พักนี้', hint_pk: 'ผู้เดินทาง {n}: กรุณาใส่ชื่อที่พักและลิงก์ Google Maps'
+  lbl_train: 'ส่งฉันที่สถานีรถไฟหลวงพระบางขากลับ (+{kipTrain} กีบต่อคน)', lbl_pickup_who: 'การรับของผู้เดินทางคนนี้', pk_same: 'เหมือนกับกลุ่ม', pk_other: 'สถานที่อื่น', pk_none: 'ไม่ต้องการรถรับส่ง', lbl_pk_place: 'ที่พักของผู้เดินทางคนนี้', lbl_pk_map: 'ลิงก์ Google Maps ของที่พักนี้', hint_pk: 'ผู้เดินทาง {n}: กรุณาใส่ชื่อที่พักและลิงก์ Google Maps',
+  lbl_lunch: 'อาหารกลางวันแบบห่อสำหรับกินบนเรือ (ไม่บังคับ ไม่รวมในราคาทัวร์)', lunch_none: 'ไม่เป็นไร ขอบคุณ', lbl_lunch_choice: 'ตัวเลือก', hint_lunch: 'ผู้เดินทาง {n}: กรุณาเลือกตัวเลือกของอาหารกลางวัน', unit_kip: 'กีบ'
 },
 
 zh: {
@@ -304,7 +307,7 @@ zh: {
   inf1h: '到店付款', inf1p: '在我们位于 The Trio Bar & Cafe 内的办公室付款。接受基普或美元，现金或刷卡（刷卡收3%银行手续费）。',
   inf2h: '琅勃拉邦接送', inf2p: '不含，但可代为安排：每人单程{kip1}基普，往返{kip2}基普。上午7:30至8:00在市中心区域的酒店接。返程小巴约10:00至10:30出发，送到市中心夜市附近（送火车站每人加收{kipTrain}基普）。请提前2至3天预订。',
   inf3h: '大件行李可寄存', inf3p: '行程期间可把行李放在我们办公室，只带一个小背包。',
-  inf4h: '餐食', inf4p: '如果您吃素或有过敏，请告诉我们。',
+  inf4h: '餐食', inf4p: '如果您吃素或有过敏，请告诉我们。预订时也可以向 The Trio Bar & Café 预订外带午餐（不含在行程价格内，另行付款）。',
   inf5h: '团队', inf5p: '拼团出行。有时超过10人，有时更少。目前所有套餐都在同一个观景台露营。',
   office_h: '集合地点', office_p: '我们的办公室在南凯 The Trio Bar & Cafe 内。', office_map: '在谷歌地图中打开定位',
   review_link: '查看我们的谷歌评价',
@@ -356,7 +359,8 @@ zh: {
   hint_pay: '请选择付款方式。',
   inc_camp2: '英语本地向导 · 门票 · 帐篷、睡垫和毯子 · 每天一大瓶水',
   br_102: '小背包、舒适的登山鞋、外套或保暖衣物（夜间和清晨很冷）、头灯、驱蚊液、相机、泳衣和换洗衣物',
-  lbl_train: '返程送到琅勃拉邦火车站（每人加收{kipTrain}基普）', lbl_pickup_who: '该旅客的接送', pk_same: '与团队相同', pk_other: '其他地点', pk_none: '无需接送', lbl_pk_place: '该旅客的住宿', lbl_pk_map: '该住宿的 Google 地图链接', hint_pk: '旅客 {n}：请填写住宿名称及其 Google 地图链接。'
+  lbl_train: '返程送到琅勃拉邦火车站（每人加收{kipTrain}基普）', lbl_pickup_who: '该旅客的接送', pk_same: '与团队相同', pk_other: '其他地点', pk_none: '无需接送', lbl_pk_place: '该旅客的住宿', lbl_pk_map: '该住宿的 Google 地图链接', hint_pk: '旅客 {n}：请填写住宿名称及其 Google 地图链接。',
+  lbl_lunch: '船上外带午餐（可选，不含在行程价格内）', lunch_none: '不需要', lbl_lunch_choice: '选项', hint_lunch: '旅客 {n}：请选择午餐的选项。', unit_kip: '基普'
 },
 
 ko: {
@@ -393,7 +397,7 @@ ko: {
   inf1h: '도착 후 결제', inf1p: 'The Trio Bar & Cafe 안의 사무실에서 결제합니다. 킵 또는 USD, 현금 또는 카드(카드 3% 수수료).',
   inf2h: '루앙프라방 픽업', inf2p: '포함되지 않지만 준비해 드립니다: 편도 1인 {kip1}킵, 왕복 {kip2}킵. 시내 중심가 호텔 픽업 오전 7:30~8:00. 돌아가는 미니밴은 오전 10:00~10:30쯤 출발해 야시장 근처 시내 중심가에 내려 드립니다(기차역 하차: 1인 +{kipTrain}킵). 2~3일 전에 예약해 주세요.',
   inf3h: '큰 짐은 맡기세요', inf3p: '투어 동안 짐은 사무실에 보관하고 작은 배낭만 가져가세요.',
-  inf4h: '식사', inf4p: '채식이거나 알레르기가 있으면 알려 주세요.',
+  inf4h: '식사', inf4p: '채식이거나 알레르기가 있으면 알려 주세요. 예약할 때 The Trio Bar & Café의 테이크아웃 점심을 미리 주문할 수도 있습니다(투어 가격에 포함되지 않으며 별도 결제).',
   inf5h: '그룹', inf5p: '그룹은 합류형입니다. 10명 이상인 날도, 더 적은 날도 있습니다. 현재 모든 패키지가 같은 전망대에서 캠핑합니다.',
   office_h: '만나는 곳', office_p: '사무실은 농키아우 The Trio Bar & Cafe 안에 있습니다.', office_map: 'Google 지도에서 위치 열기',
   review_link: 'Google 리뷰 보기',
@@ -445,7 +449,8 @@ ko: {
   hint_pay: '결제 방법을 선택해 주세요.',
   inc_camp2: '영어를 하는 현지 가이드 · 입장료 · 텐트, 매트, 담요 · 하루 큰 생수 한 병',
   br_102: '작은 배낭, 편한 등산화, 재킷 또는 따뜻한 옷(밤과 이른 아침은 춥습니다), 헤드랜턴, 모기 기피제, 카메라, 수영복, 갈아입을 옷',
-  lbl_train: '돌아올 때 루앙프라방 기차역에 내려 주세요 (1인 +{kipTrain}킵)', lbl_pickup_who: '이 여행자의 픽업', pk_same: '일행과 동일', pk_other: '다른 장소', pk_none: '교통편 필요 없음', lbl_pk_place: '이 여행자의 숙소', lbl_pk_map: '이 숙소의 Google 지도 링크', hint_pk: '여행자 {n}: 숙소 이름과 Google 지도 링크를 입력해 주세요.'
+  lbl_train: '돌아올 때 루앙프라방 기차역에 내려 주세요 (1인 +{kipTrain}킵)', lbl_pickup_who: '이 여행자의 픽업', pk_same: '일행과 동일', pk_other: '다른 장소', pk_none: '교통편 필요 없음', lbl_pk_place: '이 여행자의 숙소', lbl_pk_map: '이 숙소의 Google 지도 링크', hint_pk: '여행자 {n}: 숙소 이름과 Google 지도 링크를 입력해 주세요.',
+  lbl_lunch: '배에서 먹을 테이크아웃 점심 (선택, 투어 가격에 포함되지 않음)', lunch_none: '필요 없어요', lbl_lunch_choice: '선택', hint_lunch: '여행자 {n}: 점심 옵션을 선택해 주세요.', unit_kip: '킵'
 },
 
 ja: {
@@ -482,7 +487,7 @@ ja: {
   inf1h: '到着後にお支払い', inf1p: 'The Trio Bar & Cafe 内の事務所でお支払いください。キープまたはUSD、現金またはカード（カードは手数料3%）。',
   inf2h: 'ルアンパバーンからの送迎', inf2p: '含まれませんが手配できます：片道1人{kip1}キープ、往復{kip2}キープ。市内中心部のホテルへのお迎え 7:30〜8:00。帰りのミニバンは10:00〜10:30ごろ発、ナイトマーケット近くの市内中心部で降ります（駅で降りる場合：1人+{kipTrain}キープ）。2〜3日前までにご予約ください。',
   inf3h: '大きな荷物は預けられます', inf3p: 'ツアー中は荷物を事務所に預け、小さなリュックだけお持ちください。',
-  inf4h: '食事', inf4p: 'ベジタリアンやアレルギーがある方はお知らせください。',
+  inf4h: '食事', inf4p: 'ベジタリアンやアレルギーがある方はお知らせください。予約時に The Trio Bar & Café のテイクアウトランチを事前注文することもできます（ツアー料金には含まれず、別払い）。',
   inf5h: 'グループ', inf5p: '乗り合いグループです。10人以上の日も、少ない日もあります。現在、すべてのパッケージが同じ展望地でキャンプします。',
   office_h: '集合場所', office_p: '事務所はノンキャウの The Trio Bar & Cafe 内にあります。', office_map: 'Googleマップで場所を開く',
   review_link: 'Googleの口コミを見る',
@@ -534,7 +539,8 @@ ja: {
   hint_pay: 'お支払い方法を選んでください。',
   inc_camp2: '英語を話す地元ガイド · 入場料 · テント、マット、毛布 · 大きな水を1日1本',
   br_102: '小さなリュック、歩きやすい登山靴、上着または暖かい服（夜と早朝は冷えます）、ヘッドランプ、虫よけ、カメラ、水着、着替え',
-  lbl_train: '帰りはルアンパバーン駅で降ろしてください（1人 +{kipTrain}キープ）', lbl_pickup_who: 'この旅行者のお迎え', pk_same: 'グループと同じ', pk_other: '別の場所', pk_none: '送迎は不要', lbl_pk_place: 'この旅行者の宿泊先', lbl_pk_map: 'この宿泊先の Google マップのリンク', hint_pk: '旅行者 {n}：宿泊先の名前と Google マップのリンクを入力してください。'
+  lbl_train: '帰りはルアンパバーン駅で降ろしてください（1人 +{kipTrain}キープ）', lbl_pickup_who: 'この旅行者のお迎え', pk_same: 'グループと同じ', pk_other: '別の場所', pk_none: '送迎は不要', lbl_pk_place: 'この旅行者の宿泊先', lbl_pk_map: 'この宿泊先の Google マップのリンク', hint_pk: '旅行者 {n}：宿泊先の名前と Google マップのリンクを入力してください。',
+  lbl_lunch: '船で食べるテイクアウトランチ（任意・ツアー料金に含まれません）', lunch_none: '不要です', lbl_lunch_choice: '選択', hint_lunch: '旅行者 {n}：ランチのオプションを選んでください。', unit_kip: 'キープ'
 },
 
 fr: {
@@ -571,7 +577,7 @@ fr: {
   inf1h: 'Paiement à l’arrivée', inf1p: 'À notre bureau dans The Trio Bar & Cafe. Nous acceptons les kips ou les USD, en espèces ou par carte (3 % de frais bancaires pour la carte).',
   inf2h: 'Transfert depuis Luang Prabang', inf2p: 'Non inclus, mais nous pouvons l’organiser : {kip1} kips par personne l’aller, {kip2} kips l’aller-retour. Prise en charge de 7h30 à 8h00 à votre hôtel dans le centre-ville. Le minibus retour part vers 10h00–10h30 et vous dépose au centre-ville, près du marché de nuit (dépose à la gare : +{kipTrain} kips par personne). Réservez 2 à 3 jours à l’avance.',
   inf3h: 'Laissez votre gros sac', inf3p: 'Laissez vos bagages à notre bureau pendant l’excursion et n’emportez qu’un petit sac à dos.',
-  inf4h: 'Repas', inf4p: 'Dites-nous si vous êtes végétarien ou allergique.',
+  inf4h: 'Repas', inf4p: 'Dites-nous si vous êtes végétarien ou allergique. Vous pouvez aussi précommander un déjeuner à emporter au The Trio Bar & Café lors de la réservation (non inclus dans le prix de l’excursion, payé séparément).',
   inf5h: 'Groupes', inf5p: 'Les groupes sont partagés. Certains jours plus de 10 personnes, d’autres moins. Actuellement, toutes les formules campent sur le même point de vue.',
   office_h: 'Point de rendez-vous', office_p: 'Notre bureau est dans The Trio Bar & Cafe, à Nong Khiaw.', office_map: 'Ouvrir l’adresse dans Google Maps',
   review_link: 'Lire nos avis Google',
@@ -623,7 +629,8 @@ fr: {
   hint_pay: 'Merci de choisir votre mode de paiement.',
   inc_camp2: 'Guide local anglophone · droits d’entrée · tente, matelas et couvertures · une grande bouteille d’eau par jour',
   br_102: 'Petit sac à dos, chaussures de marche confortables, veste ou vêtements chauds (il fait froid la nuit et tôt le matin), lampe frontale, anti-moustiques, appareil photo, maillot de bain et vêtements de rechange',
-  lbl_train: 'Me déposer à la gare de Luang Prabang au retour (+{kipTrain} kips par personne)', lbl_pickup_who: 'Prise en charge de ce voyageur', pk_same: 'Comme le groupe', pk_other: 'Un autre endroit', pk_none: 'Pas de transfert nécessaire', lbl_pk_place: 'Hébergement de ce voyageur', lbl_pk_map: 'Lien Google Maps de cet hébergement', hint_pk: 'Voyageur {n} : merci d’indiquer le nom de l’hébergement et son lien Google Maps.'
+  lbl_train: 'Me déposer à la gare de Luang Prabang au retour (+{kipTrain} kips par personne)', lbl_pickup_who: 'Prise en charge de ce voyageur', pk_same: 'Comme le groupe', pk_other: 'Un autre endroit', pk_none: 'Pas de transfert nécessaire', lbl_pk_place: 'Hébergement de ce voyageur', lbl_pk_map: 'Lien Google Maps de cet hébergement', hint_pk: 'Voyageur {n} : merci d’indiquer le nom de l’hébergement et son lien Google Maps.',
+  lbl_lunch: 'Déjeuner à emporter pour le bateau (facultatif, non inclus dans le prix)', lunch_none: 'Non merci', lbl_lunch_choice: 'Choix', hint_lunch: 'Voyageur {n} : merci de choisir une option pour le déjeuner.', unit_kip: 'kips'
 },
 
 de: {
@@ -660,7 +667,7 @@ de: {
   inf1h: 'Zahlung bei Ankunft', inf1p: 'In unserem Büro im The Trio Bar & Cafe. Wir akzeptieren Kip oder USD, bar oder mit Karte (3 % Bankgebühr bei Karte).',
   inf2h: 'Transfer ab Luang Prabang', inf2p: 'Nicht inbegriffen, aber wir können ihn organisieren: {kip1} Kip pro Person einfach, {kip2} Kip hin und zurück. Abholung 7:30 bis 8:00 Uhr an Ihrem Hotel im Stadtzentrum. Der Minibus zurück fährt gegen 10:00 bis 10:30 Uhr und hält im Stadtzentrum nahe dem Nachtmarkt (Halt am Bahnhof: +{kipTrain} Kip pro Person). Bitte 2 bis 3 Tage vorher buchen.',
   inf3h: 'Großes Gepäck lagern', inf3p: 'Lassen Sie Ihr Gepäck während der Tour in unserem Büro und nehmen Sie nur einen kleinen Rucksack mit.',
-  inf4h: 'Essen', inf4p: 'Sagen Sie uns bitte, wenn Sie Vegetarier sind oder Allergien haben.',
+  inf4h: 'Essen', inf4p: 'Sagen Sie uns bitte, wenn Sie Vegetarier sind oder Allergien haben. Beim Buchen können Sie außerdem ein Lunchpaket im The Trio Bar & Café vorbestellen (nicht im Tourpreis enthalten, separat zu bezahlen).',
   inf5h: 'Gruppen', inf5p: 'Die Gruppen sind gemischt. An manchen Tagen sind es mehr als 10 Personen, an anderen weniger. Derzeit campen alle Pakete am selben Aussichtspunkt.',
   office_h: 'Treffpunkt', office_p: 'Unser Büro befindet sich im The Trio Bar & Cafe in Nong Khiaw.', office_map: 'Standort in Google Maps öffnen',
   review_link: 'Unsere Google-Bewertungen lesen',
@@ -712,7 +719,8 @@ de: {
   hint_pay: 'Bitte die Zahlungsart wählen.',
   inc_camp2: 'Englischsprachiger lokaler Guide · Eintrittsgebühren · Zelt, Isomatte und Decken · eine große Flasche Wasser pro Tag',
   br_102: 'Kleiner Rucksack, bequeme Wanderschuhe, Jacke oder warme Kleidung (nachts und früh morgens kalt), Stirnlampe, Mückenschutz, Kamera, Badebekleidung und Wechselkleidung',
-  lbl_train: 'Rückfahrt: bitte am Bahnhof Luang Prabang absetzen (+{kipTrain} Kip pro Person)', lbl_pickup_who: 'Abholung für diese Person', pk_same: 'Wie die Gruppe', pk_other: 'Anderer Ort', pk_none: 'Kein Transfer nötig', lbl_pk_place: 'Unterkunft dieser Person', lbl_pk_map: 'Google-Maps-Link dieser Unterkunft', hint_pk: 'Reisende/r {n}: Bitte Namen der Unterkunft und Google-Maps-Link angeben.'
+  lbl_train: 'Rückfahrt: bitte am Bahnhof Luang Prabang absetzen (+{kipTrain} Kip pro Person)', lbl_pickup_who: 'Abholung für diese Person', pk_same: 'Wie die Gruppe', pk_other: 'Anderer Ort', pk_none: 'Kein Transfer nötig', lbl_pk_place: 'Unterkunft dieser Person', lbl_pk_map: 'Google-Maps-Link dieser Unterkunft', hint_pk: 'Reisende/r {n}: Bitte Namen der Unterkunft und Google-Maps-Link angeben.',
+  lbl_lunch: 'Lunchpaket für das Boot (optional, nicht im Tourpreis enthalten)', lunch_none: 'Nein, danke', lbl_lunch_choice: 'Auswahl', hint_lunch: 'Reisende/r {n}: Bitte eine Option für das Mittagessen wählen.', unit_kip: 'Kip'
 }
 
   };

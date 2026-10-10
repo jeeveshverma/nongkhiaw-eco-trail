@@ -62,3 +62,12 @@ Do not put text with prices directly in a string: use the placeholders above.
   and Travellers gets "Pickup place" / "Pickup map". The transfer estimate counts only the people who take it.
 - **Train station drop-off** (round trips only): tick box in the form, "Train station drop-off" column in Bookings; the
   fee is Settings F4 per person taking the transfer.
+
+## Takeaway lunch (The Trio Bar & Cafe)
+Each traveller can order a takeaway lunch in the form (dish from the **Lunch menu** tab, plus a choice such as the meat
+for dishes that have one). Not part of the tour price; paid separately. The page shows the dish with its price, the
+WhatsApp message lists each order and the total, and the script prices the order **from the Lunch menu tab** (the page's
+price is never trusted) into Bookings ("Takeaway lunch", "Lunch kip") and Travellers; the Trip sheet shows each person's
+lunch and the day's lunch total. The Lunch menu tab is seeded once (18 dishes from the menu photos) and then belongs to
+staff: Show tick, Group, Dish, Choices (comma separated), Price kip. The site reads it through `?config=1` (`menu`) and
+falls back to the list built into `js/main.js` (`MENU`) if the sheet cannot be reached.
