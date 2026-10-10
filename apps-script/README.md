@@ -71,3 +71,11 @@ price is never trusted) into Bookings ("Takeaway lunch", "Lunch kip") and Travel
 lunch and the day's lunch total. The Lunch menu tab is seeded once (18 dishes from the menu photos) and then belongs to
 staff: Show tick, Group, Dish, Choices (comma separated), Price kip. The site reads it through `?config=1` (`menu`) and
 falls back to the list built into `js/main.js` (`MENU`) if the sheet cannot be reached.
+
+## Dates and the old guest list
+- All dates in the report are Day/Month/Year (`dd/mm/yyyy`); the spreadsheet locale is en_GB, so `11/10/2026` typed by hand means 11 October.
+  Passport issued/expires are real dates (older text values are converted by `setup`).
+- 2026-10-10: Noy's old guest sheet was imported once (838 bookings, 1,643 travellers; rows have Booking ID `IMP-0001…`, Source "Imported",
+  Status "Confirmed", her receipt numbers). Her old package numbers other than 1/101/102/103 are kept as typed in Tour; the old tour
+  start date is only known for some rows; Staff notes says "CHECK tour date" where the date came from her "Date of issue" column.
+  The importer was temporary and is not in this repo (it held passport data and a write endpoint).

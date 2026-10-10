@@ -5,7 +5,7 @@
  * Run setup() once. Then Deploy > New deployment > Web app, Execute as: Me, Who has access: Anyone.
  * Put the /exec URL in js/main.js (SHEET_URL). See apps-script/README.md.
  *
- * The website sends JSON here; passport numbers are never sent or stored.
+ * The website sends JSON here (passport numbers included, so keep the sheet's sharing Restricted).
  */
 
 var TABS = { bookings: 'Bookings', travellers: 'Travellers', inquiries: 'Inquiries', reviews: 'Reviews', settings: 'Settings',
@@ -27,11 +27,11 @@ var INQUIRY_COLS = ['Submitted at', 'Month', 'Name', 'Contact', 'Tour', 'Questio
   'Status', 'Staff notes'];
 
 var FORMATS = {
-  Bookings: { 'Submitted at': 'yyyy-mm-dd hh:mm', 'Tour date': 'yyyy-mm-dd', 'Tour month': '@', 'Tour': '@',
-    'Pickup date': 'yyyy-mm-dd', 'Return date': 'yyyy-mm-dd',
+  Bookings: { 'Submitted at': 'dd/mm/yyyy hh:mm', 'Tour date': 'dd/mm/yyyy', 'Tour month': '@', 'Tour': '@',
+    'Pickup date': 'dd/mm/yyyy', 'Return date': 'dd/mm/yyyy',
     'Est. tour USD': '#,##0', 'Est. transfer kip': '#,##0', 'Lunch kip': '#,##0', 'Amount paid USD': '#,##0.00' },
-  Travellers: { 'Tour date': 'yyyy-mm-dd', 'Tour': '@', 'Lunch kip': '#,##0', 'Passport no': '@', 'Passport issued': '@', 'Passport expires': '@' },
-  Inquiries: { 'Submitted at': 'yyyy-mm-dd hh:mm', 'Month': '@', 'Tour': '@' }
+  Travellers: { 'Tour date': 'dd/mm/yyyy', 'Tour': '@', 'Lunch kip': '#,##0', 'Passport no': '@', 'Passport issued': 'dd/mm/yyyy', 'Passport expires': 'dd/mm/yyyy' },
+  Inquiries: { 'Submitted at': 'dd/mm/yyyy hh:mm', 'Month': '@', 'Tour': '@' }
 };
 
 var STATUSES = ['Requested', 'Confirmed', 'Paid', 'Cancelled', 'No-show'];
@@ -47,9 +47,11 @@ var TIME_ZONE = 'Asia/Vientiane';
 function setup() {
   var ss = SpreadsheetApp.getActive();
   ss.setSpreadsheetTimeZone(TIME_ZONE);
+  ss.setSpreadsheetLocale('en_GB');  // dates are typed and shown Day/Month/Year
   setupSettings_(ss);
   setupTable_(ss, TABS.bookings, BOOKING_COLS, { 'Status': STATUSES, 'Source': SOURCES }, FORMATS.Bookings);
   setupTable_(ss, TABS.travellers, TRAVELLER_COLS, {}, FORMATS.Travellers);
+  passportDatesToDates_(ss);
   setupTable_(ss, TABS.inquiries, INQUIRY_COLS, { 'Status': INQUIRY_STATUSES, 'Source': SOURCES }, FORMATS.Inquiries);
   setupReviews_(ss);
   setupContent_(ss);
@@ -70,6 +72,17 @@ function setup() {
   var blank = ss.getSheetByName('Sheet1');
   if (blank && blank.getLastRow() === 0 && ss.getSheets().length > 1) ss.deleteSheet(blank);
   ss.setActiveSheet(ss.getSheetByName(TABS.dashboard));
+}
+
+// Passport dates saved by earlier versions are text like 2030-01-31: turn them into real dates (shown Day/Month/Year).
+function passportDatesToDates_(ss) {
+  var sh = ss.getSheetByName(TABS.travellers), n = sh.getLastRow() - 1;
+  if (n < 1) return;
+  ['Passport issued', 'Passport expires'].forEach(function (c) {
+    var rng = sh.getRange(2, TRAVELLER_COLS.indexOf(c) + 1, n, 1), v = rng.getValues();
+    var out = v.map(function (r) { var d = typeof r[0] === 'string' ? parseDate_(r[0].replace(/^'/, '')) : ''; return [d || r[0]]; });
+    rng.setValues(out);
+  });
 }
 
 function setupSettings_(ss) {
@@ -201,7 +214,7 @@ function setupTrip_(ss) {
   var tDay = day(T('Tour date')) + ',' + T('Status') + ',"<>Cancelled"';
   sh.getRange('A1').setValue('Trip sheet').setFontSize(16).setFontWeight('bold');
   sh.getRange('A2').setValue('Tour date (change the yellow cell):').setFontWeight('bold');
-  sh.getRange('B2').setValue(date).setNumberFormat('ddd d mmm yyyy').setBackground('#fff2a8').setFontWeight('bold').setHorizontalAlignment('left');
+  sh.getRange('B2').setValue(date).setNumberFormat('ddd dd/mm/yyyy').setBackground('#fff2a8').setFontWeight('bold').setHorizontalAlignment('left');
   sh.getRange('B2').setDataValidation(SpreadsheetApp.newDataValidation().requireDate().setAllowInvalid(false).build());
   var kpis = [
     ['Booking requests', '=COUNTIFS(' + bDay + ')'],
@@ -416,7 +429,7 @@ function setupReviews_(ss) {
   sh.getRange(2, 1, SEED_REVIEWS.length, REVIEW_COLS.length).setValues(SEED_REVIEWS.map(function (r) {
     return [r[0], r[1] ? parseDate_(r[1]) : '', r[2], r[3]]; }));
   sh.getRange('A2:A100').insertCheckboxes();
-  sh.getRange('B2:B100').setNumberFormat('yyyy-mm-dd');
+  sh.getRange('B2:B100').setNumberFormat('dd/mm/yyyy');
   sh.getRange('D:D').setWrap(true);
   sh.setColumnWidth(1, 60); sh.setColumnWidth(2, 100); sh.setColumnWidth(3, 160); sh.setColumnWidth(4, 640);
   sh.setFrozenRows(1);
@@ -478,7 +491,7 @@ function setupDashboard_(ss) {
   var tables = [
     { col: 'A', head: ['Month (tour date)', 'Bookings', 'Travellers', 'Est. tour USD', 'Paid USD'],
       q: '=IFERROR(QUERY(' + bRange + ',"select ' + B('Tour month') + ', count(A), sum(' + B('People') + '), sum(' +
-        B('Est. tour USD') + ') where A is not null and ' + notCancelled + ' group by ' + B('Tour month') + ' order by ' +
+        B('Est. tour USD') + ') where A is not null and ' + B('Tour month') + ' is not null and ' + notCancelled + ' group by ' + B('Tour month') + ' order by ' +
         B('Tour month') + ' label count(A) \'\', sum(' + B('People') + ') \'\', sum(' + B('Est. tour USD') + ') \'\'",0),"")',
       paid: { col: 'E', key: 'Tour month', from: 'A' } },
     { col: 'G', head: ['Tour', 'Bookings', 'Travellers', 'Paid USD'],
@@ -487,7 +500,7 @@ function setupDashboard_(ss) {
         B('People') + ') \'\'",0),"")',
       paid: { col: 'J', key: 'Tour name', from: 'G' } },
     { col: 'L', head: ['Country', 'Travellers'],
-      q: '=IFERROR(QUERY(Travellers!A2:' + colLetter_(TRAVELLER_COLS.length) + ',"select ' + T('Country') + ', count(A) where A is not null and ' + T('Status') +
+      q: '=IFERROR(QUERY(Travellers!A2:' + colLetter_(TRAVELLER_COLS.length) + ',"select ' + T('Country') + ', count(A) where A is not null and ' + T('Country') + ' is not null and ' + T('Status') +
         " <> 'Cancelled' group by " + T('Country') + ' order by count(A) desc label count(A) \'\'",0),"")' },
     { col: 'O', head: ['Booking source', 'Bookings'],
       q: '=IFERROR(QUERY(' + bRange + ',"select ' + B('Source') + ', count(A) where A is not null group by ' + B('Source') +
@@ -630,8 +643,9 @@ function saveBooking_(ss, d) {
     addRow_(ss, TABS.travellers, TRAVELLER_COLS, {
       'Booking ID': id, 'Tour date': date, 'Tour': text_(tour), 'Traveller #': i + 1, 'First name': names[i].first,
       'Last name': names[i].last, 'Full name': names[i].full, 'Country': countries[i], 'Gender': clean_(p.gender, 10),
-      'Passport no': text_(clean_(p.pass, 40).toUpperCase()), 'Passport issued': text_(clean_(p.issued, 10)),
-      'Passport expires': text_(clean_(p.expires, 10)), 'Food': clean_(p.food, 20),
+      'Passport no': text_(clean_(p.pass, 40).toUpperCase()),
+      'Passport issued': parseDate_(p.issued) || text_(clean_(p.issued, 10)),
+      'Passport expires': parseDate_(p.expires) || text_(clean_(p.expires, 10)), 'Food': clean_(p.food, 20),
       'Pickup place': pickup[i].place, 'Pickup map': pickup[i].map, 'Takeaway lunch': lunch[i].text, 'Lunch kip': lunch[i].kip || ''
     });
   });
@@ -674,12 +688,12 @@ function selfTest_(ss) {
   }
   var b = ss.getSheetByName(TABS.bookings).getDataRange().getDisplayValues().filter(function (r) { return r[0] === id; })[0] || [];
   var t = ss.getSheetByName(TABS.travellers).getDataRange().getDisplayValues().filter(function (r) { return r[0] === id; })[0] || [];
-  out.datesOk = b[BOOKING_COLS.indexOf('Pickup date')] === '2030-01-15' && b[BOOKING_COLS.indexOf('Return date')] === '2030-01-18';
+  out.datesOk = b[BOOKING_COLS.indexOf('Pickup date')] === '15/01/2030' && b[BOOKING_COLS.indexOf('Return date')] === '18/01/2030';
   out.namesOk = t[TRAVELLER_COLS.indexOf('First name')] === 'Test' && t[TRAVELLER_COLS.indexOf('Last name')] === 'Person' &&
     b[BOOKING_COLS.indexOf('Lead name')] === 'Test Person';
   out.fieldsOk = b[BOOKING_COLS.indexOf('Food')] === 'Vegetarian 1, Regular 1' && b[BOOKING_COLS.indexOf('Payment method')] === 'BCEL QR' &&
-    t[TRAVELLER_COLS.indexOf('Passport no')] === 'AB123' && t[TRAVELLER_COLS.indexOf('Passport issued')] === '2020-01-01' &&
-    t[TRAVELLER_COLS.indexOf('Passport expires')] === '2030-01-01' && t[TRAVELLER_COLS.indexOf('Food')] === 'Vegetarian';
+    t[TRAVELLER_COLS.indexOf('Passport no')] === 'AB123' && t[TRAVELLER_COLS.indexOf('Passport issued')] === '01/01/2020' &&
+    t[TRAVELLER_COLS.indexOf('Passport expires')] === '01/01/2030' && t[TRAVELLER_COLS.indexOf('Food')] === 'Vegetarian';
   out.transferOk = b[BOOKING_COLS.indexOf('Train station drop-off')] === 'Yes' &&
     b[BOOKING_COLS.indexOf('Pickups')] === 'Test hostel: 1; No transfer: 2' &&
     b[BOOKING_COLS.indexOf('Est. transfer kip')] === '570,000' && t[TRAVELLER_COLS.indexOf('Pickup place')] === 'Test hostel';
