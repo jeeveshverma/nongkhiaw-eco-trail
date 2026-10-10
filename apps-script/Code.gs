@@ -9,7 +9,7 @@
  */
 
 var TABS = { bookings: 'Bookings', travellers: 'Travellers', inquiries: 'Inquiries', reviews: 'Reviews', settings: 'Settings',
-  dashboard: 'Dashboard' };
+  dashboard: 'Dashboard', content: 'Content', contentBase: 'Content base', help: 'How to edit' };
 
 var BOOKING_COLS = ['Booking ID', 'Submitted at', 'Tour date', 'Tour month', 'Tour', 'Tour name', 'People', 'Lead name',
   'Traveller names', 'Countries', 'Food', 'Transfer', 'Pickup date', 'Return date', 'Accommodation', 'Maps link',
@@ -52,6 +52,8 @@ function setup() {
   setupTable_(ss, TABS.travellers, TRAVELLER_COLS, {}, FORMATS.Travellers);
   setupTable_(ss, TABS.inquiries, INQUIRY_COLS, { 'Status': INQUIRY_STATUSES, 'Source': SOURCES }, FORMATS.Inquiries);
   setupReviews_(ss);
+  setupContent_(ss);
+  setupHelp_(ss);
 
   // Travellers.Status follows the booking's status, so cancelled trips drop out of the reports.
   var trav = ss.getSheetByName(TABS.travellers);
@@ -72,15 +74,33 @@ function setupSettings_(ss) {
   var sh = sheet_(ss, TABS.settings);
   // 2026-10-09 price change: move the old default on; a value staff typed themselves is left alone
   if (sh.getRange('F2').getValue() === 200000) sh.getRange('F2').setValue(TRANSFER_KIP);
-  if (sh.getLastRow() > 0) return;
+  if (sh.getLastRow() > 0) { migrateSettings_(sh); return; }
   sh.getRange('A:A').setNumberFormat('@');
   sh.getRange(1, 1, 1, 3).setValues([['Tour', 'Name', 'Price USD (per person)']]);
   sh.getRange(2, 1, TOURS.length, 3).setValues(TOURS);
-  sh.getRange('E1:F2').setValues([['Setting', 'Value'], ['Transfer kip per person, each way', TRANSFER_KIP]]);
-  sh.getRange('E4').setValue('Edit prices here; new bookings use them. Old rows keep the price they were booked at.');
+  sh.getRange('E1:F2').setValues([['Setting', 'Value'], ['Transfer kip per person, one way', TRANSFER_KIP]]);
+  migrateSettings_(sh);
   sh.getRange('A1:F1').setFontWeight('bold');
   sh.setFrozenRows(1);
   sh.autoResizeColumns(1, 6);
+}
+
+// Round trip, train station fee and the explanatory note (older sheets only had the one-way price and a note in E4).
+function migrateSettings_(sh) {
+  var one = Number(sh.getRange('F2').getValue()) || TRANSFER_KIP;
+  sh.getRange('E2').setValue('Transfer kip per person, one way');
+  if (String(sh.getRange('E4').getValue()).indexOf('Edit prices') === 0) sh.getRange('E4:F4').clearContent();
+  if (String(sh.getRange('E3').getValue()) === '') sh.getRange('E3:F3').setValues([['Transfer kip per person, round trip', one * 2]]);
+  if (String(sh.getRange('E4').getValue()) === '') sh.getRange('E4:F4').setValues([['Train station drop-off, extra kip per person', 70000]]);
+  sh.getRange('E6').setValue('Edit prices here: the website and new bookings use them within 5 minutes. Old rows keep the price they were booked at.');
+  sh.getRange('F2:F4').setNumberFormat('#,##0');
+  sh.getRange('E:E').setWrap(true);
+}
+
+function kipPrices_(ss) {
+  var sh = ss.getSheetByName(TABS.settings);
+  var one = Number(sh.getRange('F2').getValue()) || TRANSFER_KIP;
+  return { one: one, round: Number(sh.getRange('F3').getValue()) || one * 2, train: Number(sh.getRange('F4').getValue()) || 70000 };
 }
 
 function setupTable_(ss, name, cols, dropdowns, formats) {
@@ -97,6 +117,171 @@ function setupTable_(ss, name, cols, dropdowns, formats) {
     var rule = SpreadsheetApp.newDataValidation().requireValueInList(dropdowns[c], true).setAllowInvalid(true).build();
     sh.getRange(2, cols.indexOf(c) + 1, sh.getMaxRows() - 1, 1).setDataValidation(rule);
   });
+}
+
+/* ---------- editable website text (Content tab) and prices (Settings tab) ---------- */
+
+// Content columns: A key, B where on the site, C..J the 8 languages (C = English, the one staff edit), K status, L hash.
+var CONTENT_LANGS = ['en', 'lo', 'th', 'zh', 'ko', 'ja', 'fr', 'de'];
+var CONTENT_NAMES = ['English (edit this)', 'Lao', 'Thai', 'Chinese', 'Korean', 'Japanese', 'French', 'German'];
+var TRANSLATE_CODES = { lo: 'lo', th: 'th', zh: 'zh-CN', ko: 'ko', ja: 'ja', fr: 'fr', de: 'de' };
+var CONTENT_WIDTH = 12;
+
+// Builds or updates the Content tab from CONTENT_SEED (ContentSeed.gs). The "Content base" tab remembers the text the
+// site ships with: a cell that differs from it is an edit and is served to the website; cells staff have not touched
+// follow the shipped text, so updates to the site's built-in text still reach them.
+function setupContent_(ss) {
+  var sh = ss.getSheetByName(TABS.content) || ss.insertSheet(TABS.content);
+  var base = ss.getSheetByName(TABS.contentBase) || ss.insertSheet(TABS.contentBase);
+  var head = ['Key', 'Where on the site'].concat(CONTENT_NAMES).concat(['Status', 'Translated from (do not edit)']);
+  var oldCur = {}, oldBase = {}, order = [];
+  if (sh.getLastRow() > 1) sh.getRange(2, 1, sh.getLastRow() - 1, CONTENT_WIDTH).getValues().forEach(function (r) { oldCur[r[0]] = r; order.push(r[0]); });
+  if (base.getLastRow() > 1) base.getRange(2, 1, base.getLastRow() - 1, CONTENT_WIDTH).getValues().forEach(function (r) { oldBase[r[0]] = r; });
+  var seed = {};
+  CONTENT_SEED.forEach(function (r) { seed[r[0]] = r; });
+  CONTENT_SEED.forEach(function (r) { if (order.indexOf(r[0]) === -1) order.push(r[0]); });
+  var rows = [], baseRows = [];
+  order.forEach(function (key) {
+    var sd = seed[key]; if (!sd) return;   // text that no longer exists on the site
+    var cur = oldCur[key], ob = oldBase[key], row = [key, sd[1]];
+    for (var i = 0; i < 8; i++) {
+      var shipped = sd[2 + i], was = ob ? String(ob[2 + i]) : null, now = cur ? String(cur[2 + i]) : null;
+      row.push(cur && was !== null && now !== was ? now : shipped);   // keep a staff edit, otherwise follow the shipped text
+    }
+    row.push(cur ? cur[10] : '', cur ? cur[11] : '');
+    rows.push(row);
+    baseRows.push(sd.slice(0, 10).concat(['', '']));
+  });
+  sh.clear(); base.clear();
+  sh.getRange(1, 1, 1, CONTENT_WIDTH).setValues([head]).setFontWeight('bold').setBackground('#e8f0ea');
+  base.getRange(1, 1, 1, CONTENT_WIDTH).setValues([head]);
+  sh.getRange(2, 1, rows.length, CONTENT_WIDTH).setValues(rows);
+  base.getRange(2, 1, baseRows.length, CONTENT_WIDTH).setValues(baseRows);
+  sh.getRange(2, 1, rows.length, CONTENT_WIDTH).setVerticalAlignment('top').setWrap(true);
+  sh.getRange(2, 1, rows.length, 2).setBackground('#f3f3f3').setFontColor('#666666');
+  sh.getRange(2, 11, rows.length, 1).setFontColor('#666666');
+  sh.setColumnWidth(1, 90); sh.setColumnWidth(2, 150); sh.setColumnWidth(3, 380);
+  for (var c = 4; c <= 10; c++) sh.setColumnWidth(c, 260);
+  sh.setColumnWidth(11, 170);
+  sh.hideColumns(1); sh.hideColumns(CONTENT_WIDTH);
+  sh.setFrozenRows(1); sh.setFrozenColumns(2);
+  if (sh.getFilter()) sh.getFilter().remove();
+  sh.getRange(1, 1, rows.length + 1, CONTENT_WIDTH).createFilter();
+  base.hideSheet();
+}
+
+// Translates English edits that are not yet translated (at most maxRows per call) and resets rows whose English was put
+// back to the shipped text. Returns how many edited rows still wait for their translation.
+function refreshContent_(maxRows) {
+  var ss = SpreadsheetApp.getActive(), sh = ss.getSheetByName(TABS.content), base = ss.getSheetByName(TABS.contentBase);
+  if (!sh || !base || sh.getLastRow() < 2) return 0;
+  var data = sh.getRange(2, 1, sh.getLastRow() - 1, CONTENT_WIDTH).getValues(), baseMap = {};
+  base.getRange(2, 1, base.getLastRow() - 1, CONTENT_WIDTH).getValues().forEach(function (r) { baseMap[r[0]] = r; });
+  var done = 0, waiting = 0;
+  data.forEach(function (row, i) {
+    var b = baseMap[row[0]]; if (!b) return;
+    var en = String(row[2]), edited = en.trim() !== '' && en !== String(b[2]);
+    if (edited && row[11] !== hash_(en)) {
+      if (done >= maxRows) { waiting++; sh.getRange(i + 2, 11).setValue('Waiting to translate'); return; }
+      var out = [], ok = true;
+      CONTENT_LANGS.slice(1).forEach(function (lang) {
+        try { out.push(translate_(en, lang)); } catch (err) { console.error('translate ' + lang + ': ' + err); ok = false; out.push(row[3 + CONTENT_LANGS.indexOf(lang) - 1]); }
+      });
+      sh.getRange(i + 2, 4, 1, 9).setValues([out.concat([ok ? 'Translated automatically' : 'Translation failed, will retry', ok ? hash_(en) : ''])]);
+      done++;
+    } else if (!edited && row[11]) {   // English is back to the original: so are the other languages
+      sh.getRange(i + 2, 4, 1, 9).setValues([b.slice(3, 10).concat(['', ''])]);
+    }
+  });
+  return waiting;
+}
+
+// Google Translate keeps {placeholders} and HTML tags; if a placeholder is lost the English text is used for that language.
+function translate_(text, lang) {
+  var wrapped = text.replace(/\{(\w+)\}/g, '<span class="notranslate" translate="no">{$1}</span>');
+  var out = LanguageApp.translate(wrapped, 'en', TRANSLATE_CODES[lang], { contentType: 'html' });
+  out = out.replace(/<span[^>]*>(\{\w+\})<\/span>/g, '$1').replace(/&#39;/g, "'").replace(/&quot;/g, '"').replace(/&amp;/g, '&');
+  var tokens = text.match(/\{\w+\}/g) || [];
+  return tokens.every(function (tk) { return out.indexOf(tk) !== -1; }) ? out : text;
+}
+
+function hash_(s) {
+  return Utilities.computeDigest(Utilities.DigestAlgorithm.MD5, String(s), Utilities.Charset.UTF_8)
+    .map(function (b) { return ('0' + (b & 0xff).toString(16)).slice(-2); }).join('');
+}
+
+// What the website needs: the cells staff changed (per language) plus prices. Cached; shorter while translations are pending.
+function configJson_(holdsLock) {
+  var cache = CacheService.getScriptCache(), hit = cache.get('config');
+  if (hit) return hit;
+  var ss = SpreadsheetApp.getActive(), waiting = 0, lock = LockService.getScriptLock();
+  if (holdsLock) waiting = refreshContent_(3);   // the caller (doPost) already holds the script lock
+  else if (lock.tryLock(5000)) { try { waiting = refreshContent_(3); } finally { lock.releaseLock(); } }
+  var out = { content: {}, prices: {}, kip: kipPrices_(ss) };
+  var sh = ss.getSheetByName(TABS.content), base = ss.getSheetByName(TABS.contentBase);
+  if (sh && base && sh.getLastRow() > 1) {
+    var baseMap = {};
+    base.getRange(2, 1, base.getLastRow() - 1, CONTENT_WIDTH).getValues().forEach(function (r) { baseMap[r[0]] = r; });
+    sh.getRange(2, 1, sh.getLastRow() - 1, CONTENT_WIDTH).getValues().forEach(function (row) {
+      var b = baseMap[row[0]]; if (!b) return;
+      CONTENT_LANGS.forEach(function (lang, i) {
+        var v = String(row[2 + i]);
+        if (v.trim() !== '' && v !== String(b[2 + i])) { (out.content[lang] = out.content[lang] || {})[row[0]] = v; }
+      });
+    });
+  }
+  ss.getSheetByName(TABS.settings).getRange('A2:C20').getValues().forEach(function (r) {
+    if (String(r[0]).trim() && Number(r[2]) > 0) out.prices[String(r[0]).trim()] = Number(r[2]);
+  });
+  var json = JSON.stringify(out);
+  if (json.length < 90000) cache.put('config', json, waiting ? 60 : 300);
+  return json;
+}
+
+function onOpen() {
+  SpreadsheetApp.getUi().createMenu('Website').addItem('Update the website now', 'updateWebsiteNow').addToUi();
+}
+
+function updateWebsiteNow() {
+  var cache = CacheService.getScriptCache();
+  cache.remove('config'); cache.remove('reviews');
+  var waiting = refreshContent_(25);
+  cache.remove('config');
+  SpreadsheetApp.getActive().toast(waiting ? waiting + ' edited rows are still being translated; run this again in a minute.' :
+    'Done. The website shows your changes within a minute.', 'Website', 8);
+}
+
+function setupHelp_(ss) {
+  if (ss.getSheetByName(TABS.help)) return;
+  var sh = ss.insertSheet(TABS.help, 1);
+  var lines = [
+    ['How to edit the website'],
+    [''],
+    ['TEXT  (tab "Content")'],
+    ['1. Find the sentence (use the filter on "Where on the site", or Ctrl/Cmd+F).'],
+    ['2. Change the English cell. Do not change the Key column.'],
+    ['3. The other 7 languages are translated automatically (the Status column says "Translated automatically").'],
+    ['4. To fix a translation by hand, type over that language cell. It is kept until you change the English again.'],
+    ['5. To undo a change, put the original English back (or clear the cell): the site goes back to the original text.'],
+    ['6. Menu "Website" > "Update the website now" makes it show straight away. Otherwise it shows within about 5 minutes.'],
+    ['Words like {p102} or {kip1} are prices taken from the Settings tab. Leave them in place.'],
+    [''],
+    ['PRICES  (tab "Settings")'],
+    ['Change the tour prices (USD) and the transfer prices (kip). Prices in the text, the cards and the WhatsApp message follow.'],
+    [''],
+    ['REVIEWS  (tab "Reviews")'],
+    ['Tick Show for the reviews that should appear on the website (newest Date first, up to 8). Paste new Google reviews as new rows.'],
+    [''],
+    ['PHOTOS'],
+    ['Photos are not in the sheet. Send the new photo to Jeevesh, or upload it on GitHub (images folder) with the same file name.'],
+    [''],
+    ['BOOKINGS  (tabs "Bookings", "Travellers", "Inquiries", "Dashboard")'],
+    ['Set Status, Receipt No and Amount paid in "Bookings". The Dashboard updates by itself.']
+  ];
+  sh.getRange(1, 1, lines.length, 1).setValues(lines).setWrap(true).setVerticalAlignment('top');
+  sh.setColumnWidth(1, 760);
+  sh.getRange('A1').setFontSize(16).setFontWeight('bold');
+  ['A3', 'A12', 'A15', 'A18', 'A21'].forEach(function (a) { sh.getRange(a).setFontWeight('bold').setFontColor('#2f6b4f'); });
 }
 
 // Seeded once with the reviews the site showed before; after that the tab is staff-owned and never overwritten.
@@ -266,6 +451,9 @@ function doGet(e) {
     setup();
     return reply_('Setup done. Open the sheet to see the Dashboard.');
   }
+  if (e && e.parameter.config === '1') {
+    return ContentService.createTextOutput(configJson_()).setMimeType(ContentService.MimeType.JSON);
+  }
   if (e && e.parameter.reviews === '1') {
     return ContentService.createTextOutput(reviewsJson_()).setMimeType(ContentService.MimeType.JSON);
   }
@@ -300,7 +488,7 @@ function saveBooking_(ss, d) {
     'Accommodation': legs ? clean_(d.hotel, 120) : '', 'Maps link': legs ? clean_(d.map, 300) : '',
     'Payment method': clean_(d.payment, 40), 'Source': clean_(d.source, 40) || 'Not given', 'Referrer': clean_(d.referrer, 120),
     'Site language': clean_(d.lang, 5), 'Note': clean_(d.note, 1000), 'Est. tour USD': info.price * people.length,
-    'Est. transfer kip': legs * kipPerWay_(ss) * people.length, 'Status': 'Requested'
+    'Est. transfer kip': (legs === 2 ? kipPrices_(ss).round : legs === 1 ? kipPrices_(ss).one : 0) * people.length, 'Status': 'Requested'
   });
   people.forEach(function (p, i) {
     addRow_(ss, TABS.travellers, TRAVELLER_COLS, {
@@ -337,6 +525,7 @@ function selfTest_(ss) {
     t[TRAVELLER_COLS.indexOf('Passport no')] === 'AB123' && t[TRAVELLER_COLS.indexOf('Passport issued')] === '2020-01-01' &&
     t[TRAVELLER_COLS.indexOf('Passport expires')] === '2030-01-01' && t[TRAVELLER_COLS.indexOf('Food')] === 'Vegetarian';
   out.reviewsOk = JSON.parse(reviewsJson_()).length > 0;
+  out.contentOk = contentSelfTest_(ss);
   var testIds = {};  // booking IDs of test bookings (a site test has an NK... ID and SELFTEST- as lead name)
   [TABS.bookings, TABS.travellers, TABS.inquiries].forEach(function (name) {
     var sh = ss.getSheetByName(name), values = sh.getDataRange().getDisplayValues();
@@ -350,6 +539,30 @@ function selfTest_(ss) {
   });
   out.tabsOk = ss.getSheets().length >= 6;
   return JSON.stringify(out);
+}
+
+// Edits two English cells, checks the translations arrive with their {placeholders}, then puts both rows back.
+function contentSelfTest_(ss) {
+  var sh = ss.getSheetByName(TABS.content), cache = CacheService.getScriptCache(), keys = ['rev_src', 'tr_one'], saved = {}, ok = false;
+  var rowOf = function (key) { var v = sh.getRange(2, 1, sh.getLastRow() - 1, 1).getValues(); for (var i = 0; i < v.length; i++) if (v[i][0] === key) return i + 2; return 0; };
+  try {
+    keys.forEach(function (k) { var r = rowOf(k); saved[k] = { r: r, vals: sh.getRange(r, 3, 1, 10).getValues()[0] }; });
+    sh.getRange(saved.rev_src.r, 3).setValue('Selftest review');
+    sh.getRange(saved.tr_one.r, 3).setValue('Selftest one way ({kip1} kip)');
+    cache.remove('config');
+    var cfg = JSON.parse(configJson_(true));
+    var c = cfg.content;
+    ok = !!(c.en && c.en.rev_src === 'Selftest review' && c.de && c.de.rev_src && c.de.rev_src !== 'Selftest review' &&
+      c.de.tr_one && c.de.tr_one.indexOf('{kip1}') !== -1 && c.th && c.th.tr_one.indexOf('{kip1}') !== -1);
+  } catch (err) {
+    console.error('content selftest: ' + err);
+  } finally {
+    keys.forEach(function (k) { if (saved[k]) sh.getRange(saved[k].r, 3, 1, 10).setValues([saved[k].vals]); });
+    cache.remove('config');
+    var after = JSON.parse(configJson_(true)).content;
+    ok = ok && !(after.en && (after.en.rev_src || after.en.tr_one));   // the test edits are gone again
+  }
+  return ok;
 }
 
 function saveInquiry_(ss, d) {

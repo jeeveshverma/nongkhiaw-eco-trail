@@ -32,3 +32,23 @@ Then POST `{"type":"rebuild"}` to the URL if the tabs or dashboard changed (neve
 POST `{"type":"selftest"}` to write, read back and delete a sample booking and inquiry.
 
 Failed saves show under **Apps Script > Executions**. The customer's WhatsApp message is sent either way.
+
+## Editing the website from the sheet (Content, Settings, Reviews)
+- **Content tab**: every piece of text on the site, in 8 languages, in page order. Staff edit the English cell; the
+  other languages are translated by Google Translate on the next refresh (`LanguageApp`, no extra permission). A cell
+  that differs from the shipped text (tab "Content base", hidden) is an edit and is served by `?config=1`; the site
+  merges it over its built-in text (`applyConfig` in `js/main.js`) and keeps a copy in localStorage (`nke-config`).
+  Putting the English back restores the original in every language. Typing over a translation keeps it until the
+  English is changed again.
+- **Prices**: Settings tab (tour prices A2:C5, one way F2, round trip F3, train station F4). Strings carry placeholders
+  `{p101} {p102} {p103} {p001} {pmin} {kip1} {kip2} {kipTrain}` that `fill()` in `js/main.js` replaces; card prices
+  (`.price-num[data-price]`) and the WhatsApp tour line use the same numbers.
+- **Menu "Website > Update the website now"** clears the cache and translates everything pending at once.
+- The page only shows `<br>` and `<em>` from sheet text (`safeHtml`); anything else is plain text.
+
+### When the built-in text in `js/i18n*.js` or the order in `index.html` changes
+1. `node apps-script/build-seed.js` (rewrites `ContentSeed.gs`)
+2. copy `Code.gs`, `ContentSeed.gs`, `appsscript.json` to the clasp folder, `clasp push --force`,
+   `clasp update-deployment <deployment id>`
+3. POST `{"type":"rebuild"}`: new text reaches every cell staff have not edited; their edits are kept.
+Do not put text with prices directly in a string: use the placeholders above.

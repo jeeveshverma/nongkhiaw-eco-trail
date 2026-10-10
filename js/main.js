@@ -7,10 +7,46 @@
   var DICT = window.I18N || {};
   var current = 'en';
 
+  /* Prices live in the sheet's Settings tab; strings carry placeholders such as {p102} or {kip1}. These are the
+     fallback values used until (or unless) the sheet answers. */
+  var CONFIG = { prices: { '101': 30, '102': 60, '103': 90, '001': 30 }, kip: { one: 250000, round: 500000, train: 70000 } };
+  function fmtNum(n) {
+    var sep = current === 'fr' ? ' ' : (current === 'de' ? '.' : ',');
+    return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, sep);
+  }
+  function fill(v) {
+    return v.replace(/\{(p101|p102|p103|p001|pmin|kip1|kip2|kipTrain)\}/g, function (m, k) {
+      if (k === 'pmin') return String(Math.min.apply(null, Object.keys(CONFIG.prices).map(function (c) { return CONFIG.prices[c]; })));
+      if (k === 'kip1') return fmtNum(CONFIG.kip.one);
+      if (k === 'kip2') return fmtNum(CONFIG.kip.round);
+      if (k === 'kipTrain') return fmtNum(CONFIG.kip.train);
+      return String(CONFIG.prices[k.slice(1)]);
+    });
+  }
   function t(key) {
     var d = DICT[current] || {};
-    if (d[key] != null) return d[key];
-    return (DICT.en && DICT.en[key]) || '';
+    if (d[key] != null && d[key] !== '') return fill(d[key]);
+    return fill((DICT.en && DICT.en[key]) || '');
+  }
+  // Text from the sheet may only carry line breaks and emphasis; everything else is shown as plain text.
+  function safeHtml(v) {
+    return v.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/&lt;(\/?)(em|br)\s*\/?&gt;/g, function (m, close, tag) { return tag === 'br' ? '<br>' : '<' + close + 'em>'; });
+  }
+
+  /* Overrides written in the sheet (Content and Settings tabs). Cached in the browser so a repeat visit shows
+     them at once; if the sheet cannot be reached the built-in text stays. */
+  function applyConfig(cfg) {
+    if (!cfg || typeof cfg !== 'object') return;
+    if (cfg.prices) Object.keys(cfg.prices).forEach(function (c) { var n = Number(cfg.prices[c]); if (n > 0) CONFIG.prices[c] = n; });
+    if (cfg.kip) ['one', 'round', 'train'].forEach(function (k) { var n = Number(cfg.kip[k]); if (n > 0) CONFIG.kip[k] = n; });
+    if (cfg.content) Object.keys(cfg.content).forEach(function (lang) {
+      if (!DICT[lang]) return;
+      Object.keys(cfg.content[lang]).forEach(function (key) {
+        var v = cfg.content[lang][key];
+        if (typeof v === 'string' && v.trim()) DICT[lang][key] = v;
+      });
+    });
   }
 
   /* ---------- language ---------- */
@@ -19,13 +55,14 @@
     current = code;
     document.documentElement.lang = code;
 
+    $$('.price-num[data-price]').forEach(function (el) { el.textContent = 'USD ' + CONFIG.prices[el.getAttribute('data-price')]; });
     $$('[data-i18n]').forEach(function (el) {
       var v = t(el.getAttribute('data-i18n'));
       if (v) el.textContent = v;
     });
     $$('[data-i18n-html]').forEach(function (el) {
       var v = t(el.getAttribute('data-i18n-html'));
-      if (v) el.innerHTML = v;
+      if (v) el.innerHTML = safeHtml(v);
     });
     $$('[data-i18n-ph]').forEach(function (el) {
       var v = t(el.getAttribute('data-i18n-ph'));
@@ -209,12 +246,13 @@
     var m = ('0' + (d.getMonth() + 1)).slice(-2), day = ('0' + d.getDate()).slice(-2);
     dateInput.min = d.getFullYear() + '-' + m + '-' + day;
   })();
-  var TOURS = {
-    '101': 'Package 101: Overnight Camping Above the Clouds 360° Viewpoint (USD 30)',
-    '102': 'Package 102: 2 Days 1 Night Overnight Camping & Full Day Adventure (USD 60)',
-    '103': 'Package 103: 3D2N Camping Above the Clouds, Homestay & Full-Day Adventure (USD 90)',
-    '001': 'Tour 001: 1-day boat trip to Muang Ngoi (USD 30)'
+  var TOUR_NAMES = {
+    '101': 'Package 101: Overnight Camping Above the Clouds 360° Viewpoint',
+    '102': 'Package 102: 2 Days 1 Night Overnight Camping & Full Day Adventure',
+    '103': 'Package 103: 3D2N Camping Above the Clouds, Homestay & Full-Day Adventure',
+    '001': 'Tour 001: 1-day boat trip to Muang Ngoi'
   };
+  function tourLabel(code) { return TOUR_NAMES[code] ? TOUR_NAMES[code] + ' (USD ' + CONFIG.prices[code] + ')' : code; }
   $$('[data-tour]').forEach(function (a) {
     a.addEventListener('click', function () {
       var sel = $('#fTour');
@@ -359,7 +397,7 @@
         '\n- Passport: ' + v('pass').toUpperCase() + ' (issued ' + v('issued') + ', expires ' + v('expires') + ')' +
         '\n- Food: ' + v('food');
     });
-    var msg = 'Hello! I would like to book:\n' + (TOURS[tour] || tour) + '\nBooking ref: ' + ref + '\n' +
+    var msg = 'Hello! I would like to book:\n' + tourLabel(tour) + '\nBooking ref: ' + ref + '\n' +
       'Date: ' + date + '\nPeople: ' + people.length +
       '\nPayment method: ' + pay +
       '\nTransfer from Luang Prabang: ' + transfer +
@@ -411,10 +449,22 @@
     if (!lockSubmit(this)) return;
     saveToSheet({ type: 'inquiry', website: $('#askForm [name=website]').value, name: name, contact: contact,
       tour: tour, question: question, source: $('#qSource').value });
-    var msg = 'Hello! I have a question' + (tour ? ' about ' + (TOURS[tour] || tour) : '') + ':\n' + question +
+    var msg = 'Hello! I have a question' + (tour ? ' about ' + tourLabel(tour) : '') + ':\n' + question +
       '\n\nName: ' + name + '\nContact: ' + contact;
     window.open('https://wa.me/' + WA + '?text=' + encodeURIComponent(msg), '_blank', 'noopener');
   });
+
+  function loadConfig() {
+    if (!SHEET_URL || !window.fetch) return;
+    fetch(SHEET_URL + '?config=1')
+      .then(function (r) { return r.json(); })
+      .then(function (cfg) {
+        applyConfig(cfg);
+        try { localStorage.setItem('nke-config', JSON.stringify(cfg)); } catch (e) { /* private mode */ }
+        applyLang(current);
+      })
+      .catch(function (err) { console.error('Website content from the sheet could not be loaded; showing the built-in text', err); });
+  }
 
   /* ---------- reviews: the ones staff tick in the sheet's Reviews tab; the reviews in the HTML stay if that fails ---------- */
   function loadReviews() {
@@ -461,6 +511,8 @@
   /* ---------- init ---------- */
   $('#year').textContent = new Date().getFullYear();
   buildLangMenu();
+  try { applyConfig(JSON.parse(localStorage.getItem('nke-config'))); } catch (e) { /* no cached copy */ }
   applyLang(detectLang());
+  loadConfig();
   loadReviews();
 })();
