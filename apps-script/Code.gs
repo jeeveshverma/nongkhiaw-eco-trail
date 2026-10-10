@@ -9,15 +9,15 @@
  */
 
 var TABS = { bookings: 'Bookings', travellers: 'Travellers', inquiries: 'Inquiries', reviews: 'Reviews', settings: 'Settings',
-  dashboard: 'Dashboard', content: 'Content', contentBase: 'Content base', help: 'How to edit' };
+  dashboard: 'Dashboard', content: 'Content', contentBase: 'Content base', help: 'How to edit', trip: 'Trip sheet' };
 
 var BOOKING_COLS = ['Booking ID', 'Submitted at', 'Tour date', 'Tour month', 'Tour', 'Tour name', 'People', 'Lead name',
-  'Traveller names', 'Countries', 'Food', 'Transfer', 'Pickup date', 'Return date', 'Accommodation', 'Maps link',
-  'Payment method', 'Source', 'Referrer', 'Site language', 'Note', 'Est. tour USD', 'Est. transfer kip', 'Status',
+  'Traveller names', 'Countries', 'Food', 'Transfer', 'Pickup date', 'Return date', 'Train station drop-off', 'Accommodation',
+  'Maps link', 'Pickups', 'Payment method', 'Source', 'Referrer', 'Site language', 'Note', 'Est. tour USD', 'Est. transfer kip', 'Status',
   'Receipt No', 'Amount paid USD', 'Staff notes'];
 // Status and Receipt No are formulas (spilled from their header cell) that look the booking up: never written per row.
 var TRAVELLER_COLS = ['Booking ID', 'Tour date', 'Tour', 'Traveller #', 'First name', 'Last name', 'Full name', 'Country',
-  'Gender', 'Passport no', 'Passport issued', 'Passport expires', 'Food', 'Status', 'Receipt No'];
+  'Gender', 'Passport no', 'Passport issued', 'Passport expires', 'Food', 'Pickup place', 'Pickup map', 'Status', 'Receipt No'];
 // Headers renamed in a later version: the old name is renamed in place, so its data stays put.
 var RENAMES = { Travellers: { 'Name': 'Full name' }, Bookings: { 'Special food': 'Food' } };
 // Reviews shown on the website: staff tick Show; newest Date first, at most REVIEWS_SHOWN.
@@ -54,6 +54,7 @@ function setup() {
   setupReviews_(ss);
   setupContent_(ss);
   setupHelp_(ss);
+  setupTrip_(ss);
 
   // Travellers.Status follows the booking's status, so cancelled trips drop out of the reports.
   var trav = ss.getSheetByName(TABS.travellers);
@@ -107,6 +108,7 @@ function setupTable_(ss, name, cols, dropdowns, formats) {
   var sh = sheet_(ss, name);
   renameColumns_(sh, RENAMES[name] || {});
   addMissingColumns_(sh, cols);
+  dropDuplicateLookups_(sh, name, cols);
   sh.getRange(1, 1, 1, cols.length).setValues([cols]);  // headers follow the column list; data rows untouched
   sh.getRange(1, 1, 1, cols.length).setFontWeight('bold').setBackground('#e8f0ea');
   sh.setFrozenRows(1);
@@ -117,6 +119,46 @@ function setupTable_(ss, name, cols, dropdowns, formats) {
     var rule = SpreadsheetApp.newDataValidation().requireValueInList(dropdowns[c], true).setAllowInvalid(true).build();
     sh.getRange(2, cols.indexOf(c) + 1, sh.getMaxRows() - 1, 1).setDataValidation(rule);
   });
+}
+
+/* ---------- Trip sheet: pick a date, see everyone on tours that day ---------- */
+
+function setupTrip_(ss) {
+  var sh = ss.getSheetByName(TABS.trip) || ss.insertSheet(TABS.trip);
+  var date = sh.getRange('B2').getValue();
+  if (!(date instanceof Date)) date = new Date();
+  sh.clear();
+  var B = function (c) { return 'Bookings!$' + colLetter_(BOOKING_COLS.indexOf(c) + 1) + '$2:$' + colLetter_(BOOKING_COLS.indexOf(c) + 1); };
+  var T = function (c) { return 'Travellers!$' + colLetter_(TRAVELLER_COLS.indexOf(c) + 1) + '$2:$' + colLetter_(TRAVELLER_COLS.indexOf(c) + 1); };
+  var day = function (rng) { return rng + ',">="&$B$2,' + rng + ',"<"&($B$2+1)'; };
+  var bDay = day(B('Tour date')) + ',' + B('Status') + ',"<>Cancelled"';
+  var tDay = day(T('Tour date')) + ',' + T('Status') + ',"<>Cancelled"';
+  sh.getRange('A1').setValue('Trip sheet').setFontSize(16).setFontWeight('bold');
+  sh.getRange('A2').setValue('Tour date (change the yellow cell):').setFontWeight('bold');
+  sh.getRange('B2').setValue(date).setNumberFormat('ddd d mmm yyyy').setBackground('#fff2a8').setFontWeight('bold').setHorizontalAlignment('left');
+  sh.getRange('B2').setDataValidation(SpreadsheetApp.newDataValidation().requireDate().setAllowInvalid(false).build());
+  var kpis = [
+    ['Booking requests', '=COUNTIFS(' + bDay + ')'],
+    ['Travellers', '=SUMIFS(' + B('People') + ',' + bDay + ')'],
+    ['Taking the transfer (by pickup place)', '=COUNTIFS(' + tDay + ',' + T('Pickup place') + ',"<>",' + T('Pickup place') + ',"<>No transfer")'],
+    ['Food: Regular', '=COUNTIFS(' + tDay + ',' + T('Food') + ',"Regular")'],
+    ['Food: Vegetarian', '=COUNTIFS(' + tDay + ',' + T('Food') + ',"Vegetarian")'],
+    ['Food: Vegan', '=COUNTIFS(' + tDay + ',' + T('Food') + ',"Vegan")'],
+    ['Food: Gluten-free', '=COUNTIFS(' + tDay + ',' + T('Food') + ',"Gluten-free")'],
+    ['Tours to collect (USD, not yet paid)', '=SUMIFS(' + B('Est. tour USD') + ',' + bDay + ')-SUMIFS(' + B('Amount paid USD') + ',' + bDay + ')'],
+    ['Transfers (kip, estimate)', '=SUMIFS(' + B('Est. transfer kip') + ',' + bDay + ')']
+  ];
+  kpis.forEach(function (k, i) { sh.getRange(4 + i, 1).setValue(k[0]); sh.getRange(4 + i, 2).setFormula(k[1]).setFontWeight('bold').setHorizontalAlignment('left'); });
+  sh.getRange('B11:B12').setNumberFormat('#,##0');
+  var head = ['Tour', 'Name', 'Country', 'Gender', 'Food', 'Pickup place', 'Pickup map', 'Booking ID', 'Receipt No'];
+  var cols = ['Tour', 'Full name', 'Country', 'Gender', 'Food', 'Pickup place', 'Pickup map', 'Booking ID', 'Receipt No'];
+  sh.getRange(14, 1, 1, head.length).setValues([head]).setFontWeight('bold').setBackground('#e8f0ea');
+  var arr = '{' + cols.map(function (c) { return T(c); }).join(',') + '}';
+  var cond = '(' + T('Tour date') + '>=$B$2)*(' + T('Tour date') + '<$B$2+1)*(' + T('Status') + '<>"Cancelled")*(' + T('Booking ID') + '<>"")';
+  sh.getRange('A15').setFormula('=IFERROR(SORT(FILTER(' + arr + ',' + cond + '),1,TRUE,2,TRUE),"No travellers on this date")');
+  sh.setColumnWidth(1, 250); sh.setColumnWidth(2, 220); sh.setColumnWidth(3, 120); sh.setColumnWidth(4, 90);
+  sh.setColumnWidth(5, 110); sh.setColumnWidth(6, 210); sh.setColumnWidth(7, 260); sh.setColumnWidth(8, 140); sh.setColumnWidth(9, 100);
+  sh.setFrozenRows(14);
 }
 
 /* ---------- editable website text (Content tab) and prices (Settings tab) ---------- */
@@ -474,6 +516,16 @@ function saveBooking_(ss, d) {
     var first = clean_(p.first, 60), last = clean_(p.last, 60);
     return { first: first, last: last, full: first || last ? (first + ' ' + last).trim() : clean_(p.name, 80) };
   });
+  // Per traveller: the group's pickup place (default), their own place, or no transfer. Nobody has one without a transfer.
+  var pickup = people.map(function (p, i) {
+    var mode = legs === 0 ? 'none' : (i > 0 && (p.pickup === 'other' || p.pickup === 'none') ? p.pickup : 'same');
+    if (mode === 'other' && !clean_(p.pkPlace, 120)) mode = 'same';
+    return { mode: mode,
+      place: mode === 'none' ? (legs === 0 ? '' : 'No transfer') : mode === 'other' ? clean_(p.pkPlace, 120) : clean_(d.hotel, 120),
+      map: mode === 'none' ? '' : mode === 'other' ? clean_(p.pkMap, 300) : clean_(d.map, 300) };
+  });
+  var riders = pickup.filter(function (x) { return x.mode !== 'none'; }).length;   // people who take the transfer
+  var train = legs === 2 && d.train === true;
   var food = {};  // everyone's choice with counts, e.g. "Regular 1, Vegan 1"
   people.forEach(function (p) { var f = clean_(p.food, 20) || 'Regular'; food[f] = (food[f] || 0) + 1; });
   var foodText = Object.keys(food).map(function (f) { return f + ' ' + food[f]; }).join(', ');
@@ -485,28 +537,44 @@ function saveBooking_(ss, d) {
     'People': people.length, 'Lead name': names[0].full, 'Traveller names': names.map(function (n) { return n.full; }).join(', '),
     'Countries': unique_(countries).join(', '), 'Food': foodText, 'Transfer': transfer,
     'Pickup date': legs ? parseDate_(d.pickupDate) : '', 'Return date': legs === 2 ? parseDate_(d.returnDate) : '',
+    'Train station drop-off': train ? 'Yes' : '',
     'Accommodation': legs ? clean_(d.hotel, 120) : '', 'Maps link': legs ? clean_(d.map, 300) : '',
+    'Pickups': legs ? pickupSummary_(pickup) : '',
     'Payment method': clean_(d.payment, 40), 'Source': clean_(d.source, 40) || 'Not given', 'Referrer': clean_(d.referrer, 120),
     'Site language': clean_(d.lang, 5), 'Note': clean_(d.note, 1000), 'Est. tour USD': info.price * people.length,
-    'Est. transfer kip': (legs === 2 ? kipPrices_(ss).round : legs === 1 ? kipPrices_(ss).one : 0) * people.length, 'Status': 'Requested'
+    'Est. transfer kip': ((legs === 2 ? kipPrices_(ss).round : legs === 1 ? kipPrices_(ss).one : 0) + (train ? kipPrices_(ss).train : 0)) * riders, 'Status': 'Requested'
   });
   people.forEach(function (p, i) {
     addRow_(ss, TABS.travellers, TRAVELLER_COLS, {
       'Booking ID': id, 'Tour date': date, 'Tour': text_(tour), 'Traveller #': i + 1, 'First name': names[i].first,
       'Last name': names[i].last, 'Full name': names[i].full, 'Country': countries[i], 'Gender': clean_(p.gender, 10),
       'Passport no': text_(clean_(p.pass, 40).toUpperCase()), 'Passport issued': text_(clean_(p.issued, 10)),
-      'Passport expires': text_(clean_(p.expires, 10)), 'Food': clean_(p.food, 20)
+      'Passport expires': text_(clean_(p.expires, 10)), 'Food': clean_(p.food, 20),
+      'Pickup place': pickup[i].place, 'Pickup map': pickup[i].map
     });
   });
+}
+
+// "Sunset Hostel: 1, 3; Villa Maly: 2; No transfer: 4" (traveller numbers per pickup place)
+function pickupSummary_(pickup) {
+  var stops = [], at = {};
+  pickup.forEach(function (x, i) {
+    var key = x.place + '\u0001' + x.map;
+    if (at[key] === undefined) { at[key] = stops.length; stops.push({ place: x.place, nums: [] }); }
+    stops[at[key]].nums.push(i + 1);
+  });
+  return stops.map(function (st) { return st.place + ': ' + st.nums.join(', '); }).join('; ');
 }
 
 // Writes one sample booking and inquiry, reads them back, then deletes them. Returns what was written.
 function selfTest_(ss) {
   var id = 'SELFTEST-' + new Date().getTime().toString(36);  // must fit the 20-char ID limit
   saveBooking_(ss, { id: id, tour: '101', date: '2030-01-15', transfer: 'Round trip', pickupDate: '2030-01-15', returnDate: '2030-01-18',
-    hotel: 'Test hostel', map: 'https://maps.app.goo.gl/test', source: 'Other', payment: 'BCEL QR',
+    train: true, hotel: 'Test hostel', map: 'https://maps.app.goo.gl/test', source: 'Other', payment: 'BCEL QR',
     travellers: [{ first: 'Test', last: 'Person', gender: 'X', nat: 'deutsch', food: 'Vegetarian', pass: 'ab123',
-      issued: '2020-01-01', expires: '2030-01-01' }] });
+      issued: '2020-01-01', expires: '2030-01-01', pickup: 'same' },
+      { first: 'Second', last: 'Person', gender: 'X', nat: 'german', food: 'Regular', pass: 'cd456', issued: '2020-01-01',
+        expires: '2030-01-01', pickup: 'none' }] });
   saveInquiry_(ss, { name: id, contact: 'test', question: 'test' });
   SpreadsheetApp.flush();
   var dash = ss.getSheetByName(TABS.dashboard);
@@ -516,14 +584,24 @@ function selfTest_(ss) {
     return tables[dash.getRange(c + '1').getColumn() - 1] !== ''; }) };
   var header = function (name) { var sh = ss.getSheetByName(name); return sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0].join('|'); };
   out.headersOk = header(TABS.bookings) === BOOKING_COLS.join('|') && header(TABS.travellers) === TRAVELLER_COLS.join('|');
+  if (!out.headersOk) {   // column names are public (they are in the repo): name the first one that differs
+    [[TABS.bookings, BOOKING_COLS], [TABS.travellers, TRAVELLER_COLS]].forEach(function (x) {
+      var have = header(x[0]).split('|');
+      for (var i = 0; i < Math.max(have.length, x[1].length); i++) if (have[i] !== x[1][i]) { out.headerIssue = x[0] + ' column ' + (i + 1) + ': found "' + have[i] + '", expected "' + x[1][i] + '"; headers: ' + have.join(' | '); return; }
+    });
+  }
   var b = ss.getSheetByName(TABS.bookings).getDataRange().getDisplayValues().filter(function (r) { return r[0] === id; })[0] || [];
   var t = ss.getSheetByName(TABS.travellers).getDataRange().getDisplayValues().filter(function (r) { return r[0] === id; })[0] || [];
   out.datesOk = b[BOOKING_COLS.indexOf('Pickup date')] === '2030-01-15' && b[BOOKING_COLS.indexOf('Return date')] === '2030-01-18';
   out.namesOk = t[TRAVELLER_COLS.indexOf('First name')] === 'Test' && t[TRAVELLER_COLS.indexOf('Last name')] === 'Person' &&
     b[BOOKING_COLS.indexOf('Lead name')] === 'Test Person';
-  out.fieldsOk = b[BOOKING_COLS.indexOf('Food')] === 'Vegetarian 1' && b[BOOKING_COLS.indexOf('Payment method')] === 'BCEL QR' &&
+  out.fieldsOk = b[BOOKING_COLS.indexOf('Food')] === 'Vegetarian 1, Regular 1' && b[BOOKING_COLS.indexOf('Payment method')] === 'BCEL QR' &&
     t[TRAVELLER_COLS.indexOf('Passport no')] === 'AB123' && t[TRAVELLER_COLS.indexOf('Passport issued')] === '2020-01-01' &&
     t[TRAVELLER_COLS.indexOf('Passport expires')] === '2030-01-01' && t[TRAVELLER_COLS.indexOf('Food')] === 'Vegetarian';
+  out.transferOk = b[BOOKING_COLS.indexOf('Train station drop-off')] === 'Yes' &&
+    b[BOOKING_COLS.indexOf('Pickups')] === 'Test hostel: 1; No transfer: 2' &&
+    b[BOOKING_COLS.indexOf('Est. transfer kip')] === '570,000' && t[TRAVELLER_COLS.indexOf('Pickup place')] === 'Test hostel';
+  out.tripOk = tripSelfTest_(ss);
   out.reviewsOk = JSON.parse(reviewsJson_()).length > 0;
   out.contentOk = contentSelfTest_(ss);
   var testIds = {};  // booking IDs of test bookings (a site test has an NK... ID and SELFTEST- as lead name)
@@ -539,6 +617,20 @@ function selfTest_(ss) {
   });
   out.tabsOk = ss.getSheets().length >= 6;
   return JSON.stringify(out);
+}
+
+// Points the trip sheet at the sample booking's date, checks the list and the totals, then puts the date back.
+function tripSelfTest_(ss) {
+  var sh = ss.getSheetByName(TABS.trip), cell = sh.getRange('B2'), saved = cell.getValue(), ok = false;
+  try {
+    cell.setValue(new Date(2030, 0, 15, 12)); SpreadsheetApp.flush();
+    var rows = sh.getRange(15, 1, 4, 9).getDisplayValues();
+    var people = Number(sh.getRange('B5').getValue()), riders = Number(sh.getRange('B6').getValue());
+    ok = rows.some(function (r) { return r[1] === 'Test Person' && r[5] === 'Test hostel'; }) &&
+      rows.some(function (r) { return r[1] === 'Second Person' && r[5] === 'No transfer'; }) && people >= 2 && riders >= 1;
+  } catch (err) { console.error('trip selftest: ' + err); }
+  finally { cell.setValue(saved); }
+  return ok;
 }
 
 // Edits two English cells, checks the translations arrive with their {placeholders}, then puts both rows back.
@@ -586,6 +678,15 @@ function addRow_(ss, name, cols, values) {
   sh.getRange(r, 1, 1, values.length).setValues([values]);
   var f = FORMATS[name] || {};
   Object.keys(f).forEach(function (c) { sh.getRange(r, cols.indexOf(c) + 1).setNumberFormat(f[c]); });
+}
+
+// The Travellers lookup columns (Status, Receipt No) are formulas; a second copy left at the end by a column move is removed.
+function dropDuplicateLookups_(sh, name, cols) {
+  if (name !== TABS.travellers || sh.getLastRow() === 0) return;
+  var have = sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0];
+  for (var i = have.length - 1; i >= cols.length; i--) {
+    if ((have[i] === 'Status' || have[i] === 'Receipt No') && have.indexOf(have[i]) < i) sh.deleteColumn(i + 1);
+  }
 }
 
 function renameColumns_(sh, renames) {

@@ -379,3 +379,8 @@ em{font-style:italic}
 .policy-link a{color:var(--moss);font-weight:700}
 @media (max-width:960px){.policy{grid-column:auto}}
 .rainnote{margin-top:10px;font-style:italic}
+.form label.check{display:flex;gap:10px;align-items:flex-start;font-weight:600}
+.form .check input{width:auto;margin-top:5px;flex:none}
+.pk{display:grid;gap:12px;border-top:1px dashed rgba(11,61,46,.25);padding-top:12px}
+.pk-other{display:grid;gap:12px}
+.pk[hidden],.pk-other[hidden],.form label.check[hidden]{display:none}

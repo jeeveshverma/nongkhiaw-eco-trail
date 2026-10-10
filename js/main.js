@@ -290,7 +290,18 @@
       field('lbl_food', '<select data-k="food"><option value="Regular" data-i18n="food_reg">' + t('food_reg') +
         '</option><option value="Vegetarian" data-i18n="food_veg">' + t('food_veg') +
         '</option><option value="Vegan" data-i18n="food_vegan">' + t('food_vegan') +
-        '</option><option value="Gluten-free" data-i18n="food_gf">' + t('food_gf') + '</option></select>');
+        '</option><option value="Gluten-free" data-i18n="food_gf">' + t('food_gf') + '</option></select>') +
+      // From the second traveller on: pickup at the group's place (default), somewhere else, or no transfer at all.
+      (n > 1 ? '<div class="pk" hidden>' +
+        field('lbl_pickup_who', '<select data-k="pickup"><option value="same" data-i18n="pk_same">' + t('pk_same') +
+          '</option><option value="other" data-i18n="pk_other">' + t('pk_other') + '</option><option value="none" data-i18n="pk_none">' +
+          t('pk_none') + '</option></select>') +
+        '<div class="pk-other" hidden>' +
+          field('lbl_pk_place', '<input type="text" data-k="pkplace" autocomplete="off">') +
+          field('lbl_pk_map', '<input type="url" data-k="pkmap" inputmode="url" placeholder="https://maps.app.goo.gl/…">') +
+          '<a class="btn btn-line btn-sm" data-k="pkfind" href="https://www.google.com/maps/search/?api=1&amp;query=Luang+Prabang" ' +
+          'target="_blank" rel="noopener" data-i18n="btn_findmap">' + t('btn_findmap') + '</a>' +
+        '</div></div>' : '');
     return f;
   }
   function syncTravellers() {
@@ -298,7 +309,23 @@
     var have = $$('.trav', travBox);
     for (var i = have.length; i < want; i++) travBox.appendChild(travBlock(i + 1));
     for (var j = have.length - 1; j >= want; j--) travBox.removeChild(have[j]);
+    if (transferSel) syncPickups();
   }
+  // Pickup choices only matter when a transfer is booked; "a different place" shows that traveller's own address fields.
+  function syncPickups() {
+    var on = transferSel.value !== 'No';
+    $$('.trav', travBox).forEach(function (f) {
+      var pk = $('.pk', f); if (!pk) return;
+      pk.hidden = !on;
+      $('.pk-other', f).hidden = !on || $('[data-k="pickup"]', f).value !== 'other';
+    });
+  }
+  travBox.addEventListener('change', function (e) { if (e.target.matches('[data-k="pickup"]')) syncPickups(); });
+  travBox.addEventListener('input', function (e) {
+    if (!e.target.matches('[data-k="pkplace"]')) return;
+    $('[data-k="pkfind"]', e.target.closest('.trav')).href =
+      'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(e.target.value.trim() + ' Luang Prabang');
+  });
   $('#fGuests').addEventListener('input', syncTravellers);
   $('#fGuests').addEventListener('change', function () {
     this.value = Math.min(Math.max(parseInt(this.value, 10) || 1, 1), 30);
@@ -343,6 +370,9 @@
     $('#hotelRow').hidden = none;
     $('#transferDates').hidden = none;
     $('#returnRow').hidden = !round;
+    $('#trainRow').hidden = !round;
+    if (!round) $('#fTrain').checked = false;
+    syncPickups();
     if (!none && !pickupInput.value) pickupInput.value = dateInput.value;  // usually the same day as the tour
   }
   transferSel.addEventListener('change', syncTransfer);
@@ -375,6 +405,14 @@
     if (transfer === 'Round trip' && (!ret || ret < pickup)) { hint.textContent = t('hint_return'); returnInput.focus(); return; }
     if (transfer !== 'No' && !hotel) { hint.textContent = t('hint_hotel'); $('#fHotel').focus(); return; }
     if (transfer !== 'No' && !mapLink) { hint.textContent = t('hint_map'); $('#fMap').focus(); return; }
+    var blocks = $$('.trav', travBox);
+    var modes = blocks.map(function (f, i) { return transfer === 'No' || i === 0 ? 'same' : $('[data-k="pickup"]', f).value; });
+    for (var q = 0; q < blocks.length; q++) {
+      if (modes[q] !== 'other') continue;
+      var pl = $('[data-k="pkplace"]', blocks[q]), pm = $('[data-k="pkmap"]', blocks[q]);
+      if (!pl.value.trim() || !mapsLink(pm.value)) { hint.textContent = t('hint_pk').replace('{n}', q + 1); (pl.value.trim() ? pm : pl).focus(); return; }
+    }
+    var train = transfer === 'Round trip' && $('#fTrain').checked;
     hint.textContent = '';
     if (!lockSubmit(this)) return;
     var ref = bookingRef();
@@ -382,14 +420,28 @@
     saveToSheet({
       type: 'booking', id: ref, website: $('#bookForm [name=website]').value, tour: tour, date: date,
       transfer: transfer, pickupDate: transfer !== 'No' ? pickup : '', returnDate: transfer === 'Round trip' ? ret : '',
-      hotel: hotel, map: mapLink, payment: pay, source: source, note: note,
-      travellers: $$('.trav', travBox).map(function (f) {
+      hotel: hotel, map: mapLink, train: train, payment: pay, source: source, note: note,
+      travellers: blocks.map(function (f, i) {
         var v = function (k) { return $('[data-k="' + k + '"]', f).value.trim(); };
         return { name: v('first') + ' ' + v('last'), first: v('first'), last: v('last'), gender: v('gender'), nat: v('nat'),
-          pass: v('pass').toUpperCase(), issued: v('issued'), expires: v('expires'), food: v('food') };
+          pass: v('pass').toUpperCase(), issued: v('issued'), expires: v('expires'), food: v('food'), pickup: modes[i],
+          pkPlace: modes[i] === 'other' ? v('pkplace') : '', pkMap: modes[i] === 'other' ? mapsLink(v('pkmap')) : '' };
       })
     });
-    var people = $$('.trav', travBox).map(function (f, i) {
+    // Pickups listed by place so the driver sees the stops at a glance (only when someone differs from the group).
+    var pickupLines = '';
+    if (transfer !== 'No' && modes.indexOf('other') !== -1 || modes.indexOf('none') !== -1) {
+      var stops = [], none = [], groupAt = [];
+      blocks.forEach(function (f, i) {
+        if (modes[i] === 'none') none.push(i + 1);
+        else if (modes[i] === 'other') stops.push('- ' + $('[data-k="pkplace"]', f).value.trim() + ' (Traveller ' + (i + 1) + '): ' + mapsLink($('[data-k="pkmap"]', f).value));
+        else groupAt.push(i + 1);
+      });
+      var nums = function (a) { return (a.length > 1 ? 'Travellers ' : 'Traveller ') + a.join(', '); };
+      pickupLines = '\nPickups:' + (groupAt.length ? '\n- ' + hotel + ' (' + nums(groupAt) + '): ' + mapLink : '') +
+        (stops.length ? '\n' + stops.join('\n') : '') + (none.length ? '\n- No transfer: ' + nums(none) : '');
+    }
+    var people = blocks.map(function (f, i) {
       var v = function (k) { return $('[data-k="' + k + '"]', f).value.trim(); };
       return '\nTraveller ' + (i + 1) + ': ' + v('first') + ' ' + v('last') +
         '\n- First name: ' + v('first') + '\n- Last name: ' + v('last') +
@@ -403,7 +455,9 @@
       '\nTransfer from Luang Prabang: ' + transfer +
       (transfer !== 'No' ? '\nPickup date (Luang Prabang to Nong Khiaw): ' + pickup : '') +
       (transfer === 'Round trip' ? '\nReturn date (Nong Khiaw to Luang Prabang): ' + ret : '') +
-      (transfer !== 'No' ? '\nAccommodation: ' + hotel + '\nGoogle Maps: ' + mapLink : '') + '\n' +
+      (transfer === 'Round trip' ? '\nReturn drop-off: ' + (train ? 'Luang Prabang train station (+' +
+        String(CONFIG.kip.train).replace(/\B(?=(\d{3})+(?!\d))/g, ',') + ' kip per person)' : 'city centre near the night market') : '') +
+      (transfer !== 'No' ? '\nAccommodation: ' + hotel + '\nGoogle Maps: ' + mapLink : '') + pickupLines + '\n' +
       people.join('\n') +
       (note ? '\n\nNote: ' + note : '');
     window.open('https://wa.me/' + WA + '?text=' + encodeURIComponent(msg), '_blank', 'noopener');

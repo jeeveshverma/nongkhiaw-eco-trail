@@ -52,3 +52,13 @@ Failed saves show under **Apps Script > Executions**. The customer's WhatsApp me
    `clasp update-deployment <deployment id>`
 3. POST `{"type":"rebuild"}`: new text reaches every cell staff have not edited; their edits are kept.
 Do not put text with prices directly in a string: use the placeholders above.
+
+## Trip sheet, pickups and train station
+- **Trip sheet tab**: change the yellow date; it lists every non-cancelled traveller of tours on that date (name, country,
+  food, pickup place and map link, booking, receipt) with totals: travellers, people taking the transfer, food counts,
+  USD still to collect, transfer kip.
+- **Pickups**: from the second traveller on, the form offers "same as the group" (default), "a different place" (own
+  accommodation + Maps link) or "no transfer". Bookings gets "Pickups" ("Sunset Hostel: 1, 3; Villa Maly: 2; No transfer: 4")
+  and Travellers gets "Pickup place" / "Pickup map". The transfer estimate counts only the people who take it.
+- **Train station drop-off** (round trips only): tick box in the form, "Train station drop-off" column in Bookings; the
+  fee is Settings F4 per person taking the transfer.

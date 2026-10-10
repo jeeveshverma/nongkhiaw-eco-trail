@@ -88,7 +88,8 @@ en: {
   pay_bcel: 'BCEL QR',
   hint_pay: 'Please choose how you will pay.',
   inc_camp2: 'English-speaking local guide · entrance fees · tent, sleeping mat and blankets · one big bottle of water per day',
-  br_102: 'Small backpack, comfortable hiking shoes, a jacket or warm clothes (cold at night and early morning), headlamp, mosquito repellent, camera, swimming suit and a change of clothes'
+  br_102: 'Small backpack, comfortable hiking shoes, a jacket or warm clothes (cold at night and early morning), headlamp, mosquito repellent, camera, swimming suit and a change of clothes',
+  lbl_train: 'Drop me at Luang Prabang train station on the way back (+{kipTrain} kip per person)', lbl_pickup_who: 'Pickup for this traveller', pk_same: 'Same as the group', pk_other: 'A different place', pk_none: 'No transfer needed', lbl_pk_place: 'Accommodation of this traveller', lbl_pk_map: 'Google Maps link of this accommodation', hint_pk: 'Traveller {n}: please add the accommodation name and its Google Maps link.'
 },
 
 lo: {
@@ -176,7 +177,8 @@ lo: {
   pay_bcel: 'BCEL QR',
   hint_pay: 'ກະລຸນາເລືອກວິທີຈ່າຍເງິນ.',
   inc_camp2: 'ໄກດ໌ທ້ອງຖິ່ນເວົ້າພາສາອັງກິດ · ຄ່າເຂົ້າຊົມ · ເຕັນ, ເສື່ອນອນ ແລະ ຜ້າຫົ່ມ · ນ້ຳດື່ມຕຸກໃຫຍ່ 1 ຕຸກຕໍ່ມື້',
-  br_102: 'ກະເປົາເປ້ນ້ອຍ, ເກີບຍ່າງປ່າ, ເສື້ອກັນໜາວ (ກາງຄືນ ແລະ ເຊົ້າໜາວ), ໄຟສາຍຫົວ, ຢາກັນຍຸງ, ກ້ອງຖ່າຍຮູບ, ຊຸດລອຍນ້ຳ ແລະ ເສື້ອຜ້າປ່ຽນ'
+  br_102: 'ກະເປົາເປ້ນ້ອຍ, ເກີບຍ່າງປ່າ, ເສື້ອກັນໜາວ (ກາງຄືນ ແລະ ເຊົ້າໜາວ), ໄຟສາຍຫົວ, ຢາກັນຍຸງ, ກ້ອງຖ່າຍຮູບ, ຊຸດລອຍນ້ຳ ແລະ ເສື້ອຜ້າປ່ຽນ',
+  lbl_train: 'ສົ່ງຂ້ອຍທີ່ສະຖານີລົດໄຟຫຼວງພະບາງຕອນກັບ (+{kipTrain} ກີບຕໍ່ຄົນ)', lbl_pickup_who: 'ການຮັບຂອງນັກທ່ອງທ່ຽວຄົນນີ້', pk_same: 'ຄືກັບກຸ່ມ', pk_other: 'ບ່ອນອື່ນ', pk_none: 'ບໍ່ຕ້ອງການລົດຮັບສົ່ງ', lbl_pk_place: 'ທີ່ພັກຂອງນັກທ່ອງທ່ຽວຄົນນີ້', lbl_pk_map: 'ລິ້ງ Google Maps ຂອງທີ່ພັກນີ້', hint_pk: 'ນັກທ່ອງທ່ຽວ {n}: ກະລຸນາໃສ່ຊື່ທີ່ພັກ ແລະ ລິ້ງ Google Maps.'
 },
 
 th: {
@@ -264,7 +266,8 @@ th: {
   pay_bcel: 'BCEL QR',
   hint_pay: 'กรุณาเลือกวิธีชำระเงิน',
   inc_camp2: 'ไกด์ท้องถิ่นพูดภาษาอังกฤษ · ค่าเข้าชม · เต็นท์ แผ่นรองนอน และผ้าห่ม · น้ำดื่มขวดใหญ่ 1 ขวดต่อวัน',
-  br_102: 'เป้ใบเล็ก รองเท้าเดินป่า เสื้อกันหนาว (กลางคืนและเช้าหนาว) ไฟฉายคาดหัว ยากันยุง กล้องถ่ายรูป ชุดว่ายน้ำ และเสื้อผ้าเปลี่ยน'
+  br_102: 'เป้ใบเล็ก รองเท้าเดินป่า เสื้อกันหนาว (กลางคืนและเช้าหนาว) ไฟฉายคาดหัว ยากันยุง กล้องถ่ายรูป ชุดว่ายน้ำ และเสื้อผ้าเปลี่ยน',
+  lbl_train: 'ส่งฉันที่สถานีรถไฟหลวงพระบางขากลับ (+{kipTrain} กีบต่อคน)', lbl_pickup_who: 'การรับของผู้เดินทางคนนี้', pk_same: 'เหมือนกับกลุ่ม', pk_other: 'สถานที่อื่น', pk_none: 'ไม่ต้องการรถรับส่ง', lbl_pk_place: 'ที่พักของผู้เดินทางคนนี้', lbl_pk_map: 'ลิงก์ Google Maps ของที่พักนี้', hint_pk: 'ผู้เดินทาง {n}: กรุณาใส่ชื่อที่พักและลิงก์ Google Maps'
 },
 
 zh: {
@@ -352,7 +355,8 @@ zh: {
   pay_bcel: 'BCEL QR',
   hint_pay: '请选择付款方式。',
   inc_camp2: '英语本地向导 · 门票 · 帐篷、睡垫和毯子 · 每天一大瓶水',
-  br_102: '小背包、舒适的登山鞋、外套或保暖衣物（夜间和清晨很冷）、头灯、驱蚊液、相机、泳衣和换洗衣物'
+  br_102: '小背包、舒适的登山鞋、外套或保暖衣物（夜间和清晨很冷）、头灯、驱蚊液、相机、泳衣和换洗衣物',
+  lbl_train: '返程送到琅勃拉邦火车站（每人加收{kipTrain}基普）', lbl_pickup_who: '该旅客的接送', pk_same: '与团队相同', pk_other: '其他地点', pk_none: '无需接送', lbl_pk_place: '该旅客的住宿', lbl_pk_map: '该住宿的 Google 地图链接', hint_pk: '旅客 {n}：请填写住宿名称及其 Google 地图链接。'
 },
 
 ko: {
@@ -440,7 +444,8 @@ ko: {
   pay_bcel: 'BCEL QR',
   hint_pay: '결제 방법을 선택해 주세요.',
   inc_camp2: '영어를 하는 현지 가이드 · 입장료 · 텐트, 매트, 담요 · 하루 큰 생수 한 병',
-  br_102: '작은 배낭, 편한 등산화, 재킷 또는 따뜻한 옷(밤과 이른 아침은 춥습니다), 헤드랜턴, 모기 기피제, 카메라, 수영복, 갈아입을 옷'
+  br_102: '작은 배낭, 편한 등산화, 재킷 또는 따뜻한 옷(밤과 이른 아침은 춥습니다), 헤드랜턴, 모기 기피제, 카메라, 수영복, 갈아입을 옷',
+  lbl_train: '돌아올 때 루앙프라방 기차역에 내려 주세요 (1인 +{kipTrain}킵)', lbl_pickup_who: '이 여행자의 픽업', pk_same: '일행과 동일', pk_other: '다른 장소', pk_none: '교통편 필요 없음', lbl_pk_place: '이 여행자의 숙소', lbl_pk_map: '이 숙소의 Google 지도 링크', hint_pk: '여행자 {n}: 숙소 이름과 Google 지도 링크를 입력해 주세요.'
 },
 
 ja: {
@@ -528,7 +533,8 @@ ja: {
   pay_bcel: 'BCEL QR',
   hint_pay: 'お支払い方法を選んでください。',
   inc_camp2: '英語を話す地元ガイド · 入場料 · テント、マット、毛布 · 大きな水を1日1本',
-  br_102: '小さなリュック、歩きやすい登山靴、上着または暖かい服（夜と早朝は冷えます）、ヘッドランプ、虫よけ、カメラ、水着、着替え'
+  br_102: '小さなリュック、歩きやすい登山靴、上着または暖かい服（夜と早朝は冷えます）、ヘッドランプ、虫よけ、カメラ、水着、着替え',
+  lbl_train: '帰りはルアンパバーン駅で降ろしてください（1人 +{kipTrain}キープ）', lbl_pickup_who: 'この旅行者のお迎え', pk_same: 'グループと同じ', pk_other: '別の場所', pk_none: '送迎は不要', lbl_pk_place: 'この旅行者の宿泊先', lbl_pk_map: 'この宿泊先の Google マップのリンク', hint_pk: '旅行者 {n}：宿泊先の名前と Google マップのリンクを入力してください。'
 },
 
 fr: {
@@ -616,7 +622,8 @@ fr: {
   pay_bcel: 'BCEL QR',
   hint_pay: 'Merci de choisir votre mode de paiement.',
   inc_camp2: 'Guide local anglophone · droits d’entrée · tente, matelas et couvertures · une grande bouteille d’eau par jour',
-  br_102: 'Petit sac à dos, chaussures de marche confortables, veste ou vêtements chauds (il fait froid la nuit et tôt le matin), lampe frontale, anti-moustiques, appareil photo, maillot de bain et vêtements de rechange'
+  br_102: 'Petit sac à dos, chaussures de marche confortables, veste ou vêtements chauds (il fait froid la nuit et tôt le matin), lampe frontale, anti-moustiques, appareil photo, maillot de bain et vêtements de rechange',
+  lbl_train: 'Me déposer à la gare de Luang Prabang au retour (+{kipTrain} kips par personne)', lbl_pickup_who: 'Prise en charge de ce voyageur', pk_same: 'Comme le groupe', pk_other: 'Un autre endroit', pk_none: 'Pas de transfert nécessaire', lbl_pk_place: 'Hébergement de ce voyageur', lbl_pk_map: 'Lien Google Maps de cet hébergement', hint_pk: 'Voyageur {n} : merci d’indiquer le nom de l’hébergement et son lien Google Maps.'
 },
 
 de: {
@@ -704,7 +711,8 @@ de: {
   pay_bcel: 'BCEL QR',
   hint_pay: 'Bitte die Zahlungsart wählen.',
   inc_camp2: 'Englischsprachiger lokaler Guide · Eintrittsgebühren · Zelt, Isomatte und Decken · eine große Flasche Wasser pro Tag',
-  br_102: 'Kleiner Rucksack, bequeme Wanderschuhe, Jacke oder warme Kleidung (nachts und früh morgens kalt), Stirnlampe, Mückenschutz, Kamera, Badebekleidung und Wechselkleidung'
+  br_102: 'Kleiner Rucksack, bequeme Wanderschuhe, Jacke oder warme Kleidung (nachts und früh morgens kalt), Stirnlampe, Mückenschutz, Kamera, Badebekleidung und Wechselkleidung',
+  lbl_train: 'Rückfahrt: bitte am Bahnhof Luang Prabang absetzen (+{kipTrain} Kip pro Person)', lbl_pickup_who: 'Abholung für diese Person', pk_same: 'Wie die Gruppe', pk_other: 'Anderer Ort', pk_none: 'Kein Transfer nötig', lbl_pk_place: 'Unterkunft dieser Person', lbl_pk_map: 'Google-Maps-Link dieser Unterkunft', hint_pk: 'Reisende/r {n}: Bitte Namen der Unterkunft und Google-Maps-Link angeben.'
 }
 
   };
